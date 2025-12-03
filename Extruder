@@ -1,0 +1,667 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Group {
+ name extruder_v62
+ tile_color 0xff00ff
+ selected true
+ xpos 40489
+ ypos 154552
+ addUserKnob {20 User}
+ addUserKnob {4 alpha_type l "Alpha type" M {Source Luminance ""}}
+ addUserKnob {4 erode_type l "Erode type" M {Box Blur Gausian KeyChew "" ""}}
+ erode_type KeyChew
+ addUserKnob {4 ext_type l "Extrude type" M {Defocus Blur}}
+ ext_type Blur
+ addUserKnob {7 erode l Erode R -10 10}
+ erode -4
+ addUserKnob {7 extrude_defocus l "Extrude Defocus" R 0 50}
+ addUserKnob {14 extrude_blur l "Extrude Blur" R 0 100}
+ extrude_blur 4
+ addUserKnob {4 filter M {Simon Rifman Keys Cubic ""}}
+ addUserKnob {7 effect_mix l "Effect mix"}
+ effect_mix 1
+ addUserKnob {26 ""}
+ addUserKnob {26 note l "" +STARTLINE T "1. set proper erode when Extrude Defocus / Blur\n    is 0 (depend on extrude type\n2. set edge extrude as you need\n3. Mask may use to extend edges in area only"}
+ addUserKnob {26 ""}
+ addUserKnob {26 creator l "" +STARTLINE T "version 6.2\nmade by Ales Gargulak\n( please feel free to use )"}
+}
+ Input {
+  inputs 0
+  name matte
+  xpos -486
+  ypos -300
+  number 1
+ }
+ Input {
+  inputs 0
+  name src
+  xpos -706
+  ypos -404
+ }
+ Dot {
+  name Dot2
+  xpos -672
+  ypos -277
+ }
+set Nefbc7900 [stack 0]
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy2
+  xpos -585
+  ypos -168
+ }
+push $Nefbc7900
+ Switch {
+  inputs 2
+  which {{alpha_type i}}
+  name Switch2
+  xpos -698
+  ypos -87
+ }
+ Dot {
+  name Dot72
+  xpos -664
+  ypos 28
+ }
+set Nefbc6400 [stack 0]
+ Dot {
+  name Dot75
+  xpos -664
+  ypos 105
+ }
+set Nefbc5d00 [stack 0]
+ Dot {
+  name Dot76
+  xpos -664
+  ypos 185
+ }
+set Nefbc5600 [stack 0]
+ Dot {
+  name Dot5
+  xpos -664
+  ypos 266
+ }
+set Nefbc4f00 [stack 0]
+ Dot {
+  name Dot1
+  xpos -664
+  ypos 344
+ }
+set Nefbc4800 [stack 0]
+push $Nefbc4f00
+ Group {
+  name KeyChew
+  help "The old KeyChew from the Shake days. Will allow for fine dilate/erode control of a matte as well as softening. This gizmo will only manipulate the Alpha channel."
+  tile_color 0xff00ff
+  note_font "Bitstream Vera Sans"
+  xpos -873
+  ypos 262
+  mapsize {0.15 0.15}
+  addUserKnob {20 User}
+  addUserKnob {41 chew T X.chew}
+  addUserKnob {41 soften T X.soften}
+  addUserKnob {41 premult T X.premult}
+ }
+  Input {
+   inputs 0
+   name Input1
+   label "\[value number]"
+   xpos 545
+   ypos -1499
+  }
+  NoOp {
+   name NoOp1
+   xpos 545
+   ypos -1031
+  }
+set Nefba3200 [stack 0]
+  Invert {
+   channels rgba
+   name Invert1
+   xpos 663
+   ypos -902
+  }
+push $Nefba3200
+  Switch {
+   inputs 2
+   which {{X.chew>=0?0:1 i}}
+   name Switch1
+   xpos 545
+   ypos -822
+  }
+  Blur {
+   channels rgba
+   size {{abs(X.chew) i}}
+   name Blur1
+   xpos 545
+   ypos -647
+  }
+set Nefba1d00 [stack 0]
+  Multiply {
+   channels alpha
+   value {{max(Blur1.size*1.5,1) i}}
+   name Multiply1
+   xpos 545
+   ypos -582
+  }
+  Gamma {
+   channels alpha
+   value {{gamma_curve.n_result i}}
+   name Gamma1
+   xpos 545
+   ypos -486
+  }
+set Nefba0800 [stack 0]
+  Dot {
+   name Dot2
+   xpos 664
+   ypos -402
+  }
+  Dot {
+   name Dot3
+   xpos 833
+   ypos -402
+  }
+push $Nefba3200
+  Dot {
+   name Dot1
+   xpos 881
+   ypos -1026
+  }
+set Nefb7eb00 [stack 0]
+  Merge2 {
+   inputs 2
+   operation from
+   name Merge1
+   xpos 847
+   ypos -287
+  }
+  Dot {
+   name Dot4
+   xpos 881
+   ypos -234
+  }
+  Dot {
+   name Dot5
+   xpos 657
+   ypos -234
+  }
+push $Nefba0800
+  Switch {
+   inputs 2
+   which {{X.chew>=0?0:1 i}}
+   name Switch3
+   xpos 545
+   ypos -167
+  }
+  Clamp {
+   channels rgba
+   name Clamp1
+   xpos 545
+   ypos -102
+  }
+  Blur {
+   channels rgba
+   size {{X.soften i}}
+   name Blur2
+   xpos 545
+   ypos -36
+  }
+push $Nefb7eb00
+  Dot {
+   name Dot6
+   xpos 1258
+   ypos -1026
+  }
+  Dot {
+   name Dot7
+   xpos 1258
+   ypos 54
+  }
+  Dot {
+   name Dot8
+   xpos 682
+   ypos 54
+  }
+  Copy {
+   inputs 2
+   from0 rgba.alpha
+   to0 rgba.alpha
+   name Copy1
+   xpos 545
+   ypos 114
+   disable {{"!\[exists parent.input0]" i}}
+  }
+  Premult {
+   name Premult1
+   xpos 545
+   ypos 193
+   disable {{!X.premult i}}
+  }
+  Output {
+   name Output1
+   xpos 545
+   ypos 685
+  }
+push $Nefba1d00
+  Grade {
+   multiply {{max(Blur1.size*1.5,1) i}}
+   white_clamp true
+   name Grade1
+   xpos 689
+   ypos -578
+  }
+  NoOp {
+   inputs 0
+   name gamma_curve
+   xpos 110
+   ypos -479
+   addUserKnob {20 User}
+   addUserKnob {16 n_curve}
+   n_curve {{curve i 1 x5 0.95 0.8 x20 0.5 x40 0.3 x80 0.2 x200 0.1}}
+   addUserKnob {16 n_result}
+   n_result {{gamma_curve.n_curve(n_value) i}}
+   addUserKnob {16 n_value}
+   n_value {{abs(X.chew) i}}
+  }
+  NoOp {
+   inputs 0
+   name X
+   xpos 110
+   ypos -647
+   addUserKnob {20 User}
+   addUserKnob {7 chew R -10 10}
+   chew {{parent.parent.erode i}}
+   addUserKnob {7 soften R 0 10}
+   addUserKnob {6 premult +STARTLINE}
+  }
+ end_group
+push $Nefbc5600
+ FilterErode {
+  channels alpha
+  size {{parent.erode}}
+  filter gaussian
+  name FilterErode3
+  xpos -877
+  ypos 175
+ }
+push $Nefbc5d00
+ Erode {
+  size {{parent.erode}}
+  name Erode5
+  xpos -881
+  ypos 95
+ }
+push $Nefbc6400
+ FilterErode {
+  size {{parent.erode}}
+  name FilterErode4
+  xpos -873
+  ypos 18
+ }
+ Dot {
+  name Dot81
+  xpos -963
+  ypos 28
+ }
+ Switch {
+  inputs 4
+  which {{erode_type i}}
+  name Switch1
+  xpos -997
+  ypos 262
+ }
+set Nefb2c100 [stack 0]
+ Premult {
+  name Premult1
+  xpos -997
+  ypos 341
+ }
+set Nefb0f900 [stack 0]
+ Switch {
+  inputs 2
+  which {{parent.extrude_blur>0?1:0 i x1027 1121212}}
+  name Switch6
+  xpos -698
+  ypos 461
+ }
+push $Nefbc4800
+push $Nefb0f900
+ Switch {
+  inputs 2
+  which {{parent.extrude_defocus>0?1:0 i x1027 1121212}}
+  name Switch3
+  xpos -997
+  ypos 487
+ }
+ Switch {
+  inputs 2
+  which {{ext_type i}}
+  name Switch_defocus_blur
+  xpos -857
+  ypos 602
+ }
+ Log2Lin {
+  operation lin2log
+  black 0
+  gamma 1
+  name Log2Lin3
+  xpos -857
+  ypos 692
+ }
+ Dot {
+  name Dot9
+  xpos -823
+  ypos 890
+ }
+set Nefb0c100 [stack 0]
+ Dot {
+  name Dot15
+  xpos -612
+  ypos 890
+ }
+set Nefaeb900 [stack 0]
+ Dot {
+  name Dot8
+  xpos -502
+  ypos 890
+ }
+set Nefaeb200 [stack 0]
+ Dot {
+  name Dot18
+  xpos -275
+  ypos 890
+ }
+set Nefaeab00 [stack 0]
+ Dot {
+  name Dot11
+  xpos -165
+  ypos 890
+ }
+set Nefaea400 [stack 0]
+ Dot {
+  name Dot19
+  xpos 58
+  ypos 890
+ }
+set Nefae9d00 [stack 0]
+ AdjBBox {
+  numpixels {{"Switch_defocus_blur.which == 0 ?\nparent.extrude_defocus * 1.5 :\n\n\nSwitch_defocus_blur.which == 1 ?\nparent.extrude_blur * 1.5 :\n0\n"}}
+  name AdjBBox4
+  xpos 24
+  ypos 1042
+ }
+ Dot {
+  name Dot21
+  xpos 58
+  ypos 1123
+ }
+ Input {
+  inputs 0
+  name mask
+  xpos -1656
+  ypos 525
+  number 2
+ }
+ Dot {
+  name Dot25
+  xpos -1622
+  ypos 719
+ }
+push $Nefb2c100
+ Expression {
+  inputs 0
+  expr0 "(x + 0.5) / width"
+  expr1 "(y + 0.5) / height"
+  name Expression1
+  xpos -1459
+  ypos -58
+ }
+ Dot {
+  name Dot4
+  xpos -1425
+  ypos 52
+ }
+set Nefad7200 [stack 0]
+ Dot {
+  name Dot82
+  xpos -1158
+  ypos 47
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos -1192
+  ypos 262
+ }
+ Premult {
+  name Premult28
+  xpos -1192
+  ypos 366
+ }
+set Nefad5d00 [stack 0]
+ Blur {
+  channels rgba
+  size {{parent.extrude_blur i} {parent.extrude_blur i}}
+  name Blur1
+  xpos -1132
+  ypos 434
+ }
+push $Nefad5d00
+ Defocus {
+  channels rgba
+  defocus {{parent.extrude_defocus i}}
+  name Defocus3
+  xpos -1289
+  ypos 432
+ }
+ Switch {
+  inputs 2
+  which {{ext_type i}}
+  name Switch4
+  xpos -1196
+  ypos 509
+ }
+ Unpremult {
+  name Unpremult7
+  xpos -1192
+  ypos 573
+ }
+ Grade {
+  channels alpha
+  whitepoint 0.03
+  name Grade13
+  xpos -1192
+  ypos 649
+ }
+ Premult {
+  name Premult29
+  xpos -1192
+  ypos 715
+ }
+push $Nefad7200
+ Merge2 {
+  inputs 2+1
+  mix {{parent.effect_mix}}
+  name Merge20
+  xpos -1459
+  ypos 715
+ }
+set Nefa8b900 [stack 0]
+ Dot {
+  name Dot84
+  xpos -1425
+  ypos 984
+ }
+ Dot {
+  name Dot6
+  xpos -863
+  ypos 990
+ }
+set Nefa8ab00 [stack 0]
+ Dot {
+  name Dot7
+  xpos -538
+  ypos 990
+ }
+set Nefa8a400 [stack 0]
+ Dot {
+  name Dot10
+  xpos -196
+  ypos 990
+ }
+set Nefa89d00 [stack 0]
+ Dot {
+  name Dot12
+  xpos 148
+  ypos 990
+ }
+push $Nefae9d00
+ Dot {
+  name Dot13
+  xpos 178
+  ypos 890
+ }
+ STMap {
+  inputs 2
+  channels rgb
+  uv rgb
+  blur_scale 0
+  name STMap4
+  xpos 144
+  ypos 1044
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox4
+  xpos 144
+  ypos 1155
+ }
+push $Nefaeab00
+ AdjBBox {
+  numpixels {{"Switch_defocus_blur.which == 0 ?\nparent.extrude_defocus * 1.5 :\n\n\nSwitch_defocus_blur.which == 1 ?\nparent.extrude_blur * 1.5 :\n0\n"}}
+  name AdjBBox3
+  xpos -311
+  ypos 1038
+ }
+ Dot {
+  name Dot20
+  xpos -275
+  ypos 1108
+ }
+push $Nefa89d00
+push $Nefaea400
+ STMap {
+  inputs 2
+  channels rgb
+  uv rgb
+  blur_scale 0
+  filter Keys
+  name STMap2
+  xpos -199
+  ypos 1038
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox3
+  xpos -199
+  ypos 1153
+ }
+push $Nefaeb900
+ AdjBBox {
+  numpixels {{"Switch_defocus_blur.which == 0 ?\nparent.extrude_defocus * 1.5 :\n\n\nSwitch_defocus_blur.which == 1 ?\nparent.extrude_blur * 1.5 :\n0\n"}}
+  name AdjBBox2
+  xpos -646
+  ypos 1034
+ }
+ Dot {
+  name Dot16
+  xpos -612
+  ypos 1111
+ }
+push $Nefa8a400
+push $Nefaeb200
+ STMap {
+  inputs 2
+  channels rgb
+  uv rgb
+  blur_scale 0
+  filter Rifman
+  name STMap1
+  xpos -536
+  ypos 1043
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox2
+  xpos -536
+  ypos 1148
+ }
+push $Nefb0c100
+ Dot {
+  name Dot14
+  xpos -952
+  ypos 890
+ }
+ AdjBBox {
+  numpixels {{"Switch_defocus_blur.which == 0 ?\nparent.extrude_defocus * 1.5 :\n\n\nSwitch_defocus_blur.which == 1 ?\nparent.extrude_blur * 1.5 :\n0\n" i}}
+  name AdjBBox1
+  xpos -986
+  ypos 1028
+ }
+ Dot {
+  name Dot17
+  xpos -952
+  ypos 1115
+ }
+push $Nefa8ab00
+push $Nefb0c100
+ STMap {
+  inputs 2
+  channels rgb
+  uv rgb
+  blur_scale 0
+  filter Simon
+  name STMap3
+  xpos -857
+  ypos 1040
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos -857
+  ypos 1141
+ }
+ Switch {
+  inputs 4
+  which {{filter}}
+  name Switch7
+  xpos -383
+  ypos 1359
+ }
+ Log2Lin {
+  black 0
+  gamma 1
+  name Log2Lin2
+  xpos -383
+  ypos 1473
+ }
+ Output {
+  name Output1
+  xpos -383
+  ypos 1589
+ }
+push $Nefa8b900
+ Viewer {
+  frame 1043
+  input_process false
+  name Viewer1
+  xpos -1768
+  ypos 1300
+ }
+end_group
