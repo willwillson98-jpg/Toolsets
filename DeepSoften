@@ -1,0 +1,42 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Group {
+ name DeepSoften
+ tile_color 0x6000
+ selected true
+ xpos 40488
+ ypos 153910
+ addUserKnob {20 DeepSoftenTab l DeepSoften}
+ addUserKnob {41 soften T DeepExpression1.soften}
+ addUserKnob {41 output l INVISIBLE +INVISIBLE T DeepExpression1.soften}
+ addUserKnob {26 WouterGilsing l "" +STARTLINE +INVISIBLE}
+ addUserKnob {1 FS_PROPERTY +HIDDEN}
+}
+ Input {
+  inputs 0
+  name Input
+  label "\[value number]"
+  xpos -586
+  ypos 423
+ }
+ DeepExpression {
+  chans0 deep
+  chans1 none
+  deep.front "deep.front - \[value soften]"
+  deep.back "deep.back + \[value soften]"
+  name DeepExpression1
+  label "\[value soften]"
+  selected true
+  xpos -586
+  ypos 517
+  addUserKnob {20 User l Soften}
+  addUserKnob {7 soften R 0 100}
+  soften 1
+ }
+ Output {
+  name Output1
+  xpos -586
+  ypos 616
+ }
+end_group
