@@ -1,0 +1,111 @@
+set cut_paste_input [stack 0]
+version 14.1 v5
+push $cut_paste_input
+Dot {
+ name Dot59
+ tile_color 0xff00ff
+ selected true
+ xpos 46337
+ ypos 165425
+}
+set N24a771e0 [stack 0]
+Dot {
+ name Dot60
+ tile_color 0xffff
+ selected true
+ xpos 46475
+ ypos 165425
+}
+Shuffle {
+ red black
+ green black
+ alpha black
+ name Shuffle6
+ tile_color 0xffff
+ label "BLUE\n"
+ selected true
+ xpos 46441
+ ypos 165500
+}
+Transform {
+ center {1540 1072}
+ filter Keys
+ name Transform5
+ selected true
+ xpos 46441
+ ypos 165538
+}
+Dot {
+ name Dot65
+ note_font_size 50
+ note_font_color 0xffffffff
+ selected true
+ xpos 46475
+ ypos 165638
+}
+push 0
+push $N24a771e0
+Dot {
+ name Dot61
+ tile_color 0xff0000ff
+ selected true
+ xpos 46204
+ ypos 165425
+}
+Shuffle {
+ green black
+ blue black
+ alpha black
+ name Shuffle8
+ tile_color 0xff0000ff
+ label "RED\n"
+ note_font_color 0xff
+ selected true
+ xpos 46170
+ ypos 165493
+}
+Transform {
+ center {1540 1072}
+ filter Keys
+ name Transform3
+ selected true
+ xpos 46170
+ ypos 165531
+}
+Dot {
+ name Dot63
+ note_font_size 50
+ note_font_color 0xffffffff
+ selected true
+ xpos 46204
+ ypos 165638
+}
+push $N24a771e0
+Shuffle {
+ red black
+ blue black
+ alpha black
+ name Shuffle7
+ tile_color 0xff00ff
+ label "GREEN\n"
+ note_font_color 0xfdffffff
+ selected true
+ xpos 46303
+ ypos 165492
+}
+Transform {
+ center {1540 1072}
+ filter Keys
+ name Transform4
+ selected true
+ xpos 46303
+ ypos 165530
+}
+Merge2 {
+ inputs 3+1
+ name Merge7
+ label "\[value mix]"
+ selected true
+ xpos 46303
+ ypos 165628
+}
