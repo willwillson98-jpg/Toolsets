@@ -1,0 +1,422 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Group {
+name HeatHaze2
+knobChanged "if nuke.thisKnob().name() == \"proxy\":\n    nuke.thisNode()\[\"proxy_scale\"].setEnabled(nuke.thisKnob().value())"
+tile_color 0xe0000ff
+selected true
+xpos 48399
+ypos 161223
+addUserKnob {20 HeatHaze}
+addUserKnob {4 method M {stmap idistort}}
+method idistort
+addUserKnob {12 speed}
+speed {2 40}
+addUserKnob {14 scale_1 l scale R 0 100}
+scale_1 15
+addUserKnob {7 distort}
+distort 0.6
+addUserKnob {7 blur R 0 100}
+blur 10
+addUserKnob {26 ""}
+addUserKnob {7 proxy_scale l "proxy scale" +DISABLED}
+proxy_scale 1
+addUserKnob {6 proxy -STARTLINE}
+addUserKnob {1 toolset_loc +INVISIBLE}
+toolset_loc /net/homes/mlast/.nuke/ToolSets/Filter/HeatHaze.nk
+}
+Input {
+inputs 0
+name Input
+xpos 290
+ypos -890
+}
+Dot {
+name Dot4
+note_font_size 30
+xpos 324
+ypos -756
+}
+set N330a4800 [stack 0]
+Dot {
+name Dot19
+note_font_size 30
+xpos 324
+ypos 112
+}
+set N330a4100 [stack 0]
+Dot {
+name Dot20
+note_font_size 30
+xpos 137
+ypos 112
+}
+Dot {
+name Dot21
+note_font_size 30
+xpos 137
+ypos 949
+}
+Input {
+inputs 0
+name Inputmask
+label "\[value number]"
+xpos 799
+ypos -318
+number 1
+}
+Dot {
+name Dot2
+note_font_size 30
+xpos 833
+ypos -234
+}
+set Ncd44a400 [stack 0]
+Dot {
+name Dot7
+note_font_size 30
+xpos 833
+ypos 102
+}
+set Ncd449d00 [stack 0]
+push $Ncd44a400
+push $N330a4800
+Dot {
+name Dot11
+note_font_size 30
+xpos 659
+ypos -756
+}
+Dot {
+name Dot3
+note_font_size 30
+xpos 659
+ypos -573
+}
+set Ncd448f00 [stack 0]
+Dot {
+name Dot1
+note_font_size 30
+xpos 986
+ypos -573
+}
+Noise {
+inputs 1+1
+output motion
+replace true
+size {{parent.Noise1.size}}
+translate {{parent.Noise1.translate.x} {parent.Noise1.translate.y}}
+center {2021 1137}
+name Noise3
+xpos 952
+ypos -244
+}
+Multiply {
+channels motion
+value 30
+name Multiply1
+label base
+xpos 952
+ypos -161
+}
+Multiply {
+channels motion
+value {{parent.distort}}
+name Multiply5
+xpos 952
+ypos -37
+}
+Noise {
+inputs 1+1
+output depth
+replace true
+size {{parent.Noise3.size}}
+zoffset 3.94
+translate {{parent.Noise1.translate.x} {parent.Noise3.translate.y}}
+center {2021 1137}
+name Noise4
+xpos 952
+ypos 92
+}
+Multiply {
+channels depth
+value {{parent.blur}}
+name Multiply3
+xpos 952
+ypos 173
+}
+Dot {
+name Dot12
+note_font_size 30
+xpos 986
+ypos 286
+}
+set Ncd406b00 [stack 0]
+Dot {
+name Dot14
+note_font_size 30
+xpos 1097
+ypos 286
+}
+Reformat {
+type scale
+scale {{parent.proxy_scale}}
+name Reformat2
+label preview
+xpos 1063
+ypos 323
+}
+Dot {
+name Dot15
+note_font_size 30
+xpos 1097
+ypos 382
+}
+push $Ncd406b00
+Switch {
+inputs 2
+which {{"\$gui"}}
+name Switch1
+label "\[\$gui] switch"
+xpos 952
+ypos 372
+disable {{!parent.proxy}}
+}
+IDistort {
+channels rgb
+uv motion
+uv_scale {{width/parent.Input.width}}
+blur depth.Z
+blur_scale {{width/parent.Input.width}}
+name IDistort1
+xpos 952
+ypos 585
+}
+Dot {
+name Dot6
+note_font_size 30
+xpos 986
+ypos 693
+}
+push $Ncd449d00
+push $Ncd44a400
+push $Ncd448f00
+Expression {
+channel0 {forward.u -forward.v none -backward.u}
+expr0 (x+0.5)/width
+channel1 {-forward.u forward.v none -backward.u}
+expr1 (y+0.5)/height
+channel2 none
+name Expression1
+xpos 625
+ypos -302
+}
+Noise {
+inputs 1+1
+output motion
+opacity {{0.024*parent.distort}}
+size {{parent.scale_1*10}}
+translate {{x*parent.speed.x} {x*parent.speed.y}}
+center {2021 1137}
+name Noise1
+label master
+xpos 625
+ypos -250
+}
+Noise {
+inputs 1+1
+output depth
+replace true
+size {{parent.Noise1.size}}
+zoffset 3.94
+translate {{parent.Noise1.translate.x} {parent.Noise1.translate.y}}
+center {2021 1137}
+name Noise2
+selected true
+xpos 625
+ypos 92
+}
+Multiply {
+channels depth
+value {{parent.blur}}
+name Multiply2
+xpos 625
+ypos 173
+}
+Dot {
+name Dot8
+note_font_size 30
+xpos 659
+ypos 285
+}
+set Ncd3bf900 [stack 0]
+Dot {
+name Dot9
+note_font_size 30
+xpos 770
+ypos 285
+}
+Reformat {
+type scale
+scale {{parent.proxy_scale}}
+name Reformat1
+label preview
+xpos 736
+ypos 322
+}
+Dot {
+name Dot10
+note_font_size 30
+xpos 770
+ypos 381
+}
+push $Ncd3bf900
+Switch {
+inputs 2
+which {{"\$gui"}}
+name Switch2
+label "\[\$gui] switch"
+xpos 625
+ypos 371
+disable {{!parent.proxy}}
+}
+set Ncd3bdd00 [stack 0]
+Dot {
+name Dot13
+note_font_size 30
+xpos 579
+ypos 502
+}
+push $Ncd3bdd00
+STMap {
+inputs 2
+channels rgb
+uv motion
+blur depth.Z
+blur_scale {{width/parent.Input.width}}
+name STMap1
+xpos 625
+ypos 585
+}
+Switch {
+inputs 2
+which {{parent.method}}
+name STMap_or_IDistort
+xpos 625
+ypos 689
+}
+Dot {
+name Dot5
+note_font_size 30
+xpos 659
+ypos 813
+}
+push $N330a4100
+Dot {
+name Dot16
+note_font_size 30
+xpos 324
+ypos 293
+}
+set Ncd39b900 [stack 0]
+Dot {
+name Dot17
+note_font_size 30
+xpos 435
+ypos 293
+}
+Reformat {
+type scale
+scale {{parent.proxy_scale}}
+name Reformat3
+label preview
+xpos 401
+ypos 330
+}
+Dot {
+name Dot18
+note_font_size 30
+xpos 435
+ypos 389
+}
+push $Ncd39b900
+Switch {
+inputs 2
+which {{"\$gui"}}
+name Switch3
+label "\[\$gui] switch"
+xpos 290
+ypos 379
+disable {{!parent.proxy}}
+}
+Copy {
+inputs 2
+channels rgba
+name Copy1
+xpos 290
+ypos 797
+}
+Group {
+inputs 2
+name CopyFormat2
+tile_color 0xa57aaa00
+xpos 290
+ypos 945
+addUserKnob {20 CopyFormat}
+addUserKnob {1 toolset_loc}
+toolset_loc /net/homes/mlast/.nuke/ToolSets/Transform/CopyFormat.nk
+addUserKnob {26 ""}
+addUserKnob {41 resize l "resize type" T Reformat4.resize}
+addUserKnob {41 center -STARTLINE T Reformat4.center}
+addUserKnob {41 flip -STARTLINE T Reformat4.flip}
+addUserKnob {41 flop -STARTLINE T Reformat4.flop}
+addUserKnob {41 turn -STARTLINE T Reformat4.turn}
+addUserKnob {41 filter T Reformat4.filter}
+addUserKnob {41 clamp -STARTLINE T Reformat4.clamp}
+addUserKnob {41 black_outside l "black outside" -STARTLINE T Reformat4.black_outside}
+addUserKnob {41 pbb l "preserve bounding box" -STARTLINE T Reformat4.pbb}
+}
+Input {
+inputs 0
+name InputA
+xpos 588
+ypos 403
+number 1
+}
+Input {
+inputs 0
+name InputB
+xpos 345
+ypos 403
+}
+Reformat {
+type "to box"
+box_width {{InputA.width}}
+box_height {{InputA.height}}
+box_fixed true
+box_pixel_aspect {{InputA.pixel_aspect}}
+pbb true
+name Reformat4
+selected true
+xpos 345
+ypos 462
+}
+CopyBBox {
+inputs 2
+name CopyBBox1
+xpos 345
+ypos 520
+}
+Output {
+name Output1
+xpos 345
+ypos 611
+}
+end_group
+Output {
+name Output1
+xpos 290
+ypos 1107
+}
+end_group
