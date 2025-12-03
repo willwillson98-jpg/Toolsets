@@ -1,0 +1,30 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+BackdropNode {
+ inputs 0
+ name BackdropNode17
+ tile_color 0xff032cff
+ label "Latest\nReviewcomp"
+ note_font_size 42
+ selected true
+ xpos -1442
+ ypos 5557
+ appearance Border
+ border_width 10
+ bdwidth 264
+ bdheight 309
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode38
+ tile_color 0xa41200ff
+ label "Lastest\nSubmission"
+ note_font_size 42
+ selected true
+ xpos -1969
+ ypos 5554
+ appearance Border
+ border_width 10
+ bdwidth 241
+ bdheight 311
+}
