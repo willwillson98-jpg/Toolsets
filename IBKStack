@@ -1,0 +1,93 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+IBKColourV3 {
+ name IBKColourV3_10
+ selected true
+ xpos 40476
+ ypos 155234
+ Size 1
+ off {0.03 0.02 0}
+ mult {1 0.9900000095 1}
+ erode 8
+}
+IBKColourV3 {
+ name IBKColourV3_11
+ selected true
+ xpos 40476
+ ypos 155283
+ Size 1
+ off {{IBKColourV3_10.off.r} {IBKColourV3_10.off.g} {IBKColourV3_10.off.b}}
+ mult {{IBKColourV3_10.mult.r} {IBKColourV3_10.mult.g} {IBKColourV3_10.mult.b}}
+ multi 1
+}
+IBKColourV3 {
+ name IBKColourV3_12
+ selected true
+ xpos 40476
+ ypos 155307
+ Size 1
+ off {{IBKColourV3_10.off.r} {IBKColourV3_10.off.g} {IBKColourV3_10.off.b}}
+ mult {{IBKColourV3_10.mult.r} {IBKColourV3_10.mult.g} {IBKColourV3_10.mult.b}}
+ multi 2
+}
+IBKColourV3 {
+ name IBKColourV3_13
+ selected true
+ xpos 40476
+ ypos 155331
+ Size 1
+ off {{IBKColourV3_10.off.r} {IBKColourV3_10.off.g} {IBKColourV3_10.off.b}}
+ mult {{IBKColourV3_10.mult.r} {IBKColourV3_10.mult.g} {IBKColourV3_10.mult.b}}
+ multi 4
+}
+IBKColourV3 {
+ name IBKColourV3_14
+ selected true
+ xpos 40476
+ ypos 155353
+ Size 1
+ off {{IBKColourV3_10.off.r} {IBKColourV3_10.off.g} {IBKColourV3_10.off.b}}
+ mult {{IBKColourV3_10.mult.r} {IBKColourV3_10.mult.g} {IBKColourV3_10.mult.b}}
+ multi 8
+}
+IBKColourV3 {
+ name IBKColourV3_15
+ selected true
+ xpos 40476
+ ypos 155379
+ Size 1
+ off {{IBKColourV3_10.off.r} {IBKColourV3_10.off.g} {IBKColourV3_10.off.b}}
+ mult {{IBKColourV3_10.mult.r} {IBKColourV3_10.mult.g} {IBKColourV3_10.mult.b}}
+ multi 16
+}
+IBKColourV3 {
+ name IBKColourV3_16
+ selected true
+ xpos 40476
+ ypos 155425
+ Size 1
+ off {{IBKColourV3_10.off.r} {IBKColourV3_10.off.g} {IBKColourV3_10.off.b}}
+ mult {{IBKColourV3_10.mult.r} {IBKColourV3_10.mult.g} {IBKColourV3_10.mult.b}}
+ multi 32
+}
+IBKColourV3 {
+ name IBKColourV3_17
+ selected true
+ xpos 40476
+ ypos 155451
+ Size 1
+ off {{IBKColourV3_10.off.r} {IBKColourV3_10.off.g} {IBKColourV3_10.off.b}}
+ mult {{IBKColourV3_10.mult.r} {IBKColourV3_10.mult.g} {IBKColourV3_10.mult.b}}
+ multi 64
+}
+IBKColourV3 {
+ name IBKColourV3_2
+ selected true
+ xpos 40476
+ ypos 155477
+ Size 1
+ off {{IBKColourV3_10.off.r} {IBKColourV3_10.off.g} {IBKColourV3_10.off.b}}
+ mult {{IBKColourV3_10.mult.r} {IBKColourV3_10.mult.g} {IBKColourV3_10.mult.b}}
+ multi 64
+}
