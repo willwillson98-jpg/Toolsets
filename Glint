@@ -1,0 +1,13 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Glint {
+channels rgb
+length 25
+rotation 270
+mix 0.1
+name Glint10
+selected true
+xpos 27003
+ypos 198310
+}
