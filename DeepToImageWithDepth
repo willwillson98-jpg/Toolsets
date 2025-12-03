@@ -1,0 +1,200 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Group {
+name DeepToImageWithDepth4
+tile_color 0x5fff
+selected true
+xpos 9024
+ypos 182706
+addUserKnob {20 deeptoDepthTab l DeepToDepth}
+addUserKnob {6 AntiAlias l antialiasing +STARTLINE}
+AntiAlias true
+addUserKnob {6 PreserveAlpha l "preserve alpha" +STARTLINE}
+PreserveAlpha true
+addUserKnob {6 replaceZeroInf l "replace 0 with inf" +STARTLINE}
+}
+Input {
+inputs 0
+name Input
+label "\[value number]"
+xpos 255
+ypos 18
+}
+Dot {
+name Dot7
+xpos 289
+ypos 263
+}
+set N170e9d00 [stack 0]
+Dot {
+name Dot8
+xpos 654
+ypos 263
+}
+Dot {
+name Dot18
+xpos 654
+ypos 474
+}
+set N170e8f00 [stack 0]
+DeepToImage {
+name DeepToImage8
+xpos 730
+ypos 470
+}
+Shuffle {
+red white
+green white
+blue white
+alpha white
+name Shuffle9
+xpos 730
+ypos 518
+}
+push $N170e8f00
+DeepRecolor {
+inputs 2
+name DeepRecolor7
+xpos 620
+ypos 518
+}
+Dot {
+name Dot2
+xpos 654
+ypos 594
+}
+set N17023200 [stack 0]
+DeepExpression {
+chans1 deep
+rgba.red deep.front*rgba.alpha
+rgba.green deep.front*rgba.alpha
+rgba.blue deep.front*rgba.alpha
+name DeepExpression13
+xpos 620
+ypos 638
+}
+DeepToImage {
+name DeepToImage9
+xpos 620
+ypos 734
+}
+Unpremult {
+name Unpremult7
+xpos 620
+ypos 926
+}
+set N17021d00 [stack 0]
+push $N17021d00
+Dot {
+name Dot1
+xpos 764
+ypos 930
+}
+Dot {
+name Dot4
+xpos 764
+ypos 1026
+}
+push $N17023200
+Dot {
+name Dot3
+xpos 984
+ypos 594
+}
+DeepExpression {
+chans1 deep
+rgba.red deep.front
+rgba.green deep.front
+rgba.blue deep.front
+rgba.alpha 1
+name DeepExpression5
+xpos 950
+ypos 638
+}
+DeepToImage {
+name DeepToImage1
+xpos 950
+ypos 734
+}
+Unpremult {
+name Unpremult1
+xpos 950
+ypos 926
+}
+set N17cff200 [stack 0]
+Dot {
+name Dot6
+xpos 874
+ypos 930
+}
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+name Copy1
+xpos 840
+ypos 1016
+}
+push $N17cff200
+Switch {
+inputs 2
+which {{parent.PreserveAlpha}}
+name PreserveAlpha
+xpos 950
+ypos 1022
+}
+Dot {
+name Dot5
+xpos 984
+ypos 1098
+}
+Switch {
+inputs 2
+which {{parent.AntiAlias}}
+name SwitchAntiAlias
+xpos 620
+ypos 1094
+}
+Expression {
+expr0 "r == 0 ? inf : r"
+name Expression1
+label "0 to inf"
+xpos 620
+ypos 1179
+disable {{"1 - parent.replaceZeroInf"}}
+}
+Shuffle {
+in rgb
+out depth
+name Shuffle1
+tile_color 0x7f007fff
+label "\[ expr \{\[string match \[value in] \"rgba\"] ? \"\" : \[value in] \}]"
+xpos 620
+ypos 1263
+}
+Dot {
+name Dot9
+xpos 654
+ypos 1340
+}
+push $N170e9d00
+DeepToImage {
+name DeepToImage2
+xpos 255
+ypos 510
+}
+Copy {
+inputs 2
+channels depth
+bbox B
+name Copy2
+xpos 255
+ypos 1324
+}
+Output {
+name Output1
+xpos 255
+ypos 1576
+}
+end_group
