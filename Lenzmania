@@ -1,0 +1,700 @@
+set cut_paste_input [stack 0]
+version 14.0 v5
+push $cut_paste_input
+Group {
+name Lenzmania
+tile_color 0x1fff00ff
+selected true
+xpos 57057
+ypos 151055
+addUserKnob {20 Lenzmania l Settings}
+addUserKnob {26 ""}
+addUserKnob {6 vignetteEnable l vignetting -STARTLINE}
+vignetteEnable true
+addUserKnob {6 defocusEnable l defocus -STARTLINE}
+defocusEnable true
+addUserKnob {6 dirblurEnable l dirBlur -STARTLINE}
+dirblurEnable true
+addUserKnob {6 chromaEnable l chromatics -STARTLINE}
+chromaEnable true
+addUserKnob {26 ""}
+addUserKnob {7 vignetteDarken l exposure}
+vignetteDarken 1
+addUserKnob {7 defocusValue l defocus R 0 5}
+defocusValue 3
+addUserKnob {7 dirBlur R 0 10}
+dirBlur 1
+addUserKnob {26 ""}
+addUserKnob {4 chromaSetup l chromatics M {transform radial "" ""}}
+chromaSetup radial
+addUserKnob {7 chromaRed l "shift red"}
+chromaRed 0.115
+addUserKnob {7 chromaGreen l "shift green"}
+chromaGreen 0.045
+addUserKnob {7 chromaBlue l "shift blue"}
+addUserKnob {6 chromaSoft l "chroma softening" +STARTLINE}
+addUserKnob {7 chromaSoftRed l "soft red"}
+addUserKnob {7 chromaSoftGreen l "soft green"}
+addUserKnob {7 chromaSoftBlue l "soft blue"}
+chromaSoftBlue 0.3
+addUserKnob {26 ""}
+addUserKnob {26 dummy l "" +STARTLINE T "\n\n"}
+addUserKnob {26 maskDiv l "mask setup"}
+addUserKnob {7 maskIn l "inner radius" R 0 4000}
+maskIn 660
+addUserKnob {7 maskOut l "outer radius" R 0 4000}
+maskOut 840
+addUserKnob {7 maskAspect l aspect R 0 2}
+maskAspect 1.3
+addUserKnob {7 maskSoftness l softness}
+maskSoftness 0.5
+addUserKnob {6 maskSetup l "mask view" +STARTLINE}
+addUserKnob {26 ""}
+addUserKnob {26 tool l "Lenzmania v1.0" -STARTLINE T " "}
+addUserKnob {1 FS_PROPERTY +HIDDEN}
+}
+Input {
+inputs 0
+name Input
+xpos -584
+ypos -905
+}
+Dot {
+name Dot35
+note_font " Bold"
+note_font_size 30
+xpos -556
+ypos -606
+}
+set N4898060 [stack 0]
+Dot {
+name Dot37
+note_font " Bold"
+note_font_size 30
+xpos -1406
+ypos -606
+}
+Remove {
+name Remove2
+xpos -1440
+ypos -466
+}
+Expression {
+temp_name0 iD
+temp_expr0 "hypot((x-center.x)*1/aspect, y-center.y)"
+channel0 {rgba.red -rgba.green rgba.blue rgba.alpha}
+expr0 "iD<inner_radius? 0 : iD>outer_radius?1 : smoothstep(0,1, pow( (iD-inner_radius)/(outer_radius-inner_radius), power))"
+expr1 "iD<inner_radius? 0 : iD>outer_radius?1 : 0.5"
+channel2 none
+channel3 none
+name Expression3
+xpos -1440
+ypos -360
+addUserKnob {20 User}
+addUserKnob {12 center}
+center {{width/2} {height/2}}
+addUserKnob {7 inner_radius R 0 1500}
+inner_radius {{maskIn}}
+addUserKnob {7 outer_radius R 0 1500}
+outer_radius {{maskOut}}
+addUserKnob {7 aspect R 0 2}
+aspect {{maskAspect}}
+addUserKnob {7 power R 0 5}
+power {{maskSoftness}}
+}
+Shuffle {
+red alpha
+green alpha
+blue alpha
+name Shuffle1
+xpos -1440
+ypos -260
+}
+Reformat {
+type "to box"
+format {{{Input1.format}}}
+box_width {{input.width}}
+box_height {{input.height}}
+box_fixed true
+box_pixel_aspect {{"\[value input.pixel_aspect]"}}
+name Reformat2
+selected true
+xpos -1440
+ypos -210
+}
+Dot {
+name Dot6
+xpos -1406
+ypos 44
+}
+set Nfacb2590 [stack 0]
+Dot {
+name Dot4
+xpos -1406
+ypos 94
+}
+set N10f52dc0 [stack 0]
+Dot {
+name Dot2
+xpos -1406
+ypos 144
+}
+set Nc9522490 [stack 0]
+Dot {
+name Dot15
+xpos -1406
+ypos 444
+}
+set N59b9d5f0 [stack 0]
+Dot {
+name Dot16
+xpos -1406
+ypos 494
+}
+set N81a182a0 [stack 0]
+Dot {
+name Dot17
+xpos -1406
+ypos 544
+}
+set Nc9de5c0 [stack 0]
+Dot {
+name Dot1
+xpos -1406
+ypos 1044
+}
+set N10f54990 [stack 0]
+Dot {
+name Dot5
+xpos -1406
+ypos 1094
+}
+set N9a3bb2b0 [stack 0]
+Dot {
+name Dot3
+xpos -1406
+ypos 1144
+}
+set N801c95a0 [stack 0]
+Dot {
+name Dot50
+xpos -1406
+ypos 2344
+}
+set N49cfd8f0 [stack 0]
+Dot {
+name Dot40
+xpos -1406
+ypos 2844
+}
+set N94fbe3a0 [stack 0]
+Dot {
+name Dot41
+xpos -1406
+ypos 3244
+}
+set N9cdc8460 [stack 0]
+Dot {
+name Dot39
+note_font " Bold"
+note_font_size 30
+xpos -1406
+ypos 3644
+}
+push $N9cdc8460
+push $N94fbe3a0
+push $N49cfd8f0
+push $N801c95a0
+push $N9a3bb2b0
+push $N10f54990
+push $Nc9de5c0
+push $N81a182a0
+push $N59b9d5f0
+push $N4898060
+Dot {
+name Dot7
+note_font " Bold"
+note_font_size 30
+xpos -556
+ypos -156
+}
+set Na0327f90 [stack 0]
+Dot {
+name Dot10
+note_font " Bold"
+note_font_size 30
+xpos -306
+ypos -156
+}
+set N5872aa60 [stack 0]
+DirBlurWrapper {
+inputs 1+1
+channels {rgba.red -rgba.green -rgba.blue none}
+BlurLayer {rgba.red -rgba.green -rgba.blue none}
+BlurCenter {{width/2} {height/2}}
+BlurLength {{chromaRed*50}}
+name DirBlurWrapper1
+tile_color 0xff0000ff
+xpos -340
+ypos 440
+}
+DirBlurWrapper {
+inputs 1+1
+channels {-rgba.red rgba.green -rgba.blue none}
+BlurLayer {-rgba.red rgba.green -rgba.blue none}
+BlurCenter {{width/2} {height/2}}
+BlurLength {{chromaGreen*50}}
+name DirBlurWrapper2
+tile_color 0x1fff00ff
+xpos -340
+ypos 490
+}
+DirBlurWrapper {
+inputs 1+1
+channels {-rgba.red -rgba.green rgba.blue none}
+BlurLayer {-rgba.red -rgba.green rgba.blue none}
+BlurCenter {{width/2} {height/2}}
+BlurLength {{chromaBlue*50}}
+name DirBlurWrapper3
+tile_color 0x5dc3ff
+xpos -340
+ypos 540
+}
+Dot {
+name Dot11
+note_font " Bold"
+note_font_size 30
+xpos -306
+ypos 744
+}
+push $Nc9522490
+push $N10f52dc0
+push $Nfacb2590
+push $Na0327f90
+TransformMasked {
+inputs 1+1
+channels {rgba.red -rgba.green -rgba.blue none}
+scale {{1+(chromaRed/25)}}
+center {{width/2} {height/2}}
+name TransformRed
+tile_color 0xff0000ff
+xpos -590
+ypos 40
+}
+TransformMasked {
+inputs 1+1
+channels {-rgba.red rgba.green -rgba.blue none}
+scale {{1+(chromaGreen/25)}}
+center {{width/2} {height/2}}
+name TransformGreen
+tile_color 0x1fff00ff
+xpos -590
+ypos 90
+}
+TransformMasked {
+inputs 1+1
+channels {-rgba.red -rgba.green rgba.blue none}
+scale {{1+(chromaBlue/25)}}
+center {{width/2} {height/2}}
+name TransformBlue
+tile_color 0x5dc3ff
+xpos -590
+ypos 140
+}
+Switch {
+inputs 2
+which {{chromaSetup}}
+name chromaBlurSwitch
+tile_color 0xdfff00ff
+xpos -590
+ypos 740
+}
+Dot {
+name Dot12
+note_font " Bold"
+note_font_size 30
+xpos -556
+ypos 844
+}
+set Nf844a7c0 [stack 0]
+Blur {
+inputs 1+1
+channels {rgba.red -rgba.green -rgba.blue none}
+size {{chromaSoftRed*25}}
+name Blur3
+tile_color 0xff0000ff
+xpos -590
+ypos 1040
+}
+Blur {
+inputs 1+1
+channels {-rgba.red rgba.green -rgba.blue none}
+size {{chromaSoftGreen*25}}
+name Blur1
+tile_color 0x1fff00ff
+xpos -590
+ypos 1090
+}
+Blur {
+inputs 1+1
+channels {-rgba.red -rgba.green rgba.blue none}
+size {{chromaSoftBlue*25}}
+name Blur2
+tile_color 0x5dc3ff
+xpos -590
+ypos 1140
+}
+push $Nf844a7c0
+Dot {
+name Dot13
+note_font " Bold"
+note_font_size 30
+xpos -156
+ypos 844
+}
+Dot {
+name Dot14
+note_font " Bold"
+note_font_size 30
+xpos -156
+ypos 1394
+}
+Switch {
+inputs 2
+which {{chromaSoft}}
+name chromaSoftSwitch
+tile_color 0xdfff00ff
+xpos -590
+ypos 1390
+}
+push $N5872aa60
+Dot {
+name Dot8
+note_font " Bold"
+note_font_size 30
+xpos 144
+ypos -156
+}
+Dot {
+name Dot9
+note_font " Bold"
+note_font_size 30
+xpos 144
+ypos 1744
+}
+Switch {
+inputs 2
+which {{chromaEnable}}
+name chromaticsSwitch
+tile_color 0xdfff00ff
+xpos -590
+ypos 1740
+}
+Dot {
+name Dot51
+note_font " Bold"
+note_font_size 30
+xpos -556
+ypos 1994
+}
+set N96e17ac0 [stack 0]
+Dot {
+name Dot48
+xpos -556
+ypos 2194
+}
+set N956e7300 [stack 0]
+Dot {
+name Dot49
+xpos -406
+ypos 2194
+}
+DirBlurWrapper {
+BlurCenter {{width/2} {height/2}}
+BlurLength {{dirBlur*2}}
+target {{width/2} {height/2}}
+UseTarget true
+name DirBlurWrapper14
+xpos -440
+ypos 2334
+}
+push $N956e7300
+Keymix {
+inputs 3
+name Keymix3
+xpos -590
+ypos 2334
+}
+push $N96e17ac0
+Dot {
+name Dot52
+note_font " Bold"
+note_font_size 30
+xpos -156
+ypos 1994
+}
+Dot {
+name Dot53
+note_font " Bold"
+note_font_size 30
+xpos -156
+ypos 2544
+}
+Switch {
+inputs 2
+which {{dirblurEnable}}
+name dirblurSwitch
+tile_color 0xdfff00ff
+xpos -590
+ypos 2540
+}
+Dot {
+name Dot43
+note_font " Bold"
+note_font_size 30
+xpos -556
+ypos 2694
+}
+set Nb419dfe0 [stack 0]
+Group {
+inputs 2
+name IDefocus2
+knobChanged "\n\n\n\n\n################ begin\n\n\n\n\n\n\ntn = nuke.thisNode()\ntk = nuke.thisKnob()\n\npreviousLoopNum = tn\['previousLoopNum'].getValue()\n\nqualityVal = int( tn\['Steps'].getValue() )\n\n\ncoch=tn\['ConChan'].getValue()\n\nif tk.name()=='ConChan':\n nuke.toNode(\"Shuffle1\")\['red'].setValue(int(coch)+1)\n \n\n  \nif tk.name()=='Steps':\n    if qualityVal < 1:\n        qualityVal = 1\n    elif qualityVal >100:\n        qualityVal = 100\n    tn\['Steps'].setValue( qualityVal )\n    \n\n    if qualityVal != previousLoopNum:\n        ### just make sure\n        nuke.selectAll()\n        nuke.invertSelection()\n    \n    ### select Output node\n        nuke.toNode(\"Output1\")\['selected'].setValue( True )\n    ### select similar Nodes by Colour\n        nuke.selectSimilar(2)\n        nuke.toNode(\"Shuffle1\")\['selected'].setValue( True )\n    ### select everything else    \n        nuke.invertSelection()\n    ### now delete everything else\n        sn = nuke.selectedNodes()\n        for i in range (0, len(sn)):\n            deleteme = (sn\[i])\n            nuke.delete(deleteme)\n        \n        \n        \n        for i in range (0, qualityVal):\n         keyer = nuke.nodes.Keyer ()\n         keyer\['operation'].setValue('red keyer')\n         keyer\['range'].setExpression(str(i)+\"*parent.regionStep\", 0)\n         keyer\['range'].setExpression(str(i)+\"*parent.regionStep+parent.regionStep\", 1)\n         keyer\['range'].setExpression(str(i)+\"*parent.regionStep+parent.regionStep*2\", 2)\n         keyer\['range'].setExpression(str(i)+\"*parent.regionStep+parent.regionStep*2\",3)\n         keyer.setInput (0, nuke.toNode('Shuffle1'))\n     \n          \n         defocus = nuke.nodes.Defocus()\n         defocus\['defocus'].setExpression(\"parent.defocus*parent.regionStep*(\" + str(i) + \"+1)\")\n         defocus\['ratio'].setExpression(\"parent.aspect_ratio\")\n         defocus\['quality'].setExpression(\"parent.quality\")\n         defocus\['method'].setExpression(\"parent.method\")\n         defocus\['mix'].setExpression(\"parent.mix\")\n         defocus.setInput (0, nuke.toNode('Image_IN'))\n     \n     \n     \n         km = nuke.nodes.Keymix()\n         if i==0:\n          km.setInput (0, nuke.toNode('Image_IN'))\n         elif i >0:\n          km.setInput (0, nuke.toNode('Keymix'+str(i)))\n         km.setInput (1, defocus)\n         km.setInput (2, keyer)\n         km\['bbox'].setValue('A side')\n\n         nuke.toNode('Output1').setInput(0, km)\n        \n        \n        \n        \n        \n        previousLoopNum = qualityVal\n        \n        tn\['previousLoopNum'].setValue( int(previousLoopNum) )\n\n\n\n\n    \n######################## end\n"
+xpos -590
+ypos 2840
+addUserKnob {20 User}
+addUserKnob {4 ConChan l "Control Channel" M {red green blue alpha "" "" ""}}
+ConChan alpha
+addUserKnob {7 Steps l steps R 0 100}
+Steps 5
+addUserKnob {7 defocus R 0 100}
+defocus {{defocusValue}}
+addUserKnob {7 aspect_ratio l "aspect ratio" R 0 5}
+aspect_ratio 0.5
+addUserKnob {3 quality}
+quality 20
+addUserKnob {4 method M {accelerated "full precision" "" ""}}
+addUserKnob {3 previousLoopNum l INVISIBLE +INVISIBLE}
+previousLoopNum 5
+addUserKnob {7 regionStep l INVISIBLE +INVISIBLE}
+regionStep {{1/Steps i}}
+addUserKnob {7 mix}
+mix 1
+addUserKnob {1 FS_PROPERTY +HIDDEN}
+}
+Input {
+inputs 0
+name Control_Image_IN
+xpos 635
+ypos -233
+number 1
+}
+Shuffle {
+red alpha
+name Shuffle1
+xpos 635
+ypos -207
+}
+set N35165a50 [stack 0]
+Keyer {
+operation "red keyer"
+range {{4*parent.regionStep} {4*parent.regionStep+parent.regionStep} {4*parent.regionStep+parent.regionStep*2} {4*parent.regionStep+parent.regionStep*2}}
+name Keyer5
+}
+Input {
+inputs 0
+name Image_IN
+xpos 149
+ypos 12
+}
+set Nbcf77930 [stack 0]
+Defocus {
+defocus {{parent.defocus*parent.regionStep*(4+1)}}
+ratio {{parent.aspect_ratio}}
+quality {{parent.quality}}
+method {{parent.method}}
+mix {{parent.mix}}
+name Defocus5
+}
+push $N35165a50
+Keyer {
+operation "red keyer"
+range {{3*parent.regionStep} {3*parent.regionStep+parent.regionStep} {3*parent.regionStep+parent.regionStep*2} {3*parent.regionStep+parent.regionStep*2}}
+name Keyer4
+}
+push $Nbcf77930
+Defocus {
+defocus {{parent.defocus*parent.regionStep*(3+1)}}
+ratio {{parent.aspect_ratio}}
+quality {{parent.quality}}
+method {{parent.method}}
+mix {{parent.mix}}
+name Defocus4
+}
+push $N35165a50
+Keyer {
+operation "red keyer"
+range {{2*parent.regionStep} {2*parent.regionStep+parent.regionStep} {2*parent.regionStep+parent.regionStep*2} {2*parent.regionStep+parent.regionStep*2}}
+name Keyer3
+}
+push $Nbcf77930
+Defocus {
+defocus {{parent.defocus*parent.regionStep*(2+1)}}
+ratio {{parent.aspect_ratio}}
+quality {{parent.quality}}
+method {{parent.method}}
+mix {{parent.mix}}
+name Defocus3
+}
+push $N35165a50
+Keyer {
+operation "red keyer"
+range {{1*parent.regionStep} {1*parent.regionStep+parent.regionStep} {1*parent.regionStep+parent.regionStep*2} {1*parent.regionStep+parent.regionStep*2}}
+name Keyer2
+}
+push $Nbcf77930
+Defocus {
+defocus {{parent.defocus*parent.regionStep*(1+1)}}
+ratio {{parent.aspect_ratio}}
+quality {{parent.quality}}
+method {{parent.method}}
+mix {{parent.mix}}
+name Defocus2
+}
+push $N35165a50
+Keyer {
+operation "red keyer"
+range {{0*parent.regionStep} {0*parent.regionStep+parent.regionStep} {0*parent.regionStep+parent.regionStep*2} {0*parent.regionStep+parent.regionStep*2}}
+name Keyer1
+}
+push $Nbcf77930
+Defocus {
+defocus {{parent.defocus*parent.regionStep*(0+1)}}
+ratio {{parent.aspect_ratio}}
+quality {{parent.quality}}
+method {{parent.method}}
+mix {{parent.mix}}
+name Defocus1
+}
+push $Nbcf77930
+Keymix {
+inputs 3
+bbox A
+name Keymix1
+}
+Keymix {
+inputs 3
+bbox A
+name Keymix2
+}
+Keymix {
+inputs 3
+bbox A
+name Keymix3
+}
+Keymix {
+inputs 3
+bbox A
+name Keymix4
+}
+Keymix {
+inputs 3
+bbox A
+name Keymix5
+}
+Output {
+name Output1
+xpos 130
+ypos 811
+}
+end_group
+push $Nb419dfe0
+Dot {
+name Dot44
+note_font " Bold"
+note_font_size 30
+xpos -156
+ypos 2694
+}
+Dot {
+name Dot42
+note_font " Bold"
+note_font_size 30
+xpos -156
+ypos 2994
+}
+Switch {
+inputs 2
+which {{defocusEnable}}
+name defocusSwitch
+tile_color 0xdfff00ff
+xpos -590
+ypos 2990
+}
+Dot {
+name Dot45
+note_font " Bold"
+note_font_size 30
+xpos -556
+ypos 3094
+}
+set N2173a10 [stack 0]
+EXPTool {
+inputs 1+1
+mode Stops
+red -6
+green -6
+blue -6
+mix {{vignetteDarken}}
+name Exposure1
+xpos -590
+ypos 3240
+}
+push $N2173a10
+Dot {
+name Dot46
+note_font " Bold"
+note_font_size 30
+xpos -156
+ypos 3094
+}
+Dot {
+name Dot47
+note_font " Bold"
+note_font_size 30
+xpos -156
+ypos 3394
+}
+Switch {
+inputs 2
+which {{vignetteEnable}}
+name vignetteSwitch
+tile_color 0xdfff00ff
+xpos -590
+ypos 3390
+}
+Switch {
+inputs 2
+which {{maskSetup}}
+name maskSwitch
+tile_color 0xdfff00ff
+xpos -590
+ypos 3640
+}
+Reformat {
+type "to box"
+format {{{Input1.format}}}
+box_width {{input.width}}
+box_height {{input.height}}
+box_fixed true
+box_pixel_aspect {{"\[value input.pixel_aspect]"}}
+name Reformat3
+xpos -590
+ypos 3790
+}
+Output {
+name Output1
+xpos -590
+ypos 3890
+}
+end_group
