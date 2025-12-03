@@ -1,0 +1,12 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+push 0
+Merge2 {
+ inputs 2
+ operation mask
+ name Merge6
+ selected true
+ xpos 40498
+ ypos 157884
+}
