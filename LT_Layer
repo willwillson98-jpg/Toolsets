@@ -1,0 +1,105 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Group {
+ name LT_layer1
+ onCreate "from nukeFLighting.lt_nodes.layer import layer_ui"
+ selected true
+ xpos 40480
+ ypos 157786
+ addUserKnob {20 layers}
+ addUserKnob {1 state l INVISIBLE +INVISIBLE}
+ state "\[(True, 'scan', '')]"
+ addUserKnob {1 new_layer_name l "Layer name" t "Name of the new layer to add."}
+ new_layer_name scan
+ addUserKnob {22 layer_add_button l Add -STARTLINE T "this_node = nuke.thisNode()\nwidget = this_node\[\"LayerWidget\"].getObject()\n\nlayer = this_node\[\"new_layer_name\"].value()\nwidget.add_row(layer)"}
+ addUserKnob {6 rgba_only l "RGBA only" t "Only keep the main layer of the rgba input and discard any other layers." -STARTLINE}
+ rgba_only true
+ addUserKnob {26 spacer l " " -STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {52 LayerWidget l "" -STARTLINE T layer_ui.LayerWidget(nuke.thisNode())}
+ addUserKnob {26 ""}
+ addUserKnob {26 version l "" +STARTLINE T "LT_Layer V 2,1"}
+ addUserKnob {1 FS_PROPERTY +HIDDEN}
+}
+ Input {
+  inputs 0
+  name InputScan
+  label "\[value number]"
+  xpos 100
+  number 1
+ }
+add_layer {scan scan.r scan.g scan.b scan.a scan.R scan.G scan.B scan.A scan.red scan.green scan.blue scan.alpha}
+ Shuffle {
+  out scan
+  name ShuffleScan
+  xpos 100
+  ypos 60
+ }
+ Remove {
+  operation keep
+  channels scan
+  name RemoveScan
+  xpos 100
+  ypos 120
+ }
+push 0
+ Switch {
+  inputs 2
+  which {{"\[llength \[channels this.parent.input\[value \[topnode input1].number]]] > 0"}}
+  name SwitchScan
+  xpos 100
+  ypos 180
+ }
+ Dot {
+  name DotScan
+  xpos 100
+  ypos 320
+ }
+ Input {
+  inputs 0
+  name InputRgba
+  label "\[value number]"
+  xpos -172
+  ypos -31
+ }
+ Shuffle {
+  name ShuffleRgba
+  xpos -172
+  ypos 56
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name RemoveRgba
+  xpos -172
+  ypos 116
+  disable {{!rgba_only}}
+ }
+ Dot {
+  name MainDot
+  xpos -138
+  ypos 234
+ }
+ Merge2 {
+  inputs 2
+  output none
+  also_merge all
+  name Merge1
+  label Scan
+  xpos 0
+  ypos 320
+ }
+ Dot {
+  name OutDot
+  label OUTPUT
+  note_font_size 30
+  xpos -138
+  ypos 1347
+ }
+ Output {
+  name Output1
+  xpos -172
+  ypos 1422
+ }
+end_group
