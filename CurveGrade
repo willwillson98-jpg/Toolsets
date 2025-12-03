@@ -1,0 +1,16 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Grade {
+ multiply {{"parent.\[value curveTool].intensitydata/parent.\[value curveTool].intensitydata(ReferenceFrame)"} {"parent.\[value curveTool].intensitydata/parent.\[value curveTool].intensitydata(ReferenceFrame)"} {"parent.\[value curveTool].intensitydata/parent.\[value curveTool].intensitydata(ReferenceFrame)"} {curve}}
+ name Grade21
+ label "CHANGE REFERENCE FRAME"
+ selected true
+ xpos 40467
+ ypos 153699
+ addUserKnob {20 User}
+ addUserKnob {3 ReferenceFrame t "Select the reference frame for the grade data\n"}
+ ReferenceFrame 1112
+ addUserKnob {1 curveTool}
+ curveTool CurveTool6
+}
