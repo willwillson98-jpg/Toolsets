@@ -1,0 +1,448 @@
+set cut_paste_input [stack 0]
+version 14.0 v5
+push $cut_paste_input
+Group {
+ name Exponential_LightWrap2
+ tile_color 0xcc804eff
+ selected true
+ xpos 45429
+ ypos 144330
+ addUserKnob {20 GEO_LightWrap}
+ addUserKnob {22 documentation l Documentation T "nukescripts.start(\"http://dnet/x/XwIEBw\")" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {41 effect T Glow.effect}
+ addUserKnob {41 diffuse T Glow.diffuse}
+ addUserKnob {41 falloff T Glow.falloff}
+ addUserKnob {20 tolerance_g l tolerance n 1}
+ tolerance_g 0
+ addUserKnob {41 view_luma_key l view T Glow.view_luma_key}
+ addUserKnob {41 log l "process in log" T Glow.log}
+ addUserKnob {41 range T Glow.range}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 grade_txt l "" +STARTLINE}
+ addUserKnob {41 multiply T Glow.multiply}
+ addUserKnob {41 multiply_panelDropped l INVISIBLE +INVISIBLE T Glow.multiply_panelDropped}
+ addUserKnob {41 saturation T Glow.saturation}
+ addUserKnob {41 W l "width channel" T Glow.W}
+ addUserKnob {6 effect_only l "effect only" +STARTLINE}
+ effect_only true
+ addUserKnob {41 override_pixel_aspect l "override pixel aspect" T Glow.override_pixel_aspect}
+ addUserKnob {41 override_pixel_aspect_value l " " T Glow.override_pixel_aspect_value}
+ addUserKnob {26 ""}
+ addUserKnob {41 steps T Glow.steps}
+ addUserKnob {26 ""}
+ addUserKnob {41 crop T Glow.crop}
+ addUserKnob {41 padding T Glow.padding}
+ addUserKnob {41 softness T Glow.softness}
+ addUserKnob {41 reformat T Glow.reformat}
+ addUserKnob {41 intersect T Glow.intersect}
+ addUserKnob {41 crop_1 l "black outside" T Glow.crop_1}
+}
+ Input {
+  inputs 0
+  name Inputfg
+  xpos -749
+  ypos 493
+ }
+ Dot {
+  name fg
+  label fg
+  xpos -715
+  ypos 533
+ }
+set N3af03210 [stack 0]
+ Input {
+  inputs 0
+  name Inputbg
+  xpos -403
+  ypos 516
+  number 1
+ }
+ Dot {
+  name bg
+  label bg
+  xpos -369
+  ypos 556
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  bbox B
+  name Merge3
+  xpos -577
+  ypos 675
+ }
+ Group {
+  name Glow
+  help "Adds exponential glow to the input image, simulating real-world lens blooming."
+  tile_color 0xcc804eff
+  xpos -577
+  ypos 741
+  addUserKnob {20 ExponentialGlow}
+  addUserKnob {26 _class l INVISIBLE +INVISIBLE T ExponentialGlow}
+  addUserKnob {26 _version l INVISIBLE +INVISIBLE T 1.0}
+  addUserKnob {22 documentation l Documentation T "nukescripts.start(\"http://dnet/x/3AEVBg\")" +STARTLINE}
+  addUserKnob {26 ""}
+  addUserKnob {6 falloff_internal_tcl_livelinks l INVISIBLE t "Hidden knob to store the state of internal Glow nodes' live TCL expression links states. True means they're currently using live links. False means not. The knobChanged callbacks update this knob." +INVISIBLE +STARTLINE}
+  addUserKnob {6 tolerance_internal_tcl_livelinks l INVISIBLE +INVISIBLE +STARTLINE}
+  addUserKnob {6 W_internal_tcl_livelinks l INVISIBLE +INVISIBLE +STARTLINE}
+  addUserKnob {6 multiply_internal_tcl_livelinks l INVISIBLE +INVISIBLE +STARTLINE}
+  addUserKnob {6 saturation_internal_tcl_livelinks +INVISIBLE +STARTLINE}
+  addUserKnob {6 diffuse_internal_tcl_livelinks l INVISIBLE t "Hidden knob to store the state of internal Glow nodes' live TCL expression links states. True means they're currently using live links. False means not. THe knobChanged callbacks update this knob." +INVISIBLE +STARTLINE}
+  addUserKnob {7 effect t "Controls the amount of effect." R 0 10}
+  effect 5
+  addUserKnob {7 diffuse t "Controls the size of the blur." R 0 5}
+  diffuse 0.05
+  addUserKnob {7 falloff t "Controls the brightness falloff of each blur step. Smaller numbers fall off more quickly -- higher numbers less so." R 0.5 1.5}
+  falloff 0.92
+  addUserKnob {20 tolerance_g l tolerance n 1}
+  tolerance_g 0
+  addUserKnob {6 view_luma_key l view +STARTLINE}
+  addUserKnob {6 log l "process in log" +STARTLINE}
+  log true
+  addUserKnob {41 range T Keyer1.range}
+  addUserKnob {20 endGroup n -1}
+  addUserKnob {26 grade_txt l "" +STARTLINE}
+  addUserKnob {18 multiply t "Controls the gain of each blur step after it's been rendered." R 0 4}
+  multiply 1
+  addUserKnob {6 multiply_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {7 saturation t "Controls the saturation of each blur step after it's been rendered."}
+  saturation 1
+  addUserKnob {11 W l "width channel"}
+  W rgb
+  addUserKnob {6 effect_only l "effect only" -STARTLINE}
+  effect_only true
+  addUserKnob {6 override_pixel_aspect l "override pixel aspect" t "If checked, override the pixel aspect of diffuse. Otherwise, use root." +STARTLINE}
+  addUserKnob {7 override_pixel_aspect_value l " " -STARTLINE R 0.5 2}
+  override_pixel_aspect_value 1
+  addUserKnob {26 ""}
+  addUserKnob {3 steps t "Controls the number of internal blur steps. For low diffuse values. Smaller numbers are faster. If diffuse values are small, you can probably get away with values less than 10. For default Glow values, 8 to 10 works pretty well."}
+  steps 9
+  addUserKnob {26 ""}
+  addUserKnob {6 crop t "Large diffuse values tend to enlarge the bbox hugely, resulting in slower renders. Check this box to clip outside of display window." -STARTLINE}
+  crop true
+  addUserKnob {3 padding t "Adds a padding in pixels to the crop."}
+  padding 50
+  addUserKnob {41 softness T Crop1.softness}
+  addUserKnob {41 reformat T Crop1.reformat}
+  addUserKnob {41 intersect -STARTLINE T Crop1.intersect}
+  addUserKnob {41 crop_1 l "black outside" -STARTLINE T Crop1.crop}
+ }
+  Input {
+   inputs 0
+   name Input1
+   xpos -349
+   ypos -370
+  }
+  Dot {
+   name Dot3
+   xpos -315
+   ypos -294
+  }
+set N29cfae30 [stack 0]
+  Dot {
+   name Dot2
+   xpos -315
+   ypos 315
+  }
+set N28874490 [stack 0]
+  Shuffle {
+   red black
+   green black
+   blue black
+   alpha black
+   black black
+   white black
+   red2 black
+   green2 black
+   name Shuffle1
+   label "effect only, at zero"
+   xpos 53
+   ypos 485
+  }
+push $N28874490
+push $N29cfae30
+  Dot {
+   name Dot4
+   xpos -195
+   ypos -294
+  }
+set N28855bb0 [stack 0]
+  Log2Lin {
+   operation lin2log
+   white 665
+   name Log2Lin
+   xpos -229
+   ypos -271
+   disable {{!parent.log i}}
+  }
+  Keyer {
+   output depth.Z
+   operation "luminance key"
+   range {0.2344635135 1 1 1}
+   name Keyer1
+   xpos -229
+   ypos -245
+  }
+set N10b542b0 [stack 0]
+push $N28855bb0
+  Copy {
+   inputs 2
+   from0 depth.Z
+   to0 rgba.alpha
+   name Copy1
+   xpos 189
+   ypos -216
+  }
+  Text {
+   output {rgba.red rgba.green rgba.blue -rgba.alpha}
+   message "You will find what you're\nlooking for in the alpha channel."
+   font /usr/share/fonts/msttcore/trebuc.ttf
+   size 80
+   xjustify center
+   yjustify center
+   Transform 1
+   box {0 0 {input.width i} {input.height i}}
+   center {914 666}
+   name Text1
+   xpos 189
+   ypos 64
+   addUserKnob {20 ean l Ean}
+   addUserKnob {7 padding R 0 200}
+   padding 100
+   addUserKnob {15 orig_box +HIDDEN}
+   orig_box {-50 -100 1878 1432}
+  }
+push $N28874490
+push $N28874490
+push $N10b542b0
+  Log2Lin {
+   white 665
+   name Lin2Log
+   xpos -229
+   ypos -207
+   disable {{!parent.log i}}
+  }
+  Premult {
+   channels rgba
+   alpha depth.Z
+   name Premult1
+   xpos -229
+   ypos -176
+  }
+  Multiply {
+   value {{parent.effect/10 i}}
+   name Multiply
+   xpos -229
+   ypos -130
+  }
+  NoOp {
+   name __dynamic_node_begin__
+   tile_color 0xff
+   xpos -229
+   ypos -80
+  }
+set N2901a810 [stack 0]
+  Glow {
+   brightness 0.07222041363
+   effect_only true
+   size {374.4914286 374.4914286}
+   name Glow9
+   xpos -129
+   ypos 234
+  }
+push $N2901a810
+  Glow {
+   brightness 0.10030613
+   effect_only true
+   size {187.2457143 187.2457143}
+   name Glow8
+   xpos -129
+   ypos 208
+  }
+push $N2901a810
+  Glow {
+   brightness 0.1393140695
+   effect_only true
+   size {93.62285714 93.62285714}
+   name Glow7
+   xpos -129
+   ypos 179
+  }
+push $N2901a810
+  Glow {
+   brightness 0.1934917632
+   effect_only true
+   size {46.81142857 46.81142857}
+   name Glow6
+   xpos -129
+   ypos 156
+  }
+push $N2901a810
+  Glow {
+   brightness 0.26873856
+   effect_only true
+   size {23.40571429 23.40571429}
+   name Glow5
+   xpos -129
+   ypos 130
+  }
+push $N2901a810
+  Glow {
+   brightness 0.373248
+   effect_only true
+   size {11.70285714 11.70285714}
+   name Glow4
+   xpos -129
+   ypos 104
+  }
+push $N2901a810
+  Glow {
+   brightness 0.5184
+   effect_only true
+   size {5.851428571 5.851428571}
+   name Glow3
+   xpos -128
+   ypos 78
+  }
+push 0
+push $N2901a810
+  Glow {
+   brightness 0.72
+   effect_only true
+   size {2.925714286 2.925714286}
+   name Glow2
+   xpos -129
+   ypos 51
+  }
+push $N2901a810
+  Glow {
+   effect_only true
+   size {1.462857143 1.462857143}
+   name Glow1
+   xpos -129
+   ypos 26
+  }
+  Merge2 {
+   inputs 9+1
+   operation plus
+   name __dynamic_node_end__
+   tile_color 0xff
+   xpos 43
+   ypos 228
+  }
+  Switch {
+   inputs 2
+   name Switch1
+   xpos 43
+   ypos 311
+  }
+  Merge2 {
+   inputs 2
+   operation plus
+   Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   name Merge1
+   xpos 43
+   ypos 360
+   disable {{parent.effect_only i}}
+  }
+  Crop {
+   box {{"input.format.x - parent.padding"} {"input.format.y - parent.padding"} {"input.format.r + parent.padding"} {"input.format.t + parent.padding"}}
+   name Crop1
+   xpos 43
+   ypos 398
+   disable {{!parent.crop}}
+  }
+  Switch {
+   inputs 2
+   which {{parent.view_luma_key i}}
+   name Switch2
+   xpos 189
+   ypos 398
+  }
+  Switch {
+   inputs 3
+   which {{"parent.effect_only ? (parent.diffuse == 0 || parent.effect == 0) ? 2 : 0 : parent.diffuse == 0 || parent.effect == 0"}}
+   name Switch3
+   xpos 189
+   ypos 689
+  }
+  Output {
+   name Output1
+   xpos 189
+   ypos 792
+  }
+ end_group
+set N32949b20 [stack 0]
+push $N3af03210
+ Merge2 {
+  inputs 2
+  operation atop
+  name Merge2
+  xpos -638
+  ypos 859
+ }
+push $N32949b20
+push $N3af03210
+ Merge2 {
+  inputs 2
+  operation in
+  bbox B
+  name Merge1
+  xpos -764
+  ypos 862
+ }
+ Shuffle {
+  alpha black
+  name Shuffle1
+  xpos -764
+  ypos 888
+ }
+push $N32949b20
+push $N3af03210
+ Unpremult {
+  name Unpremult1
+  xpos -884
+  ypos 772
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Plus
+  xpos -884
+  ypos 814
+ }
+ Premult {
+  name Premult1
+  xpos -884
+  ypos 858
+ }
+set N29cf94d0 [stack 0]
+ Switch {
+  inputs 2
+  which {{parent.effect_only}}
+  name SwitchWrapOnly
+  xpos -830
+  ypos 987
+ }
+ Output {
+  name Output1
+  xpos -830
+  ypos 1089
+ }
+push $N29cf94d0
+ Viewer {
+  frame_range 1001-1004
+  overscan 300
+  center_fstop 0
+  colour_sample_bbox {0.154296875 0.095703125 0.1552734375 0.0966796875}
+  near 1
+  far 100000
+  name Viewer1
+  xpos -1120
+  ypos 1083
+  hide_input true
+ }
+end_group
