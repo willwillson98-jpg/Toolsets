@@ -1,0 +1,323 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Group {
+name DeepSoftCrop17
+tile_color 0x6000
+selected true
+xpos 49631
+ypos 180569
+addUserKnob {20 deepSoftCropTab l DeepSoftCrop}
+addUserKnob {41 znear T Controller1.znear}
+addUserKnob {41 falloffNear l " falloff" -STARTLINE T Controller1.falloffNear}
+addUserKnob {41 use_znear l use -STARTLINE T Controller1.use_znear}
+addUserKnob {41 zfar T Controller1.zfar}
+addUserKnob {41 falloffFar l " falloff" -STARTLINE T Controller1.falloffFar}
+addUserKnob {41 use_zfar l use -STARTLINE T Controller1.use_zfar}
+addUserKnob {1 output l INVISIBLE +INVISIBLE}
+output "\[ expr \{ \[value use_znear] ?  \[value znear]: \"\" \}] \[ expr \{ \[value use_znear] ?  \"-\": \"\" \}] \[ expr \{ \[value use_zfar] ?  \[value zfar]: \"\" \}]"
+addUserKnob {26 WouterGilsing l "" +STARTLINE +INVISIBLE}
+}
+BackdropNode {
+inputs 0
+name BackdropNode1
+tile_color 0x3cff
+label near
+note_font_size 42
+xpos -1117
+ypos -469
+bdwidth 621
+bdheight 653
+}
+BackdropNode {
+inputs 0
+name BackdropNode2
+tile_color 0x3cff
+label far
+note_font_size 42
+xpos -1119
+ypos 437
+bdwidth 621
+bdheight 653
+}
+Input {
+inputs 0
+name Input
+label "\[value number]"
+xpos -588
+ypos -679
+}
+Dot {
+name Dot9
+xpos -554
+ypos -389
+}
+set N225b8100 [stack 0]
+Dot {
+name Dot8
+xpos -727.6666667
+ypos -389
+}
+set N2258f900 [stack 0]
+Dot {
+name Dot11
+xpos -901.3333333
+ypos -389
+}
+set N2258f200 [stack 0]
+Dot {
+name Dot2
+xpos -1075
+ypos -389
+}
+DeepCrop {
+znear {{"parent.znear - parent.falloffNear"}}
+zfar {{parent.znear}}
+bbox {431.6000061 242.8000031 1726.400024 971.2000122}
+use_bbox false
+name DeepCrop2
+label "\[ expr \{ \[value use_znear] ?  \[value znear]: \"\" \}] \[ expr \{ \[value use_znear] ?  \"-\": \"\" \}] \[ expr \{ \[value use_zfar] ?  \[value zfar]: \"\" \}]"
+xpos -1109
+ypos -311
+}
+DeepExpression {
+chans1 rgba
+rgba.red "rgba.red / rgba.alpha"
+rgba.green "rgba.green / rgba.alpha"
+rgba.blue "rgba.blue / rgba.alpha"
+name DeepUnpremult2
+xpos -1109
+ypos -181
+}
+DeepExpression {
+temp_name0 near
+temp_expr0 "\[value parent.znear] - \[value parent.falloffNear]"
+temp_name1 far
+temp_expr1 "\[value parent.znear]"
+chans0 alpha
+chans1 none
+rgba.alpha "alpha * ((deep.front - near) / (far - near))"
+name DeepExpression1
+xpos -1109
+ypos -140
+}
+DeepExpression {
+chans1 rgba
+rgba.red "rgba.red * rgba.alpha"
+rgba.green "rgba.green * rgba.alpha"
+rgba.blue "rgba.blue * rgba.alpha"
+name DeepPremult1
+xpos -1109
+ypos -97
+}
+Dot {
+name Dot1
+xpos -1075
+ypos -13
+}
+push $N2258f200
+DeepCrop {
+znear 0
+use_znear false
+zfar {{parent.znear}}
+outside_zrange true
+bbox {431.6000061 242.8000031 1726.400024 971.2000122}
+use_bbox false
+name DeepCrop3
+label "\[ expr \{ \[value use_znear] ?  \[value znear]: \"\" \}] \[ expr \{ \[value use_znear] ?  \"-\": \"\" \}] \[ expr \{ \[value use_zfar] ?  \[value zfar]: \"\" \}]"
+xpos -935
+ypos -312
+}
+DeepMerge {
+inputs 2
+name DeepMerge1
+xpos -935.3333333
+ypos -17
+}
+Dot {
+name Dot10
+xpos -901.3333333
+ypos 54
+}
+push $N2258f900
+DeepCrop {
+znear {{parent.znear}}
+zfar 200
+use_zfar false
+bbox {431.6000061 242.8000031 1726.400024 971.2000122}
+use_bbox false
+name DeepCrop5
+label "\[ expr \{ \[value use_znear] ?  \[value znear]: \"\" \}] \[ expr \{ \[value use_znear] ?  \"-\": \"\" \}] \[ expr \{ \[value use_zfar] ?  \[value zfar]: \"\" \}]"
+xpos -761
+ypos -311
+}
+Switch {
+inputs 2
+which {{"parent.falloffNear != 0"}}
+name Switch2
+label "\[value which]"
+xpos -761.6666667
+ypos 44
+}
+Dot {
+name Dot7
+xpos -727.6666667
+ypos 152
+}
+push $N225b8100
+Switch {
+inputs 2
+which {{parent.use_znear}}
+name Switch1
+label "\[value which]"
+xpos -588
+ypos 142
+}
+Dot {
+name Dot3
+xpos -554
+ypos 517
+}
+set N2255cf00 [stack 0]
+Dot {
+name Dot4
+xpos -727
+ypos 517
+}
+set N2255c800 [stack 0]
+Dot {
+name Dot5
+xpos -901
+ypos 517
+}
+set N2255c100 [stack 0]
+Dot {
+name Dot6
+xpos -1075
+ypos 517
+}
+DeepCrop {
+znear {{parent.zfar}}
+zfar {{"parent.zfar + parent.falloffFar"}}
+bbox {431.6000061 242.8000031 1726.400024 971.2000122}
+use_bbox false
+name DeepCrop1
+label "\[ expr \{ \[value use_znear] ?  \[value znear]: \"\" \}] \[ expr \{ \[value use_znear] ?  \"-\": \"\" \}] \[ expr \{ \[value use_zfar] ?  \[value zfar]: \"\" \}]"
+xpos -1109
+ypos 594
+}
+DeepExpression {
+chans1 rgba
+rgba.red "rgba.red / rgba.alpha"
+rgba.green "rgba.green / rgba.alpha"
+rgba.blue "rgba.blue / rgba.alpha"
+name DeepUnpremult1
+xpos -1109
+ypos 702
+}
+DeepExpression {
+temp_name0 near
+temp_expr0 "\[value parent.zfar]"
+temp_name1 far
+temp_expr1 "\[value parent.zfar] + \[value parent.falloffFar]"
+chans0 alpha
+chans1 none
+rgba.alpha "alpha * (1 - ((deep.front - near) / (far - near)))"
+name DeepExpression2
+xpos -1109
+ypos 742
+}
+DeepExpression {
+chans1 rgba
+rgba.red "rgba.red * rgba.alpha"
+rgba.green "rgba.green * rgba.alpha"
+rgba.blue "rgba.blue * rgba.alpha"
+name DeepPremult2
+xpos -1109
+ypos 785
+}
+Dot {
+name Dot12
+xpos -1075
+ypos 893
+}
+push $N2255c100
+DeepCrop {
+znear {{parent.zfar}}
+zfar 0
+use_zfar false
+outside_zrange true
+bbox {431.6000061 242.8000031 1726.400024 971.2000122}
+use_bbox false
+name DeepCrop4
+label "\[ expr \{ \[value use_znear] ?  \[value znear]: \"\" \}] \[ expr \{ \[value use_znear] ?  \"-\": \"\" \}] \[ expr \{ \[value use_zfar] ?  \[value zfar]: \"\" \}]"
+xpos -935
+ypos 593
+}
+DeepMerge {
+inputs 2
+name DeepMerge2
+xpos -935
+ypos 889
+}
+Dot {
+name Dot13
+xpos -901
+ypos 960
+}
+push $N2255c800
+DeepCrop {
+znear 0
+zfar {{parent.zfar}}
+bbox {431.6000061 242.8000031 1726.400024 971.2000122}
+use_bbox false
+name DeepCrop6
+label "\[ expr \{ \[value use_znear] ?  \[value znear]: \"\" \}] \[ expr \{ \[value use_znear] ?  \"-\": \"\" \}] \[ expr \{ \[value use_zfar] ?  \[value zfar]: \"\" \}]"
+xpos -761
+ypos 592
+}
+Switch {
+inputs 2
+which {{"parent.falloffFar != 0"}}
+name Switch3
+label "\[value which]"
+xpos -761
+ypos 950
+}
+Dot {
+name Dot14
+xpos -727
+ypos 1058
+}
+push $N2255cf00
+Switch {
+inputs 2
+which {{parent.use_zfar}}
+name Switch4
+label "\[value which]"
+xpos -588
+ypos 1048
+}
+Output {
+name Output1
+xpos -588
+ypos 1563
+}
+DeepCrop {
+inputs 0
+znear 0
+zfar 6
+bbox {431.6000061 242.8000031 1726.400024 971.2000122}
+use_bbox false
+name Controller1
+onCreate "node = nuke.thisGroup()\nfor mode in \['near', 'far']:\n    state = node.knob('use_z\{\}'.format(mode)).value()\n    for knobName in \['falloff\{\}'.format(mode.title()), 'z\{\}'.format(mode)]:\n        node.knob(knobName).setEnabled(state)\n    node.knob('z\{\}'.format(mode)).setRange(0,200)"
+knobChanged "node = nuke.thisGroup()\nfor mode in \['near', 'far']:\n    state = node.knob('use_z\{\}'.format(mode)).value()\n    for knobName in \['falloff\{\}'.format(mode.title()), 'z\{\}'.format(mode)]:\n        node.knob(knobName).setEnabled(state)"
+label "\[ expr \{ \[value use_znear] ?  \[value znear]: \"\" \}] \[ expr \{ \[value use_znear] ?  \"-\": \"\" \}] \[ expr \{ \[value use_zfar] ?  \[value zfar]: \"\" \}]"
+xpos -155
+ypos -453
+addUserKnob {20 falloffTab l Falloff}
+addUserKnob {7 falloffNear l near R 0 10}
+addUserKnob {7 falloffFar l far R 0 10}
+falloffFar 2
+}
+end_group
