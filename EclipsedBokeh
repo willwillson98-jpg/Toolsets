@@ -1,0 +1,643 @@
+set cut_paste_input [stack 0]
+version 14.1 v5
+push $cut_paste_input
+Group {
+ name EclipsedBokeh
+ knobChanged "\nif nuke.thisKnob().name() == \"Output\": \n\n    # getValue() returns the ID, whereas value() returns the string name\n    if nuke.thisKnob().getValue() == 0:\n        nuke.thisNode().knob('TestSettingsGroup').setVisible(False)\n\n    if nuke.thisKnob().getValue() == 1:\n        nuke.thisNode().knob('TestSettingsGroup').setVisible(True)\n        \n    if nuke.thisKnob().getValue() != 2:\n        nuke.thisNode().knob('TestBokehPicker').setVisible(False)\n    if nuke.thisKnob().getValue() == 2:\n        nuke.thisNode().knob('TestBokehPicker').setVisible(True)\n        nuke.thisNode().knob('TestSettingsGroup').setVisible(True)\n        \n    if nuke.thisKnob().getValue() != 3:\n        nuke.thisNode().knob('TextEclipseBokehOffWarn').setVisible(False)\n    if nuke.thisKnob().getValue() == 3:\n        nuke.thisNode().knob('TextEclipseBokehOffWarn').setVisible(True)   \n        nuke.thisNode().knob('TestSettingsGroup').setVisible(False) "
+ tile_color 0x3b3d62ff
+ label "\[expr \{\[value AlphaMode] == \"Background (solid alpha in/out)\" ? \"Background\" : \"\"\} ]\[expr \{\[value AlphaMode] == \"Midground (areas of transparency required)\" ? \"Midground\" : \"\"\} ]\n\[value FocusPocus]"
+ selected true
+ xpos 39819
+ ypos 179957
+ addUserKnob {20 SettingsTab l Settings}
+ addUserKnob {4 AlphaMode l Mode t "Set \"Background\" if defocusing a backplate/fully alpha'd background image. The slightly faster mode.\n\nSet \"Midground\" if defocusing an element that has other something both behind and in front, like leaves, and a defocused alpha needs to be outputted too.\n\nIf there are no elements in front of this, you should use a typical ZDefocus/pgBokeh setup." M {"Background (solid alpha in/out)" "Midground (areas of transparency required)" "" "" "" "" "" ""}}
+ addUserKnob {4 Output M {"Defocus (default)" "Test Grid" "Test Bokeh Picker" "Traditional Defocus (no eclipsed bokeh)" "" ""}}
+ addUserKnob {26 TextEclipseBokehOffWarn l "" +STARTLINE +HIDDEN T "<font color=#ff7700><center>\nEclipsed Bokeh is off. Turn it on in the Output dropdown, or\n<br>consider using a more tested defocuser like ZDefocus or Bokeh\n</font>"}
+ addUserKnob {12 TestBokehPicker l "Test Bokeh Picker" t "Move the Picker in the viewer to see a bokeh" +HIDDEN}
+ TestBokehPicker {1050 550}
+ addUserKnob {20 TestSettingsGroup l "Test Settings" +HIDDEN n 1}
+ addUserKnob {6 TestGridFixedDepth l "Test Grid Fixed Depth" t "Toggle between a fixed defocus amount (which can be set here), and the input's depth" +STARTLINE}
+ TestGridFixedDepth true
+ addUserKnob {7 TestGridDefocus l "Test Grid Defocus" R 0 100}
+ TestGridDefocus 100
+ addUserKnob {7 TestGridIntensity l "Test Grid Intensity" R 0 100}
+ TestGridIntensity 10000
+ addUserKnob {14 TestGridOffset l "Test Grid Offset" t "Distance between the bokehs" R 0 100}
+ TestGridOffset 250
+ addUserKnob {26 ""}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 spacer2 l "" +STARTLINE T "\n"}
+ addUserKnob {7 Scale R 0 2}
+ Scale 1
+ addUserKnob {7 AspectRatio l "Aspect Ratio" R 0 2}
+ AspectRatio 1
+ addUserKnob {7 Maximum t "Maximum radius the bokeh size can be.\nCheck \"Limit Bokeh Size\" to stop the bokeh from clipping the edges of this box" R 0 100}
+ Maximum 50
+ addUserKnob {6 LimitBokehSize l "Limit Bokeh Size" t "When ticked, the bokeh won't get larger than the Maximum radius set. This is how ZDefocus behaves.\n\nUnticked, the bokeh can get bigger, but will start to get cropped into a square by the Maximum value.\n\nDefaulted to being off, because it's easier to see when your Maximum isn't high enough." -STARTLINE}
+ LimitBokehSize true
+ addUserKnob {7 BGDefocus l "BG Defocus (manual)" t "When enabled, this value will be the radius of the bokeh.\n\n+ve means it's further behind the focal plane.\n-ve means it's between the focal plane and the camera.\n\nBG defocus amount should be greater than the FG defocus amount, as it's further away." R -50 50}
+ BGDefocus 40
+ addUserKnob {6 BGOverride l "BG Override" -STARTLINE}
+ addUserKnob {7 FGDefocus l "FG Defocus (manual)" t "When enabled, this value will be the radius of the bokeh.\n\n+ve means it's further behind the focal plane.\n-ve means it's between the focal plane and the camera.\n\nBG defocus amount should be greater than the FG defocus amount, as it's further away." R -50 50}
+ FGDefocus -450
+ addUserKnob {6 FGOverride l "FG Override" -STARTLINE}
+ addUserKnob {6 CropToFormat l "Crop to Format" +STARTLINE}
+ CropToFormat true
+ addUserKnob {6 AlphaTweak l "Alpha Tweak" t "Default = on.\n\nMakes the FG's alpha 99%, so that the Unpremulted image doesn't give black areas.\n\nThe black areas should only be appearing where it's fully covered by the FG, but think of this as a safety net, just in case.\n\nThis toggle is here just for troubleshooting." +STARTLINE}
+ AlphaTweak true
+ addUserKnob {7 ResolutionScale l "Resolution Scale" t "0 - 1.\n1 = full resolution,\n0.5 = half the processing resolution,\nand so on.\n\nRecommend you try lowering this value below 1 to get render times acceptable.\n\nQuality difference is only really noticeable when fairly in focus, or on clear, crisp bokeh; so check for any of those when lowering.\n\nMakes a dramatic time difference for very defocused shots (like a Maximum of 125) where a setting of 0.5 can take CPU farm render times from 60 mins down to 6 mins."}
+ ResolutionScale 1
+ addUserKnob {26 spacer_1 l "" +STARTLINE T " "}
+ addUserKnob {26 CatsEyeDivider l "Cats' Eye"}
+ addUserKnob {12 CanvasSize l "Input Resolution"}
+ CanvasSize {{width} {height}}
+ addUserKnob {12 CatsEyeCentre l Centre}
+ CatsEyeCentre {2048 1080}
+ addUserKnob {6 CatsEyePosOverride l "Cats Eye Position Override" t "Disabled = centre of image\nEnabled = manual position" -STARTLINE}
+ addUserKnob {26 spacer_2 l "" +STARTLINE T " "}
+ addUserKnob {14 CatsEyeAmount l Amount t "How much cats eye effect is added.\nTypically you want this to be a -ve value.\nWhether it should technically ever be a +ve value is TBC, but can be set here in case you want it.\n\nNote, the cats eye effect will, like the rest of the eclipsed bokeh effect recreated here, naturally invert depending on whether you're defocusing something in front of or behind the focal plane." R 0 100}
+ CatsEyeAmount {0 0}
+ addUserKnob {7 CatsEyeEdgeBrightness l "Edge Brightness" t "Gives a brighter ring on the eclipsed edge, to add or bring back an edge lost by the clipping"}
+ CatsEyeEdgeBrightness 1
+ addUserKnob {7 CatsEyeEdgeThickness l "Edge Thickness" t "If a bright edge is added, this is the thickness of it" R 0 10}
+ CatsEyeEdgeThickness 0.9
+ addUserKnob {26 spacer_3 l "" +STARTLINE T " "}
+ addUserKnob {26 ""}
+ addUserKnob {1 FocusPocus}
+ FocusPocus FocusPocus1
+ addUserKnob {26 versionNo l "" +STARTLINE T "\nv0.1.8.1"}
+ addUserKnob {20 AboutTab l About}
+ addUserKnob {26 AboutText l "" +STARTLINE T "What is this?:\nThis defocuser takes into account the foreground image\nand its depth when defocusing the background, to better \nrepresent what really happens. This phononenon is called \neclipsed bokeh, and it's what gives the warping and extra \ndetail weirdness sometimes seen with out of focus objects.\n\n\nNotes:\n- This uses the GPU, meaning it will run slower on the farm.\nMake sure to test it.\n- At high Maximum (e.g. over 100), this can get very slow.\nBut at high values, you can usually drop the Resolution\nScale down to 0.5 without loss of quality. This will massively\nspeed things up again.\n- Edges for sharp changes in BG depth aren't handled as\nwell as zDefocus/pgBokeh, so it's recommended to\ncompare against them if defocusing more than a simple plane\n- There's a current limitation that means when the BG gets \nclose to in focus, the effect can go a bit wobbly.\n- Cats Eye happens because of eclipsed bokeh, so this \ndefocuser can be used to recreate that, with a radial mask\nrepresenting the lens barrel as the FG. However, if only\nusing this for a simple Cats Eye, consider other, more tested\nnodes out there that may give better edges when the depth\nvaries a lot (e.g. by using slices).\n\n\n- Chris Berry"}
+ addUserKnob {20 fAsset}
+ addUserKnob {52 Summary l "" -STARTLINE T "__import__(\"nukeFNodeManager.ui.nodepropertyknob\",fromlist=\[\"NodePropertyKnob\"]).NodePropertyKnob()"}
+ addUserKnob {1 plapp_node_type +HIDDEN}
+ plapp_node_type FAssetGroup
+ addUserKnob {20 Developer}
+ addUserKnob {6 is_group -STARTLINE}
+ addUserKnob {1 v_uid}
+ addUserKnob {1 file_uid}
+ addUserKnob {1 location_name}
+ location_name vault
+ addUserKnob {1 asset_type}
+ asset_type nuke_script
+ addUserKnob {1 file_format}
+ file_format nk
+ addUserKnob {1 gv_uid}
+ addUserKnob {1 group_type}
+ addUserKnob {6 load -STARTLINE}
+ addUserKnob {6 is_loaded -STARTLINE}
+ is_loaded true
+ addUserKnob {1 set_loader}
+ addUserKnob {1 loader}
+ loader nuke_script_loader
+ addUserKnob {1 set_loader_attrs}
+ addUserKnob {1 current_loader_attrs}
+ addUserKnob {6 lock_version -STARTLINE}
+ lock_version true
+ addUserKnob {6 lock_sub_asset_version -STARTLINE}
+ addUserKnob {6 edit_mode -STARTLINE}
+ addUserKnob {1 file +HIDDEN}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x544533ff
+  label "Test Outputs"
+  note_font_size 42
+  xpos 133
+  ypos -185
+  bdwidth 231
+  bdheight 398
+ }
+ Input {
+  inputs 0
+  name BG
+  xpos -20
+  ypos -305
+ }
+set N387f38a0 [stack 0]
+ Dot {
+  name Dot6
+  xpos 14
+  ypos -56
+ }
+set N2d0e6dc0 [stack 0]
+ Expression {
+  temp_name0 z
+  temp_expr0 "depth.Z * unitsConversion"
+  temp_name1 applyblurcurve
+  temp_expr1 "depth.Z > 0 ? (((( focalLength / (N) ) * (((focalPoint * unitsConversion ) * focalLength ) / ( ( focalPoint * unitsConversion ) - focalLength ) ) * abs( ( 1 / ( z ) ) - ( 1 / ( focalPoint * unitsConversion ) ) ) ) / haperture ) * width )/2 : 0"
+  temp_name2 expMult
+  temp_expr2 "z < (focalPoint * unitsConversion )?((smoothstep((focalPoint * unitsConversion )-(ifs * cheat_forward), (focalPoint * unitsConversion ),(z))*-1)+1):(smoothstep(( focalPoint * unitsConversion), ( focalPoint * unitsConversion) + (bs * cheat_backward),(z)))"
+  temp_name3 result
+  temp_expr3 applyblurcurve*expMult
+  channel0 depth
+  expr0 "depth.Z >= focalPoint ? result : -result"
+  name Expression32
+  label "\[value parentName]\n+ve for far, -ve for close"
+  xpos -20
+  ypos 32
+  addUserKnob {20 focusPocusTab l FocusPocus}
+  addUserKnob {1 parentName l parent}
+  parentName "\[value parent.FocusPocus]"
+  addUserKnob {22 findParent l " find " -STARTLINE T "focusPocusNode = nuke.toNode(nuke.thisNode().knob(\"parentName\").value())nuke.zoom( 2, \[focusPocusNode.xpos(), focusPocusNode.ypos()])"}
+  addUserKnob {78 unitsConversion +HIDDEN n 1}
+  unitsConversion {{"\[value parentName].unitsConversion"}}
+  addUserKnob {78 N +HIDDEN n 1}
+  N {{"\[value parentName].N"}}
+  addUserKnob {78 focalLength +HIDDEN n 1}
+  focalLength {{"\[value parentName].focalLength"}}
+  addUserKnob {78 focalPoint +HIDDEN n 1}
+  focalPoint {{"\[value parentName].focalPoint"}}
+  addUserKnob {78 haperture +HIDDEN n 1}
+  haperture {{"\[value parentName].haperture"}}
+  addUserKnob {78 vaperture +HIDDEN n 1}
+  vaperture {{"\[value parentName].vaperture"}}
+  addUserKnob {78 bs +HIDDEN n 1}
+  bs {{"\[value parentName].bs"}}
+  addUserKnob {78 ifs +HIDDEN n 1}
+  ifs {{"\[value parentName].ifs"}}
+  addUserKnob {78 cheat_forward +HIDDEN n 1}
+  cheat_forward {{"\[value parentName].cheat_forward"}}
+  addUserKnob {78 cheat_backward +HIDDEN n 1}
+  cheat_backward {{"\[value parentName].cheat_backward"}}
+ }
+set N2d02de80 [stack 0]
+push $N2d0e6dc0
+ Expression {
+  channel0 depth
+  expr0 parent.TestGridDefocus
+  name Expression1
+  label "Changing depth"
+  xpos 256
+  ypos -66
+ }
+push $N2d0e6dc0
+ Switch {
+  inputs 2
+  which {{parent.TestGridFixedDepth}}
+  name Switch4
+  label "Test output 'fixed depth checkbox'"
+  xpos 171
+  ypos -15
+ }
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle1
+  label 0000
+  xpos 171
+  ypos 37
+ }
+set N4c253880 [stack 0]
+ Expression {
+  temp_name0 xPicker
+  temp_expr0 "\[value parent.TestBokehPicker.x]"
+  temp_name1 yPicker
+  temp_expr1 "\[value parent.TestBokehPicker.y]"
+  temp_name2 value
+  temp_expr2 "\[value parent.TestGridIntensity]"
+  expr0 "x == xPicker? y == yPicker ? value :0 :0"
+  expr1 "x == xPicker? y == yPicker ? value :0 :0"
+  expr2 "x == xPicker? y == yPicker ? value :0 :0"
+  expr3 "x == xPicker? y == yPicker ? value :0 :0"
+  name Expression2
+  label "For TestBokehPicker"
+  xpos 281
+  ypos 79
+ }
+ Crop {
+  box {0 0 4096 2160}
+  name Crop2
+  xpos 281
+  ypos 139
+ }
+ Dot {
+  name Dot4
+  xpos 315
+  ypos 165
+ }
+push $N4c253880
+ Expression {
+  expr0 fmod(x,offsetX)==0?fmod(y,offsetY)==0?random_colors?random:value:0:0
+  expr1 fmod(x,offsetX)==0?fmod(y,offsetY)==0?random_colors?random:value:0:0
+  expr2 fmod(x,offsetX)==0?fmod(y,offsetY)==0?random_colors?random:value:0:0
+  expr3 fmod(x,offsetX)==0?fmod(y,offsetY)==0?random_colors?1:value:0:0
+  name Points
+  label "From:\nhttp://www.andreageremia.it/tutorial_expression_node.html"
+  note_font_size 10
+  xpos 171
+  ypos 75
+  addUserKnob {20 User}
+  addUserKnob {7 value}
+  value {{parent.TestGridIntensity}}
+  addUserKnob {6 random_colors l "random colors" -STARTLINE}
+  addUserKnob {7 offsetX R 0 100}
+  offsetX {{parent.TestGridOffset.w}}
+  addUserKnob {7 offsetY R 0 100}
+  offsetY {{parent.TestGridOffset.h}}
+ }
+ Crop {
+  box {0 0 4096 2160}
+  name Crop1
+  xpos 171
+  ypos 137
+ }
+push $N2d02de80
+ Switch {
+  inputs 4
+  which {{parent.Output}}
+  name Switch2
+  label "'Output' Switch"
+  xpos -20
+  ypos 155
+ }
+ Clamp {
+  channels alpha
+  name Clamp3
+  xpos -20
+  ypos 193
+ }
+set N2a35eb10 [stack 0]
+ Expression {
+  channel0 depth
+  expr0 "depth.Z < 0.0001 && depth.Z > -0.0001 ? 0.0001 : depth.Z"
+  name Expression33
+  label "if depth = 0,\nmake not = 0"
+  xpos -20
+  ypos 261
+ }
+ Log2Lin {
+  operation lin2log
+  gamma 0.7
+  name Log2Lin1
+  xpos -20
+  ypos 468
+  disable true
+ }
+ Reformat {
+  type scale
+  scale {{parent.ProcessedVariables.ResolutionScale}}
+  pbb true
+  name Reformat1
+  xpos -20
+  ypos 494
+ }
+ Log2Lin {
+  gamma 0.7
+  name Log2Lin2
+  xpos -20
+  ypos 520
+  disable true
+ }
+set N2b55fca0 [stack 0]
+ Shuffle {
+  in depth
+  name Shuffle40
+  label "\[value in]"
+  xpos -270
+  ypos 616
+ }
+set N9e52d90 [stack 0]
+ fStat {
+  type Max
+  name fStat2
+  xpos -380
+  ypos 622
+ }
+ Reformat {
+  type "to box"
+  box_width 1
+  filter Lanczos4
+  name Reformat23
+  xpos -380
+  ypos 648
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  label "If you get a NaN error in the FG depth,\nCheck the FocusPocus' focal point isn't 0. "
+  xpos 109
+  ypos 596
+ }
+ Input {
+  inputs 0
+  name FG
+  xpos 399
+  ypos -293
+  number 1
+ }
+ Dot {
+  name Dot5
+  xpos 433
+  ypos -38
+ }
+set Nf264e50 [stack 0]
+ NoOp {
+  name FGConnected
+  label "\[if \{\[numvalue FGConnected] == 0\} \{return \"No\"\} else \{return \"Yes\"\}]"
+  xpos 501
+  ypos -48
+  addUserKnob {20 User}
+  addUserKnob {3 FGInputNumber l "FG input number" t "the input number for FG for EclipsedBokeh group. This is for checking if there's anything connected to it"}
+  FGInputNumber 1
+  addUserKnob {3 FGConnected l "FG Connected" t "checks to make sure there's an FG connected. If there is, it = 1, otherwise 0"}
+  FGConnected {{"\[exists parent.input\[value FGInputNumber].hide_input]"}}
+ }
+push $N387f38a0
+ NoOp {
+  name ProcessedVariables
+  note_font_size 15
+  xpos -204
+  ypos -121
+  addUserKnob {20 User}
+  addUserKnob {7 ResolutionScale}
+  ResolutionScale {{"parent.ResolutionScale <= 0 ? 0.01 :\nparent.ResolutionScale > 1 ? 1 :\nparent.ResolutionScale"}}
+  addUserKnob {12 CanvasSize l Width/Height t "Image size exclusing overscan"}
+  CanvasSize {{"parent.CanvasSize * ResolutionScale"} {"parent.CanvasSize * ResolutionScale"}}
+  addUserKnob {12 CatsEyeCentre}
+  CatsEyeCentre {{"parent.CatsEyeCentre * ResolutionScale"} {"parent.CatsEyeCentre * ResolutionScale"}}
+  addUserKnob {7 Maximum t "User input, multiplied by Resolution Scale"}
+  Maximum {{"parent.Maximum * ResolutionScale"}}
+  addUserKnob {7 BGDefocusManual t "The user input, multiplied by Resolution Scale"}
+  BGDefocusManual {{"parent.BGDefocus * ResolutionScale"}}
+  addUserKnob {7 FGDefocusManual t "The user input, multiplied by Resolution Scale"}
+  FGDefocusManual {{"parent.FGDefocus * ResolutionScale"}}
+  addUserKnob {26 divider1 l "Camera + Lens (WIP)"}
+  addUserKnob {1 FocusPocus}
+  FocusPocus "\[value parent.FocusPocus]"
+ }
+ Input {
+  inputs 0
+  name Filter
+  xpos -437
+  ypos -297
+  number 2
+ }
+ Dot {
+  name Dot73
+  xpos -403
+  ypos 772
+ }
+set N31273660 [stack 0]
+push $N2a35eb10
+ Dot {
+  name Dot2
+  xpos -490
+  ypos 203
+ }
+ ZDefocus2 {
+  inputs 2
+  math -direct
+  size 1
+  max_size {{parent.Maximum}}
+  layerCurve 0.5
+  filter_type image
+  legacy_resize_mode false
+  aspect {{"parent.\[value parentName].aspect == 1?1:0.5"}}
+  name ZDefocus2
+  label "\[value parentName]"
+  xpos -524
+  ypos 950
+  disable {{"parent.\[value parentName].guiSwitch && parent.\[value parentName].farmSwitch? 0 : !parent.\[value parentName].guiSwitch && !parent.\[value parentName].farmSwitch? 1 : !parent.\[value parentName].guiSwitch && parent.\[value parentName].farmSwitch? \$gui : 0"}}
+  addUserKnob {20 focusPocusTab l FocusPocus}
+  addUserKnob {1 parentName l parent}
+  parentName "\[value parent.FocusPocus]"
+  addUserKnob {22 findParent l " find " -STARTLINE T "focusPocusNode = nuke.toNode(nuke.thisNode().knob(\"parentName\").value())nuke.zoom( 2, \[focusPocusNode.xpos(), focusPocusNode.ypos()])"}
+ }
+push $Nf264e50
+ Expression {
+  temp_name0 z
+  temp_expr0 "depth.Z * unitsConversion"
+  temp_name1 applyblurcurve
+  temp_expr1 "depth.Z > 0 ? (((( focalLength / (N) ) * (((focalPoint * unitsConversion ) * focalLength ) / ( ( focalPoint * unitsConversion ) - focalLength ) ) * abs( ( 1 / ( z ) ) - ( 1 / ( focalPoint * unitsConversion ) ) ) ) / haperture ) * width )/2 : 0"
+  temp_name2 expMult
+  temp_expr2 "z < (focalPoint * unitsConversion )?((smoothstep((focalPoint * unitsConversion )-(ifs * cheat_forward), (focalPoint * unitsConversion ),(z))*-1)+1):(smoothstep(( focalPoint * unitsConversion), ( focalPoint * unitsConversion) + (bs * cheat_backward),(z)))"
+  temp_name3 result
+  temp_expr3 applyblurcurve*expMult
+  channel0 depth
+  expr0 "depth.Z >= focalPoint ? result : -result"
+  name Expression7
+  label "\[value parentName]\n+ve for far, -ve for close"
+  xpos 399
+  ypos 94
+  addUserKnob {20 focusPocusTab l FocusPocus}
+  addUserKnob {1 parentName l parent}
+  parentName "\[value parent.FocusPocus]"
+  addUserKnob {22 findParent l " find " -STARTLINE T "focusPocusNode = nuke.toNode(nuke.thisNode().knob(\"parentName\").value())nuke.zoom( 2, \[focusPocusNode.xpos(), focusPocusNode.ypos()])"}
+  addUserKnob {78 unitsConversion +HIDDEN n 1}
+  unitsConversion {{"\[value parentName].unitsConversion"}}
+  addUserKnob {78 N +HIDDEN n 1}
+  N {{"\[value parentName].N"}}
+  addUserKnob {78 focalLength +HIDDEN n 1}
+  focalLength {{"\[value parentName].focalLength"}}
+  addUserKnob {78 focalPoint +HIDDEN n 1}
+  focalPoint {{"\[value parentName].focalPoint"}}
+  addUserKnob {78 haperture +HIDDEN n 1}
+  haperture {{"\[value parentName].haperture"}}
+  addUserKnob {78 vaperture +HIDDEN n 1}
+  vaperture {{"\[value parentName].vaperture"}}
+  addUserKnob {78 bs +HIDDEN n 1}
+  bs {{"\[value parentName].bs"}}
+  addUserKnob {78 ifs +HIDDEN n 1}
+  ifs {{"\[value parentName].ifs"}}
+  addUserKnob {78 cheat_forward +HIDDEN n 1}
+  cheat_forward {{"\[value parentName].cheat_forward"}}
+  addUserKnob {78 cheat_backward +HIDDEN n 1}
+  cheat_backward {{"\[value parentName].cheat_backward"}}
+ }
+ Log2Lin {
+  operation lin2log
+  gamma 0.7
+  name Log2Lin4
+  xpos 399
+  ypos 441
+  disable true
+ }
+ Reformat {
+  type scale
+  scale {{Reformat1.scale}}
+  filter Keys
+  pbb true
+  name Reformat2
+  xpos 399
+  ypos 467
+ }
+ Log2Lin {
+  gamma 0.7
+  name Log2Lin3
+  xpos 399
+  ypos 493
+  disable true
+ }
+ Dot {
+  name Dot71
+  xpos 433
+  ypos 647
+ }
+set N2c631650 [stack 0]
+ Shuffle {
+  in depth
+  name Shuffle39
+  label "\[value in]"
+  xpos 165
+  ypos 637
+ }
+ Multiply {
+  value {{Reformat1.scale}}
+  name Multiply2
+  xpos 165
+  ypos 675
+ }
+push $N9e52d90
+ Multiply {
+  value {{Reformat1.scale}}
+  name Multiply1
+  xpos -270
+  ypos 654
+ }
+push $N2c631650
+ Clamp {
+  name Clamp1
+  xpos 399
+  ypos 679
+ }
+ Grade {
+  channels alpha
+  multiply 0.995
+  name Grade30
+  xpos 399
+  ypos 717
+  disable {{"1 - AlphaTweak"}}
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle41
+  xpos 399
+  ypos 768
+ }
+ Invert {
+  channels rgba
+  name Invert7
+  xpos 289
+  ypos 768
+ }
+ FilterErode {
+  channels rgba
+  size -1
+  name FilterErode8
+  xpos 179
+  ypos 768
+ }
+push $N31273660
+push $N2b55fca0
+ Dot {
+  name Dot1
+  xpos 14
+  ypos 591
+ }
+set N2d2c0440 [stack 0]
+ Grade {
+  channels alpha
+  black 0.0001
+  name Grade38
+  label "Help remove unpremult pixel errors\nbecause the alpha is generated separately"
+  xpos -124
+  ypos 607
+ }
+push $N2d2c0440
+ Switch {
+  inputs 2
+  which {{parent.AlphaMode}}
+  name Switch3
+  xpos -20
+  ypos 674
+ }
+ BlinkScript {
+  inputs 5
+  recompileCount 223
+  ProgramGroup 1
+  KernelDescription "3 \"ConvolutionKernel\" iterate pixelWise 4cae7ecd3a30fc595fad072938da7ac451bdc3bb071261696c50affc8ec8ecbc 6 \"BG_Input\" Read Ranged2D \"filter\" Read Random \"fgHoldout\" Read Random \"bgDepth\" Read Ranged2D \"fgDepth\" Read Ranged2D \"dst\" Write Point 16 \"Use Eclipsed Bokeh\" Bool 1 AQ== \"Scale\" Float 1 AACAPw== \"Aspect Ratio\" Float 1 AACAPw== \"Maximum\" Float 1 AADwQQ== \"Limit Bokeh Size\" Bool 1 AA== \"BG Defocus (manual)\" Float 1 AADwQQ== \"BG Override\" Bool 1 AA== \"FG Defocus (manual)\" Float 1 AADwwQ== \"FG Override\" Bool 1 AA== \"Width/Height\" Float 2 AADwRAAAh0Q= \"Crop to Format\" Bool 1 AQ== \"Cats Eye Centre\" Float 2 AADwRAAAh0Q= \"Cats Eye Position Override\" Bool 1 AA== \"Cats Eye Amount\" Float 2 AAAAAAAAAAA= \"Cats Eye Rim Brightness\" Float 1 AAAAQA== \"Cats Eye Rim Thickness\" Float 1 AACAPw== 16 \"UseEclipsedBokeh\" 1 1 Default \"Scale\" 1 1 Default \"AspectRatio\" 1 1 Default \"MaxSize\" 1 1 Default \"BokehSizeClamped\" 1 1 Default \"BGDepthManual\" 1 1 Default \"BGDepthOverride\" 1 1 Default \"FGDepthManual\" 1 1 Default \"FGDepthOverride\" 1 1 Default \"CanvasSize\" 2 1 Default \"CropToFormat\" 1 1 Default \"CatsEyeCentre\" 2 1 Default \"CatsEyePosOverride\" 1 1 Default \"CatsEyeAmount\" 2 1 Default \"CatsEyeRimBrightness\" 1 1 Default \"CatsEyeRimThickness\" 1 1 Default 8 \"BG_InputrangeMin\" Int 2 1 AAAAAAAAAAA= \"BG_InputrangeMax\" Int 2 1 AAAAAAAAAAA= \"filterconstEdgeColor\" Float 4 1 AAAAAAAAAAAAAAAAAAAAAA== \"bgDepthrangeMin\" Int 2 1 AAAAAAAAAAA= \"bgDepthrangeMax\" Int 2 1 AAAAAAAAAAA= \"fgDepthrangeMin\" Int 2 1 AAAAAAAAAAA= \"fgDepthrangeMax\" Int 2 1 AAAAAAAAAAA= \"_filterOffset\" Int 2 1 AAAAAAAAAAA="
+  kernelSource "kernel ConvolutionKernel : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRanged2D, eEdgeClamped> BG_Input;\n  Image<eRead, eAccessRandom,eEdgeConstant> filter;\n  Image<eRead, eAccessRandom, eEdgeClamped> fgHoldout;\n  Image<eRead, eAccessRanged2D, eEdgeClamped> bgDepth;\n  Image<eRead, eAccessRanged2D, eEdgeClamped> fgDepth;\n  Image<eWrite> dst;\n\n\n  param:      //the order here sets the order in the node's Parameters tab\n    bool UseEclipsedBokeh;\n    float Scale;\n    float AspectRatio;\n    float MaxSize;\n    bool BokehSizeClamped;\n    float BGDepthManual;\n    bool BGDepthOverride;\n    float FGDepthManual;\n    bool FGDepthOverride;\n    float2 CanvasSize;\n    bool CropToFormat;\n    float2 CatsEyeCentre;\n    bool CatsEyePosOverride;\n    float2 CatsEyeAmount;\n    float CatsEyeRimBrightness;\n    float CatsEyeRimThickness;\n\nlocal:\n  int2 _filterOffset;\n\n\n  void define() \{\n    defineParam(UseEclipsedBokeh, \"Use Eclipsed Bokeh\", bool(true));\n    defineParam(CanvasSize, \"Width/Height\", float2(1920,1080));\n    defineParam(CatsEyeCentre, \"Cats Eye Centre\", float2(1920,1080));\n    defineParam(CatsEyeAmount, \"Cats Eye Amount\", float2(0,0));\n    defineParam(CatsEyeRimBrightness, \"Cats Eye Rim Brightness\", float(2));\n    defineParam(CatsEyeRimThickness, \"Cats Eye Rim Thickness\", float(1));\n    defineParam(Scale, \"Scale\", float(1));\n    defineParam(AspectRatio, \"Aspect Ratio\", float(1));\n    defineParam(BGDepthManual, \"BG Defocus (manual)\", float(30));\n    defineParam(BGDepthOverride, \"BG Override\", bool(false));\n    defineParam(FGDepthManual, \"FG Defocus (manual)\", float(-30));\n    defineParam(FGDepthOverride, \"FG Override\", bool(false));\n    defineParam(MaxSize, \"Maximum\", float(30));\n    defineParam(BokehSizeClamped, \"Limit Bokeh Size\", bool(false));\n    defineParam(CatsEyePosOverride, \"Cats Eye Position Override\", bool(false));\n    defineParam(CropToFormat, \"Crop to Format\", bool(true));\n  \}\n\n\n  void init()\n  \{  \n    //set range of src to be based on a max-sized bokeh\n    BG_Input.setRange(-MaxSize, -MaxSize, MaxSize, MaxSize);\n    bgDepth.setRange(-MaxSize, -MaxSize, MaxSize, MaxSize);\n    fgDepth.setRange(-MaxSize, -MaxSize, MaxSize, MaxSize);\n    \n  \}\n\n\n  void process(int2 pos) \{\n    //Definitions\n    SampleType(BG_Input) valueSum(0);     //SampleType is data type of the pixels, e.g. float4 - because we want to recreate the image w/ all components\n    ValueType(filter) filterSum(0);  //ValueType is data type of a component - because we want to have a variable with one new component of the same type\n    ValueType(filter) filterVal;\n    //ValueType(src) fgDepthVal;\n    ValueType(BG_Input) bgDepthVal;\n    \n    float2 filterCentre;\n    filterCentre.x = (filter.bounds.x2 - filter.bounds.x1) / 2;\n    filterCentre.y = (filter.bounds.y2 - filter.bounds.y1) / 2;\n    \n    \n    //For Cats Eye centring - either mid image or manually set\n    float2 CatsEyeOffset;\n    if (CatsEyePosOverride == false) \{\n      CatsEyeCentre.x = CanvasSize.x/2;\n      CatsEyeCentre.y = CanvasSize.y/2;\n    \} else \{\n      CatsEyeCentre.x = CatsEyeCentre.x;\n      CatsEyeCentre.y = CatsEyeCentre.y;\n    \}\n    \n    //at the CatsEyeCentre, the CatsEyeOffset = 0. Further from that it increases, multiplied by the CatsEyeAmount\n    CatsEyeOffset.x =  filter.bounds.x2*(((pos.x-CatsEyeCentre.x)/(CatsEyeCentre.x*2)) * CatsEyeAmount.x);\n    CatsEyeOffset.y =  filter.bounds.y2*(((pos.y-CatsEyeCentre.y)/(CatsEyeCentre.y*2)) * CatsEyeAmount.y);\n    \n    \n\n    if ((CropToFormat == false) || (pos.x >= 0 && pos.x <= CanvasSize.x && pos.y >= 0 && pos.y <= CanvasSize.y)) \{   //checking that, if Crop is enabled, we're not in the overscan\n    \n      for(int j = -MaxSize; j <= MaxSize; j++) \{\n        for(int i = -MaxSize; i <= MaxSize; i++) \{\n          float4 SourceVal = BG_Input(i, j);\n        \n        \n          float fgDepthVal;\n          float bgDepthVal;\n        \n          //get BG+FG depths at current pixel\n          if (UseEclipsedBokeh == true) \{\n            if (FGDepthOverride == false) \{\n              fgDepthVal = fgDepth(i, j, 0);\n            \} else \{\n              fgDepthVal = FGDepthManual;\n            \}\n          \} else \{\n            fgDepthVal = 1;\n          \}\n          if (BGDepthOverride == false) \{\n            bgDepthVal = bgDepth(i, j, 0);\n          \} else \{\n            bgDepthVal = BGDepthManual;        \n          \}\n        \n          //if BG Depth = 0, make not = 0\n          if (bgDepthVal == 0) \{\n            bgDepthVal = 0.0001;\n          \}\n        \n          float bokehSize;\n          if (BokehSizeClamped == true) \{\n            bokehSize = min(bgDepthVal * Scale, min(MaxSize, MaxSize/AspectRatio));\n            bgDepthVal = min(bgDepthVal * Scale, min(MaxSize, MaxSize/AspectRatio));    //clamping the Maximum clamps the depth here, otherwise the FG mask continues to change shape\n          \} else \{\n            bokehSize = bgDepthVal * Scale;\n          \}\n        \n          //the bokeh scaling logic is... filterVal = filter (filter radius - ((i * filter radius) / depth) )\n          filterVal = bilinear(filter, filterCentre.x - ( (i * filterCentre.x) / bokehSize / AspectRatio ), filterCentre.x - ( (j * filterCentre.y) / bokehSize ), 0);\n        \n        \n          //more CatsEye here...\n          float2 bokehSizingMult;\n          bokehSizingMult.x = bokehSize / filter.bounds.x2;\n          bokehSizingMult.y = bokehSize / filter.bounds.y2;\n        \n          float CatsEyeCurvature = 1.2f;     //the size of the circle that is offset to mask the bokeh\n          float CatsEyeVal = 1;\n        \n          if( fabs(bokehSize)*CatsEyeCurvature - sqrt(pow(i-(CatsEyeOffset.x * bokehSizingMult.x),2) + pow(j-CatsEyeOffset.y * bokehSizingMult.y,2)) > 0 ) \{\n          //this should probably be \">1\", but it causes black too easily\n            CatsEyeVal = 1;\n            \n              //now check to see if it's not in the middle, but inside the bright rim area\n              if( fabs(bokehSize)*CatsEyeRimThickness*CatsEyeCurvature - sqrt(pow(i-(CatsEyeOffset.x * bokehSizingMult.x),2) + pow(j-CatsEyeOffset.y * bokehSizingMult.y,2)) < 1 ) \{\n                //it isn't in the core, so it must be the bright rim area\n                CatsEyeVal = CatsEyeVal * CatsEyeRimBrightness;\n              \}\n            \n          \} else \{\n            CatsEyeVal = 0;\n          \};\n\n        \n          filterVal = filterVal * CatsEyeVal;\n\n        \n        \n          //if (i==-25)\{\n          //    debugPrint(&pos.x, 174, 139);\n          //    debugPrint(&i, 174, 139);\n          //    debugPrint(&bokehSize, 174, 139);\n          //    debugPrint(&bokehSizingMult.x, 174, 139);\n          //    debugPrint(&CatsEyeVal, 174, 139);\n          //    debugPrint(&CatsEyeRimBrightness, 174, 139);\n          //\}\n        \n\n        \n\n          /*\n          float2 eclipseOffset;\n          //get the difference between our pixel and the centre of the bokeh, vs that distance * Depth. The FG element will be shifted by this amount\n        \n          eclipseOffset.x = (i * (fgDepthVal\[0]+1)) - i;  //+1 to fgDepthVal because we want things to stay the same (i.e. *1) if we get a depth value of 0\n          eclipseOffset.y = (j * (fgDepthVal\[0]+1)) - j;\n          */\n        \n        \n        \n        \n\n          //I think for this, getting the new fgHoldout position, in theory I should be using the proper defocus maths for our bg bokeh, setting the depth to be at the fg position, where the fgHoldout won't be moving, then run the maths back to get the new bokeh size/fgHoldout position on the bg. Instead, I'm just assuming that the bg bokeh resizes linearly as the fg comes away from the focal plane\n\n            \n\n          //get the difference between our pixel and the centre of the bokeh, vs that distance * Depth. The FG element will be shifted by this amount\n          float2 eclipseOffset;\n          if (UseEclipsedBokeh == true) \{\n\n            //add the fgDepth to the bgDepth, to simulate how big the bg bokeh would be, if the fg holdout was in focus,\n            //dividing this by the orig bgDepth gives us a multiplier... (bgDepth + fgDepth) / bgDepth\n            //and scale the fg holdout by this multipler, centered at the middle of the bokeh\n            //this will pull the fgHoldout in, or push it away, with the bg bokeh\n          \n            float eclipseOffsetMult = (bgDepthVal + fgDepthVal) / bgDepthVal;\n            eclipseOffset.x =  ((i * eclipseOffsetMult) - i);\n            eclipseOffset.y =  ((j * eclipseOffsetMult) - j);\n          \}\n          \n          \n          \n          /*\n          if (i == 1) \{\n            debugPrint(&pos.x+i, 1710, 934);\n            debugPrint(&eclipseOffsetMult, 1711, 934);\n          \}\n          if (i == 4) \{\n            debugPrint(&pos.x+i, 1710, 934);\n            debugPrint(&eclipseOffsetMult, 1714, 934);\n          \}\n          if (i == 7) \{\n            debugPrint(&pos.x+i, 1710, 934);\n            debugPrint(&eclipseOffsetMult, 1717, 934);\n          \}\n          */\n        \n        \n        \n          //our point's position, minus the bokeh centre position, then multiplied by Depth and that difference added on (e.g. for 1.1x scale, add on the 10%)\n          //WHICH IS...\n          //pos = pos + ( ((pos - bokehCentre) * Depth) - (pos- bokehCentre)) )\n          //\n          //BUT this is a simplistic view that only deals with one Depth multiplier. We want to deal with BG and FG depths...\n          //SO...\n\n          //Get the bokeh centre's. The fg Holdout scale will be driven by the FG Depth at this point. The bokeh itself will have its size driven by only BG Depth\n          //\n          //Depth, in this context, is the defocus amount spat out by the Expression node above it. May need to clarify variable names.\n          //\n\n        \n        \n        \n        \n          //float4 fgHoldoutValue = fgHoldout(pos.x, pos.y);\n          \n          float4 fgHoldoutValue;\n          if (UseEclipsedBokeh == true) \{\n            fgHoldoutValue = bilinear(fgHoldout, pos.x + eclipseOffset.x, pos.y + eclipseOffset.y, 3);\n          \} else \{\n            fgHoldoutValue = 1;\n          \}\n        \n\n        \n\n        \n          //valueSum += (filterVal * bilinear(filter,(i)+filterCentre.x+(CatsEyeOffset.x),(j)+filterCentre.y+(CatsEyeOffset.y), 3) ) * SourceVal * fgHoldoutValue;     //doesn't quite work as expected with scale, maybe depth\n          valueSum += (filterVal * SourceVal * fgHoldoutValue);   //simpler version w/o the CatsEyeOffset\n        \n          filterSum += filterVal;      //filterSum used to re-normalise the brightness\n        \n        \n        \} //end of IF checking we're not in the overscan\n            \n      \}\n    \}\n    if (filterSum != 0) \n      valueSum /= filterSum;\n      \n    dst() = valueSum;\n    \n  \}\n\};"
+  vectorize false
+  rebuild ""
+  "ConvolutionKernel_Use Eclipsed Bokeh" {{"1 - (parent.Output == 3)"}}
+  ConvolutionKernel_Scale {{parent.Scale}}
+  "ConvolutionKernel_Aspect Ratio" {{parent.AspectRatio}}
+  ConvolutionKernel_Maximum {{parent.ProcessedVariables.Maximum}}
+  "ConvolutionKernel_Limit Bokeh Size" {{parent.LimitBokehSize}}
+  "ConvolutionKernel_BG Defocus (manual)" {{parent.ProcessedVariables.BGDefocusManual}}
+  "ConvolutionKernel_BG Override" {{parent.BGOverride}}
+  "ConvolutionKernel_FG Defocus (manual)" {{parent.ProcessedVariables.FGDefocusManual}}
+  "ConvolutionKernel_FG Override" {{parent.FGOverride}}
+  ConvolutionKernel_Width/Height {{parent.ProcessedVariables.CanvasSize} {parent.ProcessedVariables.CanvasSize}}
+  "ConvolutionKernel_Crop to Format" {{parent.CropToFormat}}
+  "ConvolutionKernel_Cats Eye Centre" {{parent.ProcessedVariables.CatsEyeCentre} {parent.ProcessedVariables.CatsEyeCentre}}
+  "ConvolutionKernel_Cats Eye Position Override" {{parent.CatsEyePosOverride}}
+  "ConvolutionKernel_Cats Eye Amount" {{parent.CatsEyeAmount} {parent.CatsEyeAmount}}
+  "ConvolutionKernel_Cats Eye Rim Brightness" {{parent.CatsEyeEdgeBrightness}}
+  "ConvolutionKernel_Cats Eye Rim Thickness" {{parent.CatsEyeEdgeThickness}}
+  rebuild_finalise ""
+  name BlinkScript1
+  label v0.1.8
+  xpos -20
+  ypos 756
+ }
+ Clamp {
+  channels rgba
+  maximum_enable false
+  name Clamp2
+  xpos -20
+  ypos 830
+ }
+ Unpremult {
+  name Unpremult1
+  xpos -20
+  ypos 872
+ }
+ Reformat {
+  type scale
+  scale {{"1 / Reformat1.scale"}}
+  pbb {{"1 - parent.CropToFormat"}}
+  name Reformat3
+  xpos -20
+  ypos 908
+ }
+ Dot {
+  name Dot3
+  xpos 14
+  ypos 946
+ }
+set N31395e00 [stack 0]
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  bbox B
+  name Copy20
+  xpos -130
+  ypos 956
+ }
+ Premult {
+  name Premult16
+  xpos -130
+  ypos 994
+ }
+push $N31395e00
+ Switch {
+  inputs 2
+  which {{parent.AlphaMode}}
+  name Switch1
+  xpos -20
+  ypos 1021
+ }
+ Output {
+  name Output1
+  xpos -20
+  ypos 1144
+ }
+end_group
