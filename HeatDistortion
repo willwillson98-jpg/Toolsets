@@ -1,0 +1,140 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+push $cut_paste_input
+Group {
+ name Group1
+ help http://intranet/depts/Compositing:Nuke:Gizmos:Glass_FS
+ selected true
+ xpos -1140
+ ypos 4648
+ addUserKnob {20 Settings}
+ addUserKnob {41 Displacement t "Amount of X/Y displacement to apply to\nthe SourceImage." T IDistort1.uv_scale}
+ addUserKnob {41 Blur t "Turn this up to soften the displacement." T Blur1.size}
+ addUserKnob {1 FS_PROPERTY +HIDDEN}
+}
+ Input {
+  inputs 0
+  name DistortionMatteimage
+  xpos -165
+  ypos -36
+  number 1
+ }
+ Dot {
+  name Dot1
+  xpos -131
+  ypos 114
+ }
+set N21c82b80 [stack 0]
+ Matrix {
+  matrix {
+      {-1 -1 0 1 1}
+      {-1 -1 0 1 1}
+      {-1 -1 0 1 1}
+      {-1 -1 0 1 1}
+      {-1 -1 0 1 1}
+    }
+  name Matrix1
+  xpos -165
+  ypos 132
+ }
+ Shuffle {
+  green black
+  blue black
+  alpha black
+  name Shuffle1
+  xpos -165
+  ypos 175
+ }
+ Dot {
+  name Dot3
+  xpos -131
+  ypos 215
+ }
+push $N21c82b80
+ Dot {
+  name Dot2
+  xpos -21
+  ypos 114
+ }
+ Matrix {
+  matrix {
+      {-1 -1 -1 -1 -1}
+      {-1 -1 -1 -1 -1}
+      {0 0 0 0 0}
+      {1 1 1 1 1}
+      {1 1 1 1 1}
+    }
+  name Matrix2
+  xpos -55
+  ypos 131
+ }
+ Shuffle {
+  red black
+  blue black
+  alpha black
+  name Shuffle2
+  xpos -55
+  ypos 174
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  name Copy1
+  xpos -55
+  ypos 203
+ }
+ Shuffle {
+  blue black
+  alpha black
+  out motion
+  name Shuffle3
+  xpos -55
+  ypos 245
+ }
+ Blur {
+  name Blur1
+  xpos -55
+  ypos 319
+ }
+ Input {
+  inputs 0
+  name SourceImage
+  xpos 78
+  ypos 10
+ }
+ Copy {
+  inputs 2
+  from0 forward.u
+  to0 forward.u
+  from1 forward.v
+  to1 forward.v
+  name Copy2
+  xpos 78
+  ypos 312
+ }
+ IDistort {
+  uv forward
+  uv_scale 0.3
+  name IDistort1
+  selected true
+  xpos 78
+  ypos 369
+ }
+set N21d8ef20 [stack 0]
+ Output {
+  name Output1
+  xpos 78
+  ypos 469
+ }
+push $N21d8ef20
+ Viewer {
+  frame_range 1001-1720
+  viewerProcess "default_look (P3)"
+  monitorOutNDISenderName "NukeX - led999_0130_mastercomp_v029 - Viewer1"
+  name Viewer1
+  xpos 180
+  ypos -10
+  hide_input true
+ }
+end_group
