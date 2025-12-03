@@ -1,0 +1,214 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Group {
+name ChromaBlur2
+knobChanged "\n\ntg = nuke.thisGroup()\nk = nuke.thisKnob()\n\n\nif k.name()==\"c_space\":\n    tg.begin()\n    print k.value()\n\n    c_in = nuke.toNode('Colorspace1')\n    c_out = nuke.toNode('Colorspace2')\n\n    if k.value() == c_in\['colorspace_out'].value() and k.value() == c_out\['colorspace_in'].value():\n      pass\n    else:\n     \n      c_in\['colorspace_out'].setValue(k.value())\n      c_out\['colorspace_in'].setValue(k.value())\n\n\n    tg.end()\nelse:\n    pass\n\n\n\n"
+tile_color 0xffd455ff
+selected true
+xpos 22963
+ypos 196195
+addUserKnob {20 User}
+addUserKnob {4 c_space l Colourspace t "Colourspace to blur the input image in" M {"gamma 1.80" "gamma 2.20" "rec709 (~1.95) " "sRGB (~2.20)" Cineon Linear HSV HSL YPbPr YCbCr CIE-XYZ CIE-Yxy L*a*b* CIE-LCH Panalog "REDLog " ViperLog AlexaV3LogC PLogLin SLog ""}}
+c_space YCbCr
+addUserKnob {26 ""}
+addUserKnob {41 channels t "Channels affected by the blur. Default set to G and B to affect chroma" T Blur4.channels}
+addUserKnob {14 blurAmt l "Blur Size" R 0 100}
+blurAmt 3
+addUserKnob {20 endGroup_2 l endGroup n -1}
+addUserKnob {7 anamorphic l Anamorphic R 0 2}
+anamorphic 1
+addUserKnob {26 ""}
+addUserKnob {20 Subsampling n 1}
+addUserKnob {4 sub l "" t "Replicate the scaling applied to the chroma channels when chroma subsampling is used." +STARTLINE M {"4:4:4 (none)" 4:4:0 4:2:2 4:2:0 4:1:1 "" "" "" "" "" "" "" "" "" ""}}
+addUserKnob {26 txt l "" +STARTLINE T "--cheats chroma subsampling--"}
+addUserKnob {20 endGroup n -1}
+addUserKnob {26 ""}
+addUserKnob {7 masterMix l Mix}
+masterMix 1
+addUserKnob {26 txt_1 l "" +STARTLINE T "\nv 2015-12-7"}
+}
+Constant {
+inputs 0
+color 1
+name Constant1
+xpos 1821
+ypos 1038
+}
+Crop {
+box {0 0 {parent.NoOp1.res.x} {parent.NoOp1.res.y}}
+reformat true
+crop false
+name Crop2
+xpos 1821
+ypos 1137
+}
+Dot {
+name Dot2
+xpos 1855
+ypos 1220
+}
+Input {
+inputs 0
+name mask
+xpos 1601
+ypos 945
+number 1
+}
+Switch {
+inputs 2
+which {{"\[exists parent.input1] ? 0 : 1"}}
+name Switch1
+xpos 1601
+ypos 1216
+}
+Dot {
+name Dot5
+xpos 1635
+ypos 1473
+}
+Input {
+inputs 0
+name Input1
+xpos 599
+ypos 327
+}
+set N3cdf4100 [stack 0]
+Dot {
+name Dot3
+xpos 633
+ypos 537
+}
+set N3cdd7900 [stack 0]
+Colorspace {
+colorspace_out YCbCr
+name Colorspace1
+xpos 599
+ypos 629
+}
+set N3cdd7200 [stack 0]
+Dot {
+name Dot4
+xpos 852
+ypos 633
+}
+Reformat {
+type scale
+scale {{parent.sub==0?1:0||parent.sub==1?1:0||parent.sub==2?0.5:0||parent.sub==3?0.5:0||parent.sub==4?0.25:0} 1}
+resize distort
+center false
+pbb true
+name Reformat1
+label width
+xpos 818
+ypos 733
+disable {{sub==0?1:0}}
+}
+Grade {
+black_clamp false
+name Grade1
+label "no function\n"
+xpos 818
+ypos 771
+disable {{sub==0?1:0}}
+}
+Reformat {
+type scale
+scale {1 {parent.sub==0?1:0||parent.sub==1?0.5:0||parent.sub==2?1:0||parent.sub==3?0.5:0||parent.sub==4?1:0}}
+resize distort
+center false
+pbb true
+name Reformat3
+label height
+xpos 818
+ypos 809
+disable {{sub==0?1:0}}
+}
+Grade {
+black_clamp false
+name Grade2
+label "no function\n"
+xpos 818
+ypos 860
+disable {{sub==0?1:0}}
+}
+Reformat {
+type "to box"
+box_width {{Input1.width}}
+box_height {{Input1.height}}
+box_fixed true
+box_pixel_aspect 2
+resize distort
+pbb true
+name Reformat2
+xpos 818
+ypos 939
+disable {{sub==0?1:0}}
+}
+push $N3cdd7200
+Copy {
+inputs 2
+from0 rgba.blue
+to0 rgba.blue
+from1 rgba.green
+to1 rgba.green
+name Copy1
+xpos 599
+ypos 927
+disable {{sub<1?1:0 x1 1}}
+}
+Blur {
+channels {-rgba.red rgba.green rgba.blue none}
+size {{parent.blurAmt*anamorphic} {parent.blurAmt}}
+name Blur4
+label "blur\n"
+xpos 599
+ypos 992
+}
+Colorspace {
+colorspace_in YCbCr
+name Colorspace2
+xpos 599
+ypos 1122
+}
+Crop {
+box {0 0 {parent.NoOp1.res.x} {parent.NoOp1.res.y}}
+reformat true
+crop false
+name Crop1
+xpos 599
+ypos 1186
+}
+Dot {
+name Dot6
+xpos 633
+ypos 1473
+}
+push $N3cdd7900
+Dot {
+name Dot1
+xpos 1138
+ypos 537
+}
+Keymix {
+inputs 3
+mix {{masterMix}}
+name Keymix2
+xpos 1104
+ypos 1463
+}
+Output {
+name Output1
+xpos 1104
+ypos 1646
+}
+push $N3cdf4100
+NoOp {
+name NoOp1
+xpos 709
+ypos 327
+addUserKnob {20 User}
+addUserKnob {12 res}
+res {{parent.input0.width} {parent.input0.height}}
+}
+end_group
