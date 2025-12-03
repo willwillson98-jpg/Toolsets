@@ -1,0 +1,32 @@
+set cut_paste_input [stack 0]
+version 14.1 v5
+push $cut_paste_input
+OFlow2 {
+ timing2 Frame
+ timingFrame2 {{frame+0.5}}
+ Advanced 1
+ flickerCompensation true
+ name OFlow1
+ selected true
+ xpos 35956
+ ypos 4054
+}
+Blur {
+ channels rgba
+ size 1e-07
+ name Blur25
+ label "\[value size]\n\[value mix]"
+ selected true
+ xpos 35956
+ ypos 4088
+}
+OFlow2 {
+ timing2 Frame
+ timingFrame2 {{frame-0.5}}
+ Advanced 1
+ flickerCompensation true
+ name OFlow2
+ selected true
+ xpos 35956
+ ypos 4142
+}
