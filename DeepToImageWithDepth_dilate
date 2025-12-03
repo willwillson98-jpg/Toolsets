@@ -1,0 +1,781 @@
+set cut_paste_input [stack 0]
+version 14.1 v5
+push $cut_paste_input
+Group {
+name deeptoimagewithdepth1
+tile_color 0x5fff
+selected true
+xpos 39703
+ypos 178688
+addUserKnob {20 User}
+addUserKnob {41 volumetric_composition l "volumetric composition" T DeepToImage9.volumetric_composition}
+addUserKnob {26 ""}
+addUserKnob {4 DepthEdge l "Depth Edge" M {"UnPremultiplied on Black" "Premultiplied on Max Value" "Premultiplied on Min Value" "UnPremultiplied on Infinity" "Premultiplied on Black" "" ""}}
+addUserKnob {26 ""}
+addUserKnob {26 DepthEdgeDilateControls l "" +STARTLINE T "Depth Edge Dilate Controls"}
+addUserKnob {6 DilateOutEdgesOfDepth l "Dilate Out Edges Of Depth" +STARTLINE}
+DilateOutEdgesOfDepth true
+addUserKnob {41 growTexture l "Grow Texture" T ColourDilate_FS.growTexture}
+addUserKnob {41 quality l Iterations T ColourDilate_FS.quality}
+addUserKnob {26 ""}
+addUserKnob {26 info l "" +STARTLINE T "This node takes a deep image and\noutputs a flat image with a depth pass"}
+addUserKnob {1 FS_PROPERTY +HIDDEN}
+addUserKnob {20 fAsset}
+addUserKnob {52 Summary l "" -STARTLINE T "__import__(\"nukeFNodeManager.ui.nodepropertyknob\",fromlist=\[\"NodePropertyKnob\"]).NodePropertyKnob()"}
+addUserKnob {1 plapp_node_type +HIDDEN}
+plapp_node_type FAssetGroup
+addUserKnob {20 Developer}
+addUserKnob {6 is_group -STARTLINE}
+addUserKnob {1 v_uid}
+addUserKnob {1 file_uid}
+addUserKnob {1 location_name}
+location_name vault
+addUserKnob {1 asset_type}
+asset_type nuke_script
+addUserKnob {1 file_format}
+file_format nk
+addUserKnob {1 gv_uid}
+addUserKnob {1 group_type}
+addUserKnob {6 load -STARTLINE}
+addUserKnob {6 is_loaded -STARTLINE}
+is_loaded true
+addUserKnob {1 set_loader}
+addUserKnob {1 loader}
+loader nuke_script_loader
+addUserKnob {1 set_loader_attrs}
+addUserKnob {1 current_loader_attrs}
+addUserKnob {6 lock_version -STARTLINE}
+lock_version true
+addUserKnob {6 lock_sub_asset_version -STARTLINE}
+addUserKnob {6 edit_mode -STARTLINE}
+addUserKnob {1 file +HIDDEN}
+}
+BackdropNode {
+inputs 0
+name BackdropNode1
+tile_color 0xadd8e601
+label "NO DEEP AFTER HERE"
+note_font_size 42
+xpos -227
+ypos 789
+bdwidth 1335
+bdheight 102
+}
+Input {
+inputs 0
+name Input1
+xpos -40
+ypos 135
+}
+Dot {
+name Dot18
+xpos -6
+ypos 258
+}
+set Nd1db7330 [stack 0]
+DeepToImage {
+name DeepToImage8
+xpos -40
+ypos 375
+}
+set Nd09de60 [stack 0]
+add_layer {deepDepth deepDepth.z}
+AddChannels {
+channels deepDepth
+name AddChannels1
+xpos 510
+ypos 369
+}
+push $Nd1db7330
+Dot {
+name Dot4
+xpos 654
+ypos 258
+}
+DeepRecolor {
+inputs 2
+channels all
+name DeepRecolor7
+xpos 620
+ypos 369
+}
+Dot {
+name Dot2
+xpos 654
+ypos 450
+}
+DeepExpression {
+chans1 deep
+chans2 depth
+chans3 deepDepth
+deepDepth.z deep.front*rgba.alpha
+name DeepExpression13
+xpos 620
+ypos 543
+}
+DeepToImage {
+name DeepToImage9
+xpos 620
+ypos 735
+}
+Dot {
+name Dot7
+xpos 654
+ypos 858
+}
+set Nd10b5420 [stack 0]
+Dot {
+name Dot23
+xpos 984
+ypos 858
+}
+set Nac0fcf70 [stack 0]
+Dot {
+name Dot9
+xpos 1974
+ypos 858
+}
+Shuffle {
+in deepDepth
+in2 alpha
+alpha red2
+name Shuffle4
+xpos 1940
+ypos 975
+}
+Dot {
+name Dot19
+xpos 1974
+ypos 1026
+}
+Dot {
+name Dot5
+label Premultiplied
+xpos 1974
+ypos 1410
+}
+Dot {
+name Dot17
+xpos 1974
+ypos 1554
+}
+push $Nd10b5420
+Unpremult {
+channels deepDepth
+name Unpremult7
+xpos 620
+ypos 920
+}
+set N2c383770 [stack 0]
+Dot {
+name Dot11
+xpos 764
+ypos 930
+}
+set N32bcfa60 [stack 0]
+Grade {
+channels alpha
+whitepoint 0
+white_clamp true
+name Grade1
+xpos 730
+ypos 1041
+}
+push $N32bcfa60
+Dot {
+name Dot3
+xpos 1424
+ypos 930
+}
+Shuffle {
+in deepDepth
+in2 alpha
+alpha red2
+name Shuffle1
+xpos 1390
+ypos 975
+}
+set Nf11e760 [stack 0]
+Expression {
+expr0 r==0?inf:r
+expr1 r==0?inf:r
+expr2 r==0?inf:r
+name Expression1
+xpos 1170
+ypos 975
+}
+set N79e20c60 [stack 0]
+Dot {
+name Dot6
+xpos 874
+ypos 978
+}
+Group {
+inputs 2
+name ColourDilate_FS
+help http://intranet/depts/Compositing:Nuke:Gizmos:ColourDilate_FS
+knobChanged "\ntn = nuke.thisNode()\ntk = nuke.thisKnob()\n\nfullList =  tn\['fullList'].value().strip(\"\[']\").split(\"', '\")\nnodeList = fullList\[0], fullList\[1], fullList\[2], fullList\[3], fullList\[4], fullList\[5]\npreviousLoopNum = tn\['previousLoopNum'].getValue()\n\ngrowTexture = tn\['growTexture'].getValue()\nqualityVal = int( tn\['quality'].getValue() )\n\n\n##### DEFINE VALUE CHANGES ##################\n\ndef valChange():\n    qualityBias = tn\['qualityBias'].getValue()\n    for i in range (0, qualityVal):\n        blurVal = nuke.toNode(fullList\[i*len(nodeList)])\n        erodeVal = nuke.toNode(fullList\[i*len(nodeList)+3])\n        if isinstance(growTexture, float) == True:\n            blurVal\['size'].setValue( (growTexture/qualityVal*(i+1)*(1-qualityBias)) + (growTexture/qualityVal*(i+1)) * (qualityBias*(pow(i+1, 2)/pow(qualityVal, 2))) )\n            erodeVal\['size'].setValue(blurVal\['size'].getValue()/2)\n        else:\n            blurVal\['size'].setValue(\[ (growTexture\[0]/qualityVal*(i+1)*(1-qualityBias)) + (growTexture\[0]/qualityVal*(i+1)) * (qualityBias*(pow(i+1, 2)/pow(qualityVal, 2))) , (growTexture\[1]/qualityVal*(i+1)*(1-qualityBias)) + (growTexture\[1]/qualityVal*(i+1)) * (qualityBias*(pow(i+1, 2)/pow(qualityVal, 2))) ])\n            erodeVal\['size'].setValue(\[blurVal\['size'].getValue()\[0]/2,blurVal\['size'].getValue()\[1]/2])\n\ndef filterChange():\n    filters = int( tn\['filter'].getValue() )\n    filterQuality = int( tn\['filterQuality'].getValue() )\n    crop = int( tn\['crop'].getValue() )\n    for i in range (0, qualityVal):\n        blurVal = nuke.toNode(fullList\[i*len(nodeList)])\n        blurVal\['filter'].setValue( filters )\n        blurVal\['quality'].setValue( filterQuality )\n        blurVal\['crop'].setValue( crop )\n\n\n##### CREATE THE NODES ###################\n\nif tk.name()=='quality':\n    if qualityVal < 1:\n        qualityVal = 1\n    elif qualityVal >100:\n        qualityVal = 100\n    tn\['quality'].setValue( qualityVal )\n    \n\n    if qualityVal != previousLoopNum:\n\n\n        inputDep = nuke.dependencies(\[nuke.toNode('Unpremult1')], nuke.INPUTS)\n        resultOver = nuke.toNode( inputDep\[0].name() )\n\n        difference = qualityVal-previousLoopNum\n        if difference > 0:\n            for i in range (1, int(difference+1)):\n                \n                blur = nuke.nodes.Blur ()\n                blur\['channels'].setValue('rgba')\n                blur\['maskChannelInput'].setValue('none')\n                blur.setInput (0, nuke.toNode('Switch2'))\n                \n                unpremult = nuke.nodes.Unpremult ()\n                unpremult\['channels'].setValue('rgb')\n                unpremult\['alpha'].setValue('rgba.alpha')\n                unpremult\['invert'].setValue(0)\n                unpremult.setInput (0, blur)\n                \n                expression = nuke.nodes.Expression(expr3 = 'a==0?0:1')\n                expression.setInput (0, unpremult)\n                \n                erode = nuke.nodes.FilterErode ()\n                erode\['channels'].setValue( 'rgba.alpha' )\n                erode\['filter'].setValue( 'gaussian' )\n                erode.setInput (0, expression)\n                \n                premult = nuke.nodes.Premult ()\n                premult\['channels'].setValue( 'rgb' )\n                premult\['alpha'].setValue( 'rgba.alpha' )\n                premult.setInput (0, erode)\n                \n                mergeOver = nuke.nodes.Merge2 ()\n                mergeOver\['operation'].setValue( 'over' )\n                mergeOver\['sRGB'].setValue( 0 )\n                mergeOver\['screen_alpha'].setValue( 0 )\n                mergeOver\['bbox'].setValue( 'union' )\n                mergeOver\['Achannels'].setValue( 'rgba' )\n                mergeOver\['Bchannels'].setValue( 'rgba' )\n                mergeOver\['output'].setValue( 'rgba' )\n                mergeOver\['also_merge'].setValue( 'none' )\n                mergeOver.setInput (0, premult)\n                mergeOver.setInput (1, resultOver)\n                \n                \n                resultOver = mergeOver\n                \n                \n                nodeList = blur.name(), unpremult.name(), expression.name(), erode.name(), premult.name(), resultOver.name()\n                fullList.extend(nodeList)\n\n\n##### DELETE THE NODES ##################################\n\n        else:\n            fullList.reverse()\n            for i in range (int(qualityVal), int(previousLoopNum)):\n                for i in range (0, len(nodeList)):\n                    nuke.delete(nuke.toNode(fullList\[0]))\n                    del fullList\[0]\n                resultOver = nuke.toNode(fullList\[0])\n                resultExpression = nuke.toNode(fullList\[3])\n            fullList.reverse()\n\n        nuke.toNode('Unpremult1').setInput(0, resultOver)\n        valChange()\n        filterChange()\n                \n        previousLoopNum = qualityVal\n        \n        tn\['previousLoopNum'].setValue( int(previousLoopNum) )\n        tn\['fullList'].setValue( str(fullList) )\n\n\n\n##### CHANGE EXISTING VALUES #####################\n\nif tk.name()=='growTexture':\n    valChange()\n    \nif tk.name()=='qualityBias':\n    valChange()\n    \nif tk.name()=='filter':\n    filterChange()\n    \nif tk.name()=='filterQuality':\n    filterChange()\n    \nif tk.name()=='crop':\n    filterChange()\n\n\n"
+xpos 840
+ypos 1047
+addUserKnob {20 User l fColourDilate}
+addUserKnob {14 growTexture l "Grow Texture" R 0 100}
+growTexture 32.5
+addUserKnob {14 erodeMatte l "Erode Matte" t "Dilate or erode the matte to adjust the grow start paint" R -100 100}
+addUserKnob {7 expandMatte l "Expand Matte" t "Expand or compress the matte to adjust the grow start point" R -0.99999 0.99999}
+addUserKnob {7 quality l Iterations t "The number of iterations Colour Dilate will go through.  More is slower.  Max steps is 100" R 1 20}
+quality 3
+addUserKnob {7 qualityBias l Distribution t "0 is a linear distribution.  1 is exponential distribution.\nExponential is smoother with low quality.\nLinear is better with high quality."}
+addUserKnob {7 SoftenTransition R 0 10}
+addUserKnob {4 filter l Filter t "filter\n" M {box triangle quadratic gaussian ""}}
+filter gaussian
+addUserKnob {3 filterQuality l " " -STARTLINE}
+filterQuality 15
+addUserKnob {6 crop l "crop to format" -STARTLINE}
+crop true
+addUserKnob {4 matteOutput l "Matte Output" M {rgb.alpha matte "dilated matte" "dilated area" "" ""}}
+matteOutput "dilated area"
+addUserKnob {26 blank l "" -STARTLINE T "      "}
+addUserKnob {6 invertMatte l "invert Matte" -STARTLINE}
+invertMatte true
+addUserKnob {26 blank2 l "" -STARTLINE T "      "}
+addUserKnob {6 rgbIsPremult l "RGB is Premult?" -STARTLINE}
+addUserKnob {1 colorDilate l INVISIBLE t "Keep me hidden" +INVISIBLE}
+addUserKnob {3 previousLoopNum l INVISIBLE +INVISIBLE}
+previousLoopNum 3
+addUserKnob {1 fullList l INVISIBLE +INVISIBLE}
+fullList "\['Blur1', 'Unpremult2', 'Expression1', 'FilterErode2', 'Premult1', 'Merge2', 'Blur2', 'Unpremult3', 'Expression2', 'FilterErode3', 'Premult2', 'Merge4', 'Blur3', 'Unpremult4', 'Expression3', 'FilterErode4', 'Premult3', 'Merge5']"
+addUserKnob {1 FS_PROPERTY +HIDDEN}
+}
+Input {
+inputs 0
+name InputMask
+xpos 803
+ypos -1817
+number 1
+}
+Dot {
+name Dot13
+xpos 837
+ypos -1603
+}
+set N79e1dc00 [stack 0]
+Dot {
+name Dot3
+xpos 9191
+ypos -1603
+}
+AddChannels {
+channels alpha
+name AddChannels2
+xpos 9157
+ypos 2531
+}
+Input {
+inputs 0
+name InputRGB
+xpos 8927
+ypos -1902
+}
+Dot {
+name Dot12
+xpos 8961
+ypos -1399
+}
+set N23ff9210 [stack 0]
+Dot {
+name Dot9
+xpos 8961
+ypos 2212
+}
+set N7c9828c0 [stack 0]
+AddChannels {
+channels alpha
+name AddChannels1
+xpos 8927
+ypos 2428
+}
+push $N79e1dc00
+FilterErode {
+channels alpha
+size {{invertMatte==0?erodeMatte.w:-erodeMatte.w i} {invertMatte==0?erodeMatte.h:-erodeMatte.h i}}
+name FilterErode1
+xpos 803
+ypos -1204
+}
+Invert {
+channels alpha
+mix {{invertMatte i}}
+name Invert2
+xpos 803
+ypos -1146
+}
+Grade {
+channels alpha
+blackpoint {{"clamp(expandMatte, 0, 1)" i}}
+whitepoint {{"clamp(1+expandMatte, 0, 1)" i}}
+white_clamp true
+name Grade1
+xpos 803
+ypos -1088
+}
+Grade {
+channels alpha
+whitepoint 0.5
+black_clamp false
+white_clamp true
+name Grade6
+xpos 803
+ypos -928
+}
+Dot {
+name Dot1
+xpos 837
+ypos -870
+}
+set N79ae1a40 [stack 0]
+push $N23ff9210
+Dot {
+name Dot2
+xpos 1236
+ypos -1399
+}
+set N2be63c90 [stack 0]
+AddChannels {
+channels alpha
+name AddChannels3
+xpos 1202
+ypos -1261
+}
+push $N2be63c90
+Shuffle {
+alpha white
+name Shuffle1
+xpos 1013
+ypos -1403
+}
+Crop {
+box {{InputRGB.bbox.x i x1001 542} {InputRGB.bbox.y i} {InputRGB.bbox.r i} {InputRGB.bbox.t i}}
+name Crop3
+xpos 1013
+ypos -1359
+}
+Switch {
+inputs 2
+which {{rgbIsPremult i}}
+name Switch1
+xpos 1013
+ypos -1255
+}
+Dot {
+name Dot5
+xpos 1047
+ypos -909
+}
+set N9464a880 [stack 0]
+Merge2 {
+inputs 2
+operation stencil
+bbox intersection
+name Merge1
+xpos 1013
+ypos -875
+}
+Dot {
+name Dot8
+xpos 1377
+ypos -871
+}
+push $N79ae1a40
+Dot {
+name Dot4
+xpos 837
+ypos -836
+}
+push $N9464a880
+Dot {
+name Dot6
+xpos 946
+ypos -909
+}
+Merge2 {
+inputs 2
+operation stencil
+bbox B
+name Merge3
+xpos 912
+ypos -841
+}
+Dot {
+name Dot7
+xpos 946
+ypos -765
+}
+Switch {
+inputs 2
+which {{invertMatte}}
+name Switch2
+xpos 1343
+ypos -769
+}
+set N1e7255b0 [stack 0]
+EdgeBlur {
+size {{parent.SoftenTransition}}
+name EdgeBlur1
+xpos 6446
+ypos -775
+}
+set N8d506d70 [stack 0]
+push $N1e7255b0
+Dot {
+name Dot11
+xpos 1026
+ypos -599
+}
+Blur {
+channels rgba
+size 10.83333333
+name Blur1
+xpos 992
+ypos 903
+}
+Unpremult {
+name Unpremult2
+xpos 992
+ypos 929
+}
+Expression {
+expr3 a==0?0:1
+name Expression1
+xpos 992
+ypos 955
+}
+FilterErode {
+channels alpha
+size 5.416666667
+filter gaussian
+name FilterErode2
+xpos 992
+ypos 981
+}
+Premult {
+name Premult1
+xpos 992
+ypos 1019
+}
+Merge2 {
+inputs 2
+name Merge2
+xpos 6446
+ypos 1019
+}
+set Nc1b21ce0 [stack 0]
+push $N1e7255b0
+Blur {
+channels rgba
+size 21.66666667
+name Blur2
+}
+Unpremult {
+name Unpremult3
+}
+Expression {
+expr3 a==0?0:1
+name Expression2
+}
+FilterErode {
+channels alpha
+size 10.83333333
+filter gaussian
+name FilterErode3
+}
+Premult {
+name Premult2
+}
+Merge2 {
+inputs 2
+name Merge4
+}
+push $N1e7255b0
+Blur {
+channels rgba
+size 32.5
+name Blur3
+}
+Unpremult {
+name Unpremult4
+}
+Expression {
+expr3 a==0?0:1
+name Expression3
+}
+FilterErode {
+channels alpha
+size 16.25
+filter gaussian
+name FilterErode4
+}
+Premult {
+name Premult3
+}
+Merge2 {
+inputs 2
+name Merge5
+}
+Unpremult {
+name Unpremult1
+xpos 6446
+ypos 2346
+}
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+mix {{matteOutput==0?1:0 i}}
+name Copy2
+xpos 6446
+ypos 2428
+}
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+mix {{matteOutput==1?1:0}}
+name Copy1
+xpos 6446
+ypos 2531
+}
+Expression {
+expr3 a<=0.000001?0:1
+mix {{matteOutput==3?1:0}}
+name Expression8
+xpos 6446
+ypos 2666
+}
+push $N7c9828c0
+Dot {
+name Dot10
+xpos 8851
+ypos 2212
+}
+ShuffleCopy {
+inputs 2
+red red
+green green
+blue blue
+name ShuffleCopy1
+xpos 8817
+ypos 2666
+}
+Output {
+name Output1
+xpos 8817
+ypos 2729
+}
+push $N8d506d70
+push $Nc1b21ce0
+Viewer {
+inputs 2
+input_number 1
+input_process false
+name Viewer1
+xpos 11244
+ypos 4637
+}
+end_group
+set N624f0800 [stack 0]
+Dot {
+name Dot28
+xpos 874
+ypos 1098
+}
+set N746346d0 [stack 0]
+push $Nf11e760
+Dot {
+name Dot22
+xpos 1644
+ypos 978
+}
+Switch {
+inputs 2
+which {{parent.DilateOutEdgesOfDepth}}
+name ColourDilateEdges2
+xpos 1610
+ypos 1095
+}
+Expression {
+expr0 r==0?inf:r
+name Expression2
+xpos 1610
+ypos 1215
+}
+Dot {
+name Dot12
+label Unpremultiplied_OutsideSetToInf
+xpos 1644
+ypos 1482
+}
+push $N624f0800
+push $Nac0fcf70
+Dot {
+name Dot15
+xpos 984
+ypos 906
+}
+Shuffle {
+in deepDepth
+in2 alpha
+alpha red2
+name Shuffle3
+xpos 950
+ypos 999
+}
+Switch {
+inputs 2
+which {{parent.DilateOutEdgesOfDepth}}
+name ColourDilateEdges
+xpos 950
+ypos 1047
+}
+Dot {
+name Dot20
+xpos 984
+ypos 1146
+}
+Dot {
+name Dot26
+xpos 1314
+ypos 1146
+}
+set Nd7ba0b10 [stack 0]
+Dot {
+name Dot25
+xpos 1314
+ypos 1266
+}
+push $N79e20c60
+fStat {
+name fStat_MIN
+xpos 1170
+ypos 1215
+}
+Merge2 {
+inputs 2
+name Merge2
+xpos 1170
+ypos 1262
+}
+Dot {
+name Dot14
+label Unpremultiplied_OutsideSetToMinDepth
+xpos 1204
+ypos 1434
+}
+push $Nd7ba0b10
+Dot {
+name Dot21
+xpos 1534
+ypos 1146
+}
+Dot {
+name Dot24
+xpos 1534
+ypos 1266
+}
+push $Nf11e760
+fStat {
+type Max
+name fStat_MAX
+xpos 1390
+ypos 1215
+}
+Merge2 {
+inputs 2
+name Merge1
+xpos 1390
+ypos 1263
+}
+Dot {
+name Dot13
+label Unpremultiplied_OutsideSetToMaxDepth
+xpos 1424
+ypos 1458
+}
+push $N746346d0
+Dot {
+name Dot27
+xpos 874
+ypos 1146
+}
+push $N2c383770
+Shuffle {
+in deepDepth
+in2 alpha
+alpha red2
+name Shuffle2
+xpos 620
+ypos 998
+}
+Switch {
+inputs 2
+which {{parent.DilateOutEdgesOfDepth}}
+name ColourDilateEdges1
+xpos 620
+ypos 1145
+}
+Dot {
+name Dot16
+label Unpremultiplied_Onblack
+xpos 654
+ypos 1410
+}
+Switch {
+inputs 5
+which {{parent.DepthEdge}}
+name SwitchDepthProcessing
+xpos 620
+ypos 1553
+}
+Dot {
+name Dot1
+xpos 654
+ypos 1650
+}
+push $Nd09de60
+Dot {
+name Dot8
+xpos -6
+ypos 858
+}
+Dot {
+name Dot10
+xpos -6
+ypos 1578
+}
+Copy {
+inputs 2
+from0 rgba.red
+to0 depth.Z
+name Copy2
+xpos -40
+ypos 1640
+}
+Remove {
+channels deepDepth
+name Remove1
+xpos -40
+ypos 1688
+}
+Output {
+name Output1
+xpos -40
+ypos 1767
+}
+Viewer {
+frame_range 1051-1166
+fps 30
+name Viewer1
+selected true
+xpos 783
+ypos 1654
+}
+end_group
