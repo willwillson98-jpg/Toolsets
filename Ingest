@@ -1,0 +1,56 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Dot {
+ name Dot4
+ tile_color 0xff00ff
+ selected true
+ xpos 40508
+ ypos 155539
+}
+set Ndeb75600 [stack 0]
+Dot {
+ name Dot6
+ tile_color 0xffff
+ selected true
+ xpos 40646
+ ypos 155539
+}
+Shuffle {
+ alpha blue
+ name Shuffle6
+ tile_color 0xffff
+ label "BLUE\n"
+ selected true
+ xpos 40612
+ ypos 155695
+}
+push $Ndeb75600
+Shuffle {
+ alpha green
+ name Shuffle7
+ tile_color 0xff00ff
+ label "GREEN\n"
+ note_font_color 0xfdffffff
+ selected true
+ xpos 40474
+ ypos 155689
+}
+push $Ndeb75600
+Dot {
+ name Dot7
+ tile_color 0xff0000ff
+ selected true
+ xpos 40375
+ ypos 155539
+}
+Shuffle {
+ alpha red
+ name Shuffle8
+ tile_color 0xff0000ff
+ label "RED\n"
+ note_font_color 0xff
+ selected true
+ xpos 40341
+ ypos 155693
+}
