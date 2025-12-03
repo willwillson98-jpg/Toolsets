@@ -1,0 +1,312 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Group {
+ name CG_Diffusion2
+ tile_color 0x333333ff
+ note_font_color 0xff
+ selected true
+ xpos 40477
+ ypos 154306
+ addUserKnob {20 Diffusion}
+ addUserKnob {7 diffusion l amount R 0 10}
+ diffusion 1
+ addUserKnob {26 ""}
+ addUserKnob {6 diffusionOnly l "diffusion only" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {7 mix}
+ mix 0.12
+ addUserKnob {26 ""}
+}
+ Input {
+  inputs 0
+  name COMP
+  xpos 2380
+  ypos 159
+ }
+ Dot {
+  name Dot14
+  xpos 2414
+  ypos 282
+ }
+set Nf05b2400 [stack 0]
+ Dot {
+  name Dot22
+  xpos 3074
+  ypos 282
+ }
+push $Nf05b2400
+ Dot {
+  name Dot1
+  xpos 2194
+  ypos 282
+ }
+set Nf05b1600 [stack 0]
+ Dot {
+  name Dot5
+  xpos 1975
+  ypos 378
+ }
+set Nf05b0f00 [stack 0]
+ Blur {
+  channels rgba
+  size {{diffusion*256}}
+  name Blur9
+  xpos 2050
+  ypos 710
+ }
+push $Nf05b0f00
+ Blur {
+  channels rgba
+  size {{diffusion*128}}
+  name Blur8
+  xpos 2050
+  ypos 662
+ }
+push $Nf05b0f00
+ Blur {
+  channels rgba
+  size {{diffusion*64}}
+  name Blur7
+  xpos 2050
+  ypos 614
+ }
+push $Nf05b0f00
+ Blur {
+  channels rgba
+  size {{diffusion*32}}
+  name Blur6
+  xpos 2050
+  ypos 566
+ }
+push $Nf05b0f00
+ Blur {
+  channels rgba
+  size {{diffusion*16}}
+  name Blur5
+  xpos 2050
+  ypos 518
+ }
+push $Nf05b0f00
+ Blur {
+  channels rgba
+  size {{diffusion*8}}
+  name Blur4
+  xpos 2050
+  ypos 470
+ }
+push $Nf05b0f00
+ Blur {
+  channels rgba
+  size {{diffusion*4}}
+  name Blur3
+  xpos 2050
+  ypos 422
+ }
+push $Nf05b0f00
+ Blur {
+  channels rgba
+  size {{diffusion*2}}
+  name Blur2
+  xpos 2050
+  ypos 374
+ }
+push $Nf05b1600
+ Blur {
+  channels rgba
+  size {{diffusion x1186 0}}
+  name Blur1
+  selected true
+  xpos 2160
+  ypos 326
+ }
+ Dissolve {
+  inputs 2
+  channels rgba
+  which 0.5
+  name Dissolve1
+  xpos 2160
+  ypos 374
+ }
+ Dissolve {
+  inputs 2
+  channels rgba
+  which 0.25
+  name Dissolve2
+  xpos 2160
+  ypos 422
+ }
+ Dissolve {
+  inputs 2
+  channels rgba
+  which 0.125
+  name Dissolve3
+  xpos 2160
+  ypos 464
+ }
+ Dissolve {
+  inputs 2
+  channels rgba
+  which 0.0625
+  name Dissolve4
+  xpos 2160
+  ypos 518
+ }
+ Dissolve {
+  inputs 2
+  channels rgba
+  which 0.03125
+  name Dissolve5
+  xpos 2160
+  ypos 566
+ }
+ Dissolve {
+  inputs 2
+  channels rgba
+  which 0.015625
+  name Dissolve6
+  xpos 2160
+  ypos 614
+ }
+ Dissolve {
+  inputs 2
+  channels rgba
+  which 0.0078125
+  name Dissolve7
+  xpos 2160
+  ypos 662
+ }
+ Dissolve {
+  inputs 2
+  channels rgba
+  which 0.00390625
+  name Dissolve8
+  xpos 2160
+  ypos 710
+ }
+set Nf054d600 [stack 0]
+push $Nf05b2400
+ Dot {
+  name Dot15
+  xpos 2414
+  ypos 773
+ }
+set Nf054cf00 [stack 0]
+ Dissolve {
+  inputs 2
+  channels rgba
+  which {{parent.mix}}
+  name Dissolve9
+  xpos 2160
+  ypos 769
+ }
+ Dot {
+  name Dot3
+  xpos 2194
+  ypos 837
+ }
+set Nf054c100 [stack 0]
+push $Nf054cf00
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge7
+  xpos 2490
+  ypos 833
+ }
+ Dot {
+  name Dot85
+  xpos 2524
+  ypos 896
+ }
+set Nf051b200 [stack 0]
+ Dot {
+  name Dot21
+  xpos 2524
+  ypos 1011
+ }
+push $Nf051b200
+push $Nf054c100
+push $Nf054cf00
+ Keymix {
+  inputs 3
+  channels rgba
+  name Keymix3
+  xpos 2380
+  ypos 892
+ }
+set Nf051a400 [stack 0]
+ Dot {
+  name Dot25
+  xpos 2294
+  ypos 951
+ }
+push $Nf054cf00
+ Blur {
+  channels rgba
+  size 4
+  name Blur10
+  xpos 2710
+  ypos 769
+ }
+push $Nf054d600
+ Merge2 {
+  inputs 2
+  operation mask
+  bbox B
+  name Merge1
+  xpos 2820
+  ypos 710
+ }
+ Multiply {
+  channels rgba
+  value 0.1
+  name Multiply1
+  xpos 2820
+  ypos 951
+ }
+push $Nf051a400
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox B
+  name Merge2
+  xpos 2380
+  ypos 951
+ }
+ Keymix {
+  inputs 3
+  channels rgba
+  bbox B
+  name Keymix1
+  xpos 2380
+  ypos 1007
+ }
+ Dot {
+  name Dot26
+  xpos 2414
+  ypos 1056
+ }
+set Nefcd2b00 [stack 0]
+ Merge2 {
+  inputs 2
+  operation from
+  bbox B
+  name Merge3
+  xpos 3040
+  ypos 1052
+ }
+push $Nefcd2b00
+ Switch {
+  inputs 2
+  which {{parent.diffusionOnly}}
+  name Switch1
+  xpos 2380
+  ypos 1148
+ }
+ Output {
+  name Output
+  xpos 2380
+  ypos 1244
+ }
+end_group
