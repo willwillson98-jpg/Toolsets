@@ -1,0 +1,422 @@
+set cut_paste_input [stack 0]
+version 13.1 v2
+push $cut_paste_input
+Group {
+ name lensSmear2
+ tile_color 0x88ddff
+ selected true
+ xpos 35542
+ ypos 119392
+ addUserKnob {20 chromaSmear l "chroma Smear"}
+ addUserKnob {26 ""}
+ addUserKnob {7 warp}
+ warp 0.55
+ addUserKnob {7 smear}
+ smear 1
+ addUserKnob {18 abberation R -1 1}
+ abberation {0 0 0}
+ addUserKnob {6 abberation_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 abberation_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 abberation_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 abberation_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 abberation_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 abberation_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 ""}
+ addUserKnob {41 translate T Transform1.translate}
+ addUserKnob {41 rotate T Transform1.rotate}
+ addUserKnob {41 scale T Transform1.scale}
+ addUserKnob {41 center T Transform1.center}
+ addUserKnob {26 ""}
+ addUserKnob {7 Mask_softness l "Radial Mask"}
+ Mask_softness 0.5
+ addUserKnob {12 maskstretch l "mask stretch"}
+}
+ Radial {
+  inputs 0
+  replace true
+  invert true
+  area {{"format.x - (format.r *0.25)"} {"format.y - (format.t *0.25)"} {"(format.r)* 1.25"} {"format.h * 1.25"}}
+  softness {{parent.Mask_softness}}
+  name Radial1
+  xpos -150
+  ypos -359
+ }
+ Transform {
+  scale {{"1 + parent.maskstretch.x"} {"1 + parent.maskstretch.y"}}
+  center {{input.width/2 x1 110} {input.height/2 x1 -84}}
+  black_outside false
+  shutteroffset centred
+  name Transform2
+  xpos -150
+  ypos -306
+ }
+ Dot {
+  name Dot9
+  xpos -116
+  ypos -256
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos -260
+  ypos -1009
+ }
+ Dot {
+  name Dot4
+  xpos -226
+  ypos -806
+ }
+set N526b7200 [stack 0]
+ Dot {
+  name Dot5
+  xpos -6
+  ypos -806
+ }
+ Remove {
+  name Remove1
+  xpos -40
+  ypos -765
+ }
+ AdjBBox {
+  numpixels {{Input1.width/4} {Input1.width/4}}
+  name AdjBBox1
+  xpos -40
+  ypos -709
+ }
+ Expression {
+  expr0 x
+  expr1 y
+  name Expression1
+  xpos -40
+  ypos -659
+ }
+ Dot {
+  name Dot7
+  xpos -6
+  ypos -556
+ }
+set N526b4f00 [stack 0]
+ Dot {
+  name Dot2
+  xpos -116
+  ypos -556
+ }
+ Transform {
+  scale 1.01
+  center {{input.width/2 x1 110} {input.height/2 x1 -84}}
+  black_outside false
+  name Transform1
+  xpos -150
+  ypos -509
+ }
+ Dot {
+  name Dot6
+  xpos -116
+  ypos -406
+ }
+push $N526b4f00
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge1
+  xpos -40
+  ypos -409
+ }
+ Invert {
+  channels rgba
+  name Invert1
+  xpos -40
+  ypos -359
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge2
+  xpos -40
+  ypos -259
+ }
+ Dot {
+  name Dot8
+  xpos -6
+  ypos -156
+ }
+push $N526b7200
+ AdjBBox {
+  numpixels {{Input1.width/8} {Input1.width/8}}
+  name AdjBBox2
+  xpos -260
+  ypos -559
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 forward.u
+  from1 rgba.green
+  to1 forward.v
+  bbox B
+  name Copy1
+  xpos -260
+  ypos -166
+ }
+ IDistort {
+  channels rgba
+  uv forward
+  uv_scale {{"parent.warp - (parent.warp*2)"}}
+  name IDistort1
+  xpos -260
+  ypos -9
+ }
+ Dot {
+  name Dot16
+  xpos -226
+  ypos 144
+ }
+set N52698100 [stack 0]
+ Dot {
+  name Dot14
+  note_font_size 25
+  note_font_color 0xffffff
+  xpos -776
+  ypos 144
+ }
+ AdjBBox {
+  numpixels 0
+  name AdjBBox3
+  xpos -804
+  ypos 590
+ }
+ Dot {
+  name Dot13
+  note_font_size 25
+  note_font_color 0xffffff
+  xpos -776
+  ypos 994
+ }
+push $N52698100
+ Dot {
+  name Dot10
+  xpos -226
+  ypos 194
+ }
+set N5266a400 [stack 0]
+ Dot {
+  name Dot12
+  xpos -116
+  ypos 194
+ }
+ Shuffle {
+  red black
+  green black
+  name Shuffle3
+  xpos -150
+  ypos 341
+ }
+ VectorBlur2 {
+  channels rgba
+  uv forward
+  blur_uv linear
+  scale {{parent.VectorBlur5.scale}}
+  motion_falloff 1
+  offset {{"-0.5 * ((parent.abberation.b)) -0.5"}}
+  name VectorBlur6
+  xpos -150
+  ypos 435
+ }
+ Expression {
+  expr3 a*0.114
+  name Expression4
+  xpos -150
+  ypos 641
+ }
+ Dot {
+  name Dot1
+  xpos -116
+  ypos 844
+ }
+push $N5266a400
+ Shuffle {
+  red black
+  blue black
+  name Shuffle2
+  xpos -260
+  ypos 342
+ }
+ VectorBlur2 {
+  channels rgba
+  uv forward
+  blur_uv linear
+  uv_offset {{-.5*abberation*.6}}
+  scale {{parent.VectorBlur4.scale}}
+  motion_falloff 1
+  offset {{"-0.5 * ((parent.abberation.g)) -0.5"}}
+  name VectorBlur5
+  xpos -260
+  ypos 436
+ }
+ Expression {
+  expr3 a*0.587
+  name Expression3
+  xpos -254
+  ypos 642
+ }
+ Dot {
+  name Dot3
+  xpos -226
+  ypos 744
+ }
+push $N5266a400
+ Dot {
+  name Dot11
+  xpos -446
+  ypos 194
+ }
+ Shuffle {
+  green black
+  blue black
+  name Shuffle1
+  xpos -480
+  ypos 341
+ }
+ VectorBlur2 {
+  channels rgba
+  uv forward
+  blur_uv linear
+  scale {{parent.smear}}
+  motion_falloff 1
+  offset {{"-0.5 * ((parent.abberation.r)) -0.5"}}
+  name VectorBlur4
+  xpos -480
+  ypos 434
+ }
+ Expression {
+  expr3 a*0.299
+  name Expression2
+  xpos -480
+  ypos 641
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge3
+  xpos -480
+  ypos 741
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge4
+  xpos -480
+  ypos 846
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos -480
+  ypos 991
+ }
+ Output {
+  name Output1
+  xpos -480
+  ypos 1241
+ }
+ Roto {
+  inputs 0
+  output alpha
+  curves {{{v x3f99999a}
+  {f 0}
+  {n
+   {layer Root
+    {f 2097152}
+    {t x44fca000 x44854000}
+    {a pt1x 0 pt1y 0 pt2x 0 pt2y 0 pt3x 0 pt3y 0 pt4x 0 pt4y 0 ptex00 0 ptex01 0 ptex02 0 ptex03 0 ptex10 0 ptex11 0 ptex12 0 ptex13 0 ptex20 0 ptex21 0 ptex22 0 ptex23 0 ptex30 0 ptex31 0 ptex32 0 ptex33 0 ptof1x 0 ptof1y 0 ptof2x 0 ptof2y 0 ptof3x 0 ptof3y 0 ptof4x 0 ptof4y 0 pterr 0 ptrefset 0 ptmot x40800000 ptref 0}
+    {curvegroup Ellipse1 512 bezier
+     {{cc
+       {f 8192}
+       {px x447a4000
+        {xc4218b14 0}
+        {x44fe6000 x43ca8000}
+        {x44218b14 0}
+        {0 xc3cc5868}
+        {x45485000 x448f2000}
+        {0 x43cc5868}
+        {x44218b14 0}
+        {x44fe6000 x44eba000}
+        {xc4218b14 0}
+        {0 x43cc5868}
+        {x44584000 x448f2000}
+        {0 xc3cc5868}}}
+      {cc
+       {f 8192}
+       {p
+        {{{x447a4000 xc4218b14}}
+      {{x447a4000 0}}}
+        {{{x447a4000 0}}
+      {{x447a4000 0}}}
+        {{{x447a4000 x44218b14}}
+      {{x447a4000 0}}}
+        {{{x447a4000 0}}
+      {{x447a4000 xc3cc5868}}}
+        {{{x447a4000 0}}
+      {{x447a4000 0}}}
+        {{{x447a4000 0}}
+      {{x447a4000 x43cc5868}}}
+        {{{x447a4000 x44218b14}}
+      {{x447a4000 0}}}
+        {{{x447a4000 0}}
+      {{x447a4000 0}}}
+        {{{x447a4000 xc4218b14}}
+      {{x447a4000 0}}}
+        {{{x447a4000 0}}
+      {{x447a4000 x43cc5868}}}
+        {{{x447a4000 0}}
+      {{x447a4000 0}}}
+        {{{x447a4000 0}}
+      {{x447a4000 xc3cc5868}}}}}}
+     {tx x447a4000 x44fe6000 x448f2000}
+     {a osw x41200000 osf 0 str 1 spx x44fca000 spy x44854000 sb 1 ltn x447a4000 ltm x447a4000 tt x40e00000}}}}}}
+  toolbox {selectAll {
+  { selectAll str 1 ssx 1 ssy 1 sf 1 }
+  { createBezier str 1 ssx 1 ssy 1 sf 1 sb 1 tt 4 }
+  { createBezierCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createBSpline str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createEllipse str 1 ssx 1 ssy 1 sf 1 sb 1 tt 7 }
+  { createRectangle str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createRectangleCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { brush str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { eraser src 2 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { clone src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { reveal src 3 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { dodge src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { burn src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { blur src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { sharpen src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { smear src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+} }
+  toolbar_brush_hardness 0.200000003
+  toolbar_source_transform_scale {1 1}
+  toolbar_source_transform_center {2021 1066}
+  colorOverlay {0 0 0 0}
+  lifetime_type "all frames"
+  lifetime_start 1001
+  lifetime_end 1001
+  motionblur_shutter_offset_type centred
+  source_black_outside true
+  name Roto1
+  selected true
+  xpos 64
+  ypos 344
+ }
+ Blur {
+  size 54
+  name Blur1
+  selected true
+  xpos 64
+  ypos 398
+ }
+ Invert {
+  name Invert2
+  selected true
+  xpos 64
+  ypos 436
+ }
+end_group
