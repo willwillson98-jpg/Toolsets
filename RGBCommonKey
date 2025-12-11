@@ -1,0 +1,17 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+push $cut_paste_input
+push 0
+MergeExpression {
+ inputs 2
+ expr0 "abs(Ar-Br) > thresh ? 1 : 0"
+ expr1 "abs(Ag-Bg) > thresh ? 1 : 0"
+ expr2 "abs(Ab-Bb) > thresh ? 1 : 0"
+ name RGB_CommonKey
+ selected true
+ xpos -1125
+ ypos 2316
+ addUserKnob {20 User}
+ addUserKnob {7 thresh}
+ thresh 0.001
+}
