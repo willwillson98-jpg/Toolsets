@@ -1,0 +1,70 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+Camera3 {
+ inputs 0
+ name Camera3
+ selected true
+ xpos -1692
+ ypos 1406
+}
+Noise {
+ inputs 0
+ center {2224 1548}
+ name Noise5
+ selected true
+ xpos -1388
+ ypos 964
+}
+Sphere {
+ uniform_scale 50000
+ name Sphere2
+ label HDRI
+ selected true
+ xpos -1388
+ ypos 1058
+}
+push $cut_paste_input
+Reflection {
+ name Reflection1
+ selected true
+ xpos -1692
+ ypos 1158
+}
+Cube {
+ name Cube3
+ label "YOUR GEO"
+ selected true
+ xpos -1692
+ ypos 1232
+}
+Scene {
+ inputs 2
+ display textured
+ render_mode textured
+ cast_shadow false
+ receive_shadow false
+ name Scene4
+ selected true
+ xpos -1378
+ ypos 1218
+}
+push 0
+add_layer {ref ref.red ref.green ref.blue ref.alpha}
+RayRender {
+ inputs 3
+ output_shader_vectors true
+ AOV_Reflection ref
+ name RayRender1
+ selected true
+ xpos -1388
+ ypos 1426
+}
+StickyNote {
+ inputs 0
+ name StickyNote1
+ label "Output Reflection AOV and shuffle back to use reflection"
+ note_font_size 40
+ selected true
+ xpos -1218
+ ypos 1418
+}
