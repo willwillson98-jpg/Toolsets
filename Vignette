@@ -1,0 +1,407 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+push $cut_paste_input
+Group {
+ name Vignette1
+ tile_color 0x942034ff
+ selected true
+ xpos -3490
+ ypos 5635
+ addUserKnob {20 User}
+ addUserKnob {26 _2 l <b>overall</b> T "\t"}
+ addUserKnob {7 o_size l size R 1 5}
+ o_size 3.48
+ addUserKnob {7 o_softness l softness}
+ o_softness 0.7
+ addUserKnob {7 o_value l value}
+ o_value 0.155
+ addUserKnob {6 o_enable l enable -STARTLINE}
+ o_enable true
+ addUserKnob {26 _1 l "" +STARTLINE}
+ addUserKnob {26 _3 l <b>edge</b> T ""}
+ addUserKnob {7 _6 l value}
+ _6 0.13
+ addUserKnob {6 w_enable l enable -STARTLINE}
+ w_enable true
+ addUserKnob {26 ""}
+ addUserKnob {26 _4 l <b>corner</b> T ""}
+ addUserKnob {7 csize l size}
+ csize 2.17
+ addUserKnob {7 csoft l softness}
+ csoft 0.25
+ addUserKnob {7 cvalue l value}
+ cvalue 0.26
+ addUserKnob {6 cenable l enable -STARTLINE}
+ cenable true
+ addUserKnob {26 ""}
+ addUserKnob {6 invert_vignette l Invert +STARTLINE}
+ addUserKnob {6 visualise l "visualise output" +STARTLINE}
+ addUserKnob {20 fAsset}
+ addUserKnob {52 Summary l "" -STARTLINE T "__import__(\"plassetapi.app.nuke.ui.nodepropertyknob\",fromlist=\[\"NodePropertyKnob\"]).NodePropertyKnob()"}
+ addUserKnob {1 plapp_node_type +HIDDEN}
+ plapp_node_type FAssetGroup
+ addUserKnob {20 Developer}
+ addUserKnob {6 is_group -STARTLINE}
+ addUserKnob {1 v_uid}
+ addUserKnob {1 file_uid}
+ addUserKnob {1 location_name}
+ location_name vault
+ addUserKnob {1 asset_type}
+ asset_type nuke_script
+ addUserKnob {1 file_format}
+ file_format nk
+ addUserKnob {1 gv_uid}
+ addUserKnob {1 group_type}
+ addUserKnob {6 load -STARTLINE}
+ addUserKnob {6 is_loaded -STARTLINE}
+ is_loaded true
+ addUserKnob {1 set_loader}
+ addUserKnob {1 loader}
+ loader nuke_script_loader
+ addUserKnob {1 set_loader_attrs}
+ addUserKnob {1 current_loader_attrs}
+ addUserKnob {6 lock_version -STARTLINE}
+ lock_version true
+ addUserKnob {6 lock_sub_asset_version -STARTLINE}
+ addUserKnob {6 edit_mode -STARTLINE}
+ addUserKnob {1 file +HIDDEN}
+}
+ Ramp {
+  inputs 0
+  p0 {2000 0}
+  p1 {-500 0}
+  name Ramp2
+  xpos 339
+  ypos -139
+ }
+set N249de7c0 [stack 0]
+ Mirror2 {
+  flop true
+  name Mirror2_2
+  xpos 238
+  ypos -65
+ }
+push $N249de7c0
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge15
+  xpos 339
+  ypos -65
+ }
+ Multiply {
+  value {{parent._6}}
+  name Multiply1
+  xpos 339
+  ypos -24
+ }
+ Invert {
+  name Invert5
+  xpos 339
+  ypos 29
+ }
+ Shuffle {
+  alpha white
+  name Shuffle1
+  xpos 339
+  ypos 65
+ }
+ Expression {
+  temp_name0 limit
+  temp_expr0 0.001
+  expr0 r<limit?r:(1/r)
+  expr1 g<limit?g:(1/g)
+  expr2 b<limit?b:(1/b)
+  name Expression3
+  selected true
+  xpos 339
+  ypos 106
+  disable {{!invert_vignette}}
+ }
+ Expression {
+  temp_name0 value
+  temp_expr0 12
+  expr0 r>value?(log((r-value)+1)+value):r
+  expr1 g>value?(log((g-value)+1)+value):g
+  expr2 b>value?(log((b-value)+1)+value):b
+  name SuperWhiteRollOff2
+  tile_color 0xffffffff
+  label "Value = \[value temp_expr0]"
+  xpos 339
+  ypos 130
+  disable {{!invert_vignette}}
+  addUserKnob {20 User}
+ }
+ Dot {
+  name Dot1
+  xpos 373
+  ypos 194
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color 1
+  name Constant1
+  xpos 177
+  ypos -774
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 0
+  ypos -862
+ }
+ Switch {
+  inputs 2
+  which {{parent.visualise}}
+  name Switch1
+  xpos 0
+  ypos -750
+ }
+ Dot {
+  name Dot2
+  xpos 34
+  ypos -601
+ }
+set N153c3440 [stack 0]
+ Dot {
+  name Dot3
+  xpos 373
+  ypos -601
+ }
+ Remove {
+  name Remove1
+  xpos 339
+  ypos -583
+ }
+ Reformat {
+  format "2048 2048 0 0 2048 2048 1 square_2K"
+  name Reformat1
+  xpos 339
+  ypos -546
+ }
+ Crop {
+  box {0 0 2048 2048}
+  name Crop1
+  xpos 339
+  ypos -508
+ }
+ Radial {
+  invert true
+  area {512 512 1536 1536}
+  softness {{parent.o_softness}}
+  name Radial1
+  xpos 339
+  ypos -484
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle2
+  xpos 339
+  ypos -460
+ }
+ Transform {
+  scale {{parent.o_size}}
+  center {1024 1024}
+  name Transform1
+  xpos 339
+  ypos -436
+ }
+ Reformat {
+  type "to box"
+  format {{{Input1.format}}}
+  box_width {{Input1.width}}
+  box_height {{Input1.height}}
+  box_fixed true
+  box_pixel_aspect {{"\[value Input1.pixel_aspect]"}}
+  name Reformat2
+  xpos 339
+  ypos -412
+ }
+ Multiply {
+  value {{parent.o_value}}
+  name Multiply2
+  xpos 339
+  ypos -388
+ }
+ Invert {
+  name Invert1
+  xpos 339
+  ypos -348
+ }
+ Shuffle {
+  alpha white
+  name Shuffle3
+  xpos 339
+  ypos -312
+ }
+ Expression {
+  temp_name0 limit
+  temp_expr0 0.001
+  expr0 r<limit?r:(1/r)
+  expr1 g<limit?g:(1/g)
+  expr2 b<limit?b:(1/b)
+  name Expression1
+  xpos 339
+  ypos -251
+  disable {{!invert_vignette}}
+ }
+ Expression {
+  temp_name0 value
+  temp_expr0 12
+  expr0 r>value?(log((r-value)+1)+value):r
+  expr1 g>value?(log((g-value)+1)+value):g
+  expr2 b>value?(log((b-value)+1)+value):b
+  name SuperWhiteRollOff1
+  tile_color 0xffffffff
+  label "Value = \[value temp_expr0]"
+  xpos 339
+  ypos -227
+  disable {{!invert_vignette}}
+  addUserKnob {20 User}
+ }
+push $N153c3440
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge2
+  xpos 0
+  ypos -221
+  disable {{1-parent.o_enable x1001 1}}
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge1
+  xpos 0
+  ypos 191
+  disable {{1-parent.w_enable}}
+ }
+ Dot {
+  name Dot4
+  xpos 34
+  ypos 310
+ }
+set N1b5856c0 [stack 0]
+ Dot {
+  name Dot5
+  xpos 373
+  ypos 310
+ }
+ Remove {
+  name Remove2
+  xpos 339
+  ypos 367
+ }
+ Reformat {
+  format "2048 2048 0 0 2048 2048 1 square_2K"
+  name Reformat3
+  xpos 339
+  ypos 404
+ }
+ Crop {
+  box {0 0 2048 2048}
+  name Crop2
+  xpos 339
+  ypos 442
+ }
+ Radial {
+  invert true
+  area {512 512 1536 1536}
+  softness {{parent.csoft}}
+  name Radial2
+  xpos 339
+  ypos 466
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle4
+  xpos 339
+  ypos 490
+ }
+ Transform {
+  rotate 2
+  scale {{parent.csize}}
+  center {1024 1024}
+  name Transform2
+  xpos 339
+  ypos 514
+ }
+ Reformat {
+  type "to box"
+  format {{{Input1.format}}}
+  box_width {{Input1.width}}
+  box_height {{Input1.height}}
+  box_fixed true
+  box_pixel_aspect {{"\[value Input1.pixel_aspect]"}}
+  name Reformat4
+  xpos 339
+  ypos 538
+ }
+ Multiply {
+  value {{parent.cvalue}}
+  name Multiply3
+  xpos 339
+  ypos 569
+ }
+ Invert {
+  name Invert2
+  xpos 339
+  ypos 613
+ }
+ Shuffle {
+  alpha white
+  name Shuffle5
+  xpos 339
+  ypos 692
+ }
+ Expression {
+  temp_name0 limit
+  temp_expr0 0.001
+  expr0 r<limit?r:(1/r)
+  expr1 g<limit?g:(1/g)
+  expr2 b<limit?b:(1/b)
+  name Expression2
+  xpos 339
+  ypos 724
+  disable {{!invert_vignette}}
+ }
+ Expression {
+  temp_name0 value
+  temp_expr0 12
+  expr0 r>value?(log((r-value)+1)+value):r
+  expr1 g>value?(log((g-value)+1)+value):g
+  expr2 b>value?(log((b-value)+1)+value):b
+  name SuperWhiteRollOff
+  tile_color 0xffffffff
+  label "Value = \[value temp_expr0]"
+  xpos 339
+  ypos 748
+  disable {{!invert_vignette}}
+  addUserKnob {20 User}
+ }
+push $N1b5856c0
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge3
+  xpos 0
+  ypos 754
+  disable {{1-parent.cenable}}
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 952
+ }
+end_group
