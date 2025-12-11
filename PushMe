@@ -1,0 +1,470 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+push $cut_paste_input
+Group {
+ name PushMe2
+ tile_color 0x6e62ff
+ note_font_color 0x71e98fff
+ selected true
+ xpos 112
+ ypos 202
+ addUserKnob {20 PushMe}
+ addUserKnob {26 pmCredits l "" +STARTLINE T "<i><b><span style=\"color:#99ffcc;\"><font size = \"+4\">PushMe </i> </b> </font size> v1.2 <br> by <span style=\"color:#99ffcc;\">   <i> Ivan Sorgente"}
+ addUserKnob {26 ""}
+ addUserKnob {4 pmvisualizer l Render M {Final "affected area" "distortion map"}}
+ addUserKnob {6 pm_premultOut l "premult output" -STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {7 pmscale l "map size" R 0 100}
+ pmscale 22.8
+ addUserKnob {41 uv_scale l "UV scale" T IDistort1.uv_scale}
+ addUserKnob {26 ""}
+ addUserKnob {41 pmdefocus l "defocus map" T Defocus1.defocus}
+ addUserKnob {41 pmblur l "blur map" T Blur1.size}
+ addUserKnob {6 pmvis l "view affected area" +STARTLINE}
+ addUserKnob {20 pmExtraTweaks l "extra tweaks" n 1}
+ pmExtraTweaks 0
+ addUserKnob {41 pmOffset l offset T UVOffset.translate}
+ addUserKnob {20 endGroup n -1}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x101010ff
+  label X_Displacement
+  note_font_size 42
+  note_font_color 0x660000ff
+  xpos 105
+  ypos 232
+  bdwidth 859
+  bdheight 347
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x101010ff
+  label Y_Displacement
+  note_font_size 42
+  note_font_color 0x1f6300ff
+  xpos -939
+  ypos 227
+  bdwidth 859
+  bdheight 347
+ }
+ Input {
+  inputs 0
+  name InputAlpha
+  xpos 85
+  ypos -867
+  number 1
+ }
+set N15c41900 [stack 0]
+push $N15c41900
+ Expression {
+  expr0 a
+  expr1 a
+  expr2 a
+  expr3 a
+  name Expression1
+  xpos 80
+  ypos -613
+ }
+ Dot {
+  name Dot3
+  xpos 114
+  ypos -457
+ }
+set N1179cc90 [stack 0]
+ Dot {
+  name Dot1
+  xpos 114
+  ypos -284
+ }
+set N11833e50 [stack 0]
+ Dot {
+  name Dot10
+  xpos 215
+  ypos -284
+ }
+set N118c0fa0 [stack 0]
+ ColorCorrect {
+  gain 0.5
+  name ColorCorrect1
+  tile_color 0x660000ff
+  xpos 181
+  ypos 518
+ }
+push $N118c0fa0
+ Dot {
+  name Dot8
+  xpos 316
+  ypos -284
+ }
+set N11571250 [stack 0]
+ Transform {
+  translate {{(parent.UVController.translate.x)*(-1)} 0}
+  center {{parent.UVController.center.x} {parent.UVController.center.y}}
+  name Transform1
+  tile_color 0x660000ff
+  xpos 282
+  ypos 414
+ }
+ ColorCorrect {
+  gain 0
+  name ColorCorrect6
+  tile_color 0x660000ff
+  xpos 282
+  ypos 440
+ }
+push $N11571250
+ Dot {
+  name Dot7
+  xpos 518
+  ypos -284
+ }
+ Transform {
+  translate {{parent.UVController.translate.x} 0}
+  center {{parent.UVController.center.x} {parent.UVController.center.y}}
+  name Transform6
+  tile_color 0x660000ff
+  xpos 484
+  ypos 358
+ }
+push $N11833e50
+ Dot {
+  name Dot19
+  xpos 114
+  ypos -106
+ }
+ Dot {
+  name Dot20
+  xpos -162
+  ypos -106
+ }
+ Dot {
+  name Dot18
+  tile_color 0x191a1cff
+  label "Get Input Resolution and make it .5"
+  note_font_color 0xffffffff
+  xpos -162
+  ypos -61
+ }
+ Expression {
+  expr0 .5
+  expr1 .5
+  expr2 .5
+  name Expression2
+  xpos -196
+  ypos 92
+ }
+set N11872b10 [stack 0]
+ Dot {
+  name Dot5
+  tile_color 0x660000ff
+  xpos 658
+  ypos 96
+ }
+set N11967dc0 [stack 0]
+ Merge2 {
+  inputs 2
+  name Merge1
+  tile_color 0x660000ff
+  xpos 624
+  ypos 358
+ }
+ Merge2 {
+  inputs 2
+  name Merge8
+  tile_color 0x660000ff
+  xpos 624
+  ypos 440
+ }
+ Merge2 {
+  inputs 2
+  name Merge9
+  tile_color 0x660000ff
+  xpos 624
+  ypos 518
+ }
+ Dot {
+  name Dot11
+  xpos 658
+  ypos 992
+ }
+push $N11833e50
+ Dot {
+  name Dot12
+  xpos -570
+  ypos -284
+ }
+set N11731bf0 [stack 0]
+ Dot {
+  name Dot13
+  xpos -696
+  ypos -284
+ }
+set N1173cb40 [stack 0]
+ Dot {
+  name Dot14
+  xpos -806
+  ypos -284
+ }
+ ColorCorrect {
+  gain 0.5
+  name ColorCorrect7
+  tile_color 0x1f6300ff
+  xpos -840
+  ypos 503
+ }
+push $N1173cb40
+ Transform {
+  translate {0 {parent.UVController.translate.y*-1}}
+  center {{parent.UVController.center.x} {parent.UVController.center.y}}
+  name Transform7
+  tile_color 0x1f6300ff
+  xpos -730
+  ypos 395
+ }
+ ColorCorrect {
+  gain 0
+  name ColorCorrect8
+  tile_color 0x1f6300ff
+  xpos -730
+  ypos 421
+ }
+push $N11731bf0
+ Transform {
+  translate {0 {parent.UVController.translate.y}}
+  center {{parent.UVController.center.x} {parent.UVController.center.y}}
+  name Transform8
+  tile_color 0x1f6300ff
+  xpos -604
+  ypos 342
+ }
+push $N11872b10
+ Dot {
+  name Dot2
+  xpos -162
+  ypos 227
+ }
+ Merge2 {
+  inputs 2
+  name Merge10
+  tile_color 0x1f6300ff
+  xpos -196
+  ypos 342
+ }
+ Merge2 {
+  inputs 2
+  name Merge11
+  tile_color 0x1f6300ff
+  xpos -196
+  ypos 421
+ }
+ Merge2 {
+  inputs 2
+  name Merge12
+  tile_color 0x1f6300ff
+  xpos -196
+  ypos 503
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  blue black
+  alpha white
+  name ShuffleCopy1
+  xpos -196
+  ypos 988
+ }
+ Defocus {
+  defocus 2.1
+  name Defocus1
+  xpos -196
+  ypos 1028
+ }
+ Blur {
+  size 3.6
+  name Blur1
+  xpos -196
+  ypos 1129
+ }
+ Invert {
+  name Invert1
+  xpos -196
+  ypos 1167
+ }
+push $N1179cc90
+ Input {
+  inputs 0
+  name InputRGB
+  xpos -1302
+  ypos -740
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy2
+  xpos -1302
+  ypos -467
+ }
+ Dot {
+  name Dot4
+  xpos -1264
+  ypos 919
+ }
+set N11814680 [stack 0]
+add_layer {push push.x push.y}
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 push.x
+  from1 rgba.green
+  to1 push.y
+  name Copy1
+  xpos -1298
+  ypos 1161
+ }
+set N1181a0f0 [stack 0]
+ IDistort {
+  uv push
+  uv_offset 0.5
+  uv_scale 3.5
+  blur_scale 0
+  name IDistort1
+  xpos -1298
+  ypos 1230
+ }
+set N118ec040 [stack 0]
+ Viewer {
+  inputs 2
+  frame_range 1017-1052
+  input_process false
+  name Viewer2
+  xpos -810
+  ypos 1387
+ }
+push $N11967dc0
+ Dot {
+  name Dot9
+  xpos 1394
+  ypos 96
+ }
+ Dot {
+  name Dot21
+  xpos 1394
+  ypos 219
+ }
+set N1afe8c10 [stack 0]
+ Dot {
+  name Dot22
+  xpos 1519
+  ypos 219
+ }
+ Transform {
+  center {{"\[ value input1.width]/2"} {"\[ value input1.height]/2"}}
+  name UVOffset
+  tile_color 0x212121ff
+  note_font_size 10
+  note_font_color 0xf4fff4ff
+  xpos 1485
+  ypos 315
+ }
+push $N1afe8c10
+ Transform {
+  translate {{PushMe2.pmscale+PushMe2.UVOffset.translate.x} {PushMe2.pmscale+PushMe2.UVOffset.translate.y}}
+  center {{"\[ value input1.width]/2"} {"\[ value input1.height]/2"}}
+  name UVController
+  tile_color 0x212121ff
+  note_font_size 10
+  note_font_color 0xf4fff4ff
+  xpos 1360
+  ypos 311
+ }
+push $N1181a0f0
+push $N118ec040
+push $N11814680
+ Dot {
+  name Dot16
+  xpos -1047
+  ypos 919
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge2
+  xpos -1081
+  ypos 1236
+ }
+ Grade {
+  white {2 0 0 1}
+  white_panelDropped true
+  name Grade1
+  xpos -1081
+  ypos 1280
+ }
+push $N15c41900
+ Dot {
+  name Dot15
+  xpos -1534
+  ypos -863
+ }
+ Dot {
+  name Dot6
+  xpos -1534
+  ypos 1344
+ }
+push $N118ec040
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy3
+  xpos -1298
+  ypos 1334
+ }
+set N1bc28b60 [stack 0]
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge3
+  xpos -1081
+  ypos 1340
+ }
+ Dot {
+  name Dot17
+  xpos -1047
+  ypos 1463
+ }
+push $N1bc28b60
+ Switch {
+  inputs 2
+  which {{PushMe2.pmvis}}
+  name Switch1
+  xpos -1300
+  ypos 1459
+ }
+ Premult {
+  name Premult1
+  selected true
+  xpos -1300
+  ypos 1527
+  disable {{parent.pm_premultOut-1}}
+ }
+set N1bc58fa0 [stack 0]
+ Viewer {
+  inputs 2
+  frame_range 1001-1001
+  useGPUForViewer true
+  useGPUForInputs true
+  name Viewer1
+  xpos -591
+  ypos 955
+ }
+push $N1bc58fa0
+ Output {
+  name Output1
+  xpos -1300
+  ypos 1589
+ }
+end_group
