@@ -1,0 +1,256 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+push $cut_paste_input
+Group {
+ name softClamp1
+ tile_color 0x7fbfffff
+ selected true
+ xpos -990
+ ypos 2328
+ addUserKnob {20 User}
+ addUserKnob {6 input_saturation l "Use input saturation" +STARTLINE}
+ addUserKnob {18 shadow_colour}
+ shadow_colour {0.01595221832 0.01350835245 0.01271048747}
+ addUserKnob {6 shadow_colour_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 mix_back}
+ mix_back 1
+ addUserKnob {1 FS_PROPERTY +HIDDEN}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 204
+  ypos -540
+ }
+set N240d6830 [stack 0]
+push $N240d6830
+ Viewer {
+  inputs 2
+  frame_range 1001-1316
+  gain 6.5
+  colour_sample_bbox {-0.2643784881 -0.4833024144 -0.2634508312 -0.4823747575}
+  useGPUForViewer true
+  useGPUForInputs true
+  viewerProcess "default_look (P3)"
+  name Viewer1
+  xpos 480
+  ypos -170
+ }
+push $N240d6830
+ Dot {
+  name Dot3
+  xpos 238
+  ypos -414
+ }
+set N24177a30 [stack 0]
+ Dot {
+  name Dot4
+  xpos -11
+  ypos -371
+ }
+set N240e1fa0 [stack 0]
+ Saturation {
+  saturation 0
+  name Saturation2
+  xpos 42
+  ypos -323
+ }
+set N222c9f20 [stack 0]
+ Clamp {
+  channels rgb
+  maximum {{((parent.shadow_colour.r*0.3)+(parent.shadow_colour.g*0.6)+(parent.shadow_colour.b*0.1))*clamp_gain}}
+  mix {{parent.mix_back}}
+  name Clamp13
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 42
+  ypos -236
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.8
+  addUserKnob {7 clamp_gain}
+  clamp_gain 6
+ }
+ Clamp {
+  channels rgb
+  maximum {{((parent.shadow_colour.r*0.3)+(parent.shadow_colour.g*0.6)+(parent.shadow_colour.b*0.1))*clamp_gain}}
+  mix {{parent.mix_back}}
+  name Clamp14
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 42
+  ypos -155
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.8
+  addUserKnob {7 clamp_gain}
+  clamp_gain 5
+ }
+ Clamp {
+  channels rgb
+  maximum {{((parent.shadow_colour.r*0.3)+(parent.shadow_colour.g*0.6)+(parent.shadow_colour.b*0.1))*clamp_gain}}
+  mix {{parent.mix_back}}
+  name Clamp15
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 42
+  ypos -87
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.8
+  addUserKnob {7 clamp_gain}
+  clamp_gain 3
+ }
+ Clamp {
+  channels rgb
+  maximum {{((parent.shadow_colour.r*0.3)+(parent.shadow_colour.g*0.6)+(parent.shadow_colour.b*0.1))*clamp_gain}}
+  mix {{parent.mix_back}}
+  name Clamp16
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 42
+  ypos -6
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.8
+  addUserKnob {7 clamp_gain}
+  clamp_gain 2
+ }
+ Clamp {
+  channels rgb
+  maximum {{((parent.shadow_colour.r*0.3)+(parent.shadow_colour.g*0.6)+(parent.shadow_colour.b*0.1))*clamp_gain}}
+  mix {{parent.mix_back}}
+  name Clamp17
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 42
+  ypos 61
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.8
+  addUserKnob {7 clamp_gain}
+  clamp_gain 1
+ }
+ Clamp {
+  channels rgb
+  maximum {{((parent.shadow_colour.r*0.3)+(parent.shadow_colour.g*0.6)+(parent.shadow_colour.b*0.1))*clamp_gain}}
+  mix {{parent.mix_back/3}}
+  name Clamp18
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 42
+  ypos 124
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.2
+  addUserKnob {7 clamp_gain}
+  clamp_gain 0.5
+ }
+push $N240e1fa0
+push $N222c9f20
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge3
+  xpos -45
+  ypos -285
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge4
+  xpos -45
+  ypos 207
+ }
+push $N24177a30
+ Clamp {
+  channels rgb
+  maximum {{parent.shadow_colour.r*clamp_gain} {parent.shadow_colour.g*clamp_gain} {parent.shadow_colour.b*clamp_gain} {curve}}
+  mix {{parent.mix_back}}
+  name Clamp19
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 204
+  ypos -243
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.8
+  addUserKnob {7 clamp_gain}
+  clamp_gain 6
+ }
+ Clamp {
+  channels rgb
+  maximum {{parent.shadow_colour.r*clamp_gain} {parent.shadow_colour.g*clamp_gain} {parent.shadow_colour.b*clamp_gain} {curve}}
+  mix {{parent.mix_back}}
+  name Clamp20
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 204
+  ypos -159
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.8
+  addUserKnob {7 clamp_gain}
+  clamp_gain 5
+ }
+ Clamp {
+  channels rgb
+  maximum {{parent.shadow_colour.r*clamp_gain} {parent.shadow_colour.g*clamp_gain} {parent.shadow_colour.b*clamp_gain} {curve}}
+  mix {{parent.mix_back}}
+  name Clamp21
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 204
+  ypos -94
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.8
+  addUserKnob {7 clamp_gain}
+  clamp_gain 3
+ }
+ Clamp {
+  channels rgb
+  maximum {{parent.shadow_colour.r*clamp_gain} {parent.shadow_colour.g*clamp_gain} {parent.shadow_colour.b*clamp_gain} {curve}}
+  mix {{parent.mix_back}}
+  name Clamp22
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 204
+  ypos -23
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.8
+  addUserKnob {7 clamp_gain}
+  clamp_gain 2
+ }
+ Clamp {
+  channels rgb
+  maximum {{parent.shadow_colour.r*clamp_gain} {parent.shadow_colour.g*clamp_gain} {parent.shadow_colour.b*clamp_gain} {curve}}
+  mix {{parent.mix_back}}
+  name Clamp23
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 204
+  ypos 58
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.8
+  addUserKnob {7 clamp_gain}
+  clamp_gain 1
+ }
+ Clamp {
+  channels rgb
+  maximum {{parent.shadow_colour.r*clamp_gain} {parent.shadow_colour.g*clamp_gain} {parent.shadow_colour.b*clamp_gain} {curve}}
+  mix {{parent.mix_back/3}}
+  name Clamp24
+  label "\[value clamp_gain]\n\[value mix_amount]"
+  xpos 204
+  ypos 108
+  addUserKnob {20 User}
+  addUserKnob {7 mix_amount}
+  mix_amount 0.2
+  addUserKnob {7 clamp_gain}
+  clamp_gain 0.5
+ }
+ Switch {
+  inputs 2
+  which {{parent.input_saturation}}
+  name Switch1
+  xpos 204
+  ypos 235
+ }
+ Output {
+  name Output1
+  xpos 204
+  ypos 330
+ }
+end_group
