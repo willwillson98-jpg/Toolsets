@@ -1,0 +1,12 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+push $cut_paste_input
+push 0
+Merge2 {
+ inputs 2
+ operation stencil
+ name Merge5
+ selected true
+ xpos -1106
+ ypos 2406
+}
