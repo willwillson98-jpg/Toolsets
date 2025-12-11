@@ -1,0 +1,178 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+push $cut_paste_input
+Group {
+ name regrain1
+ selected true
+ xpos -1249
+ ypos 2121
+ addUserKnob {20 Regrain}
+ addUserKnob {18 intensity l "RGB Intensity"}
+ intensity {1 1 1}
+ addUserKnob {6 intensity_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 invertMask l "Invert Incoming Mask" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {20 responseGroup l "Display Response Curve" n 1}
+ addUserKnob {41 lut l "" +STARTLINE T response.lut}
+ addUserKnob {26 ""}
+ addUserKnob {22 loadResponse l "Load Response Curve" t "Click to select a new response curve file from the location you specify. NOTE this file must be a .txt file in order to work correctly." T "tn= nuke.toNode(nuke.thisNode().name()+'.response')\nwhere= nuke.getFilename('load response from' , '*.txt')\nreadFile = open(where,\"r\")\ntn.readKnobs(readFile.read())" +STARTLINE}
+ addUserKnob {22 exportResponse l "Export Response Curve" t "Button to export response curve as a txt file." -STARTLINE T "tn= nuke.toNode(nuke.thisNode().name()+'.response')\nsaver = tn.writeKnobs( nuke.WRITE_NON_DEFAULT_ONLY | nuke.TO_SCRIPT)\nwhere= nuke.getFilename('save response here',  '*.txt')\nFILE = open(where,\"w\")\nnuke.tprint(saver, file=FILE)\nFILE.close()"}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {26 ""}
+}
+ Input {
+  inputs 0
+  name Mask
+  xpos -604
+  ypos -824
+  number 1
+ }
+ Dot {
+  name Dot7
+  xpos -570
+  ypos -506
+ }
+set N20244480 [stack 0]
+ Dot {
+  name Dot8
+  xpos -470
+  ypos -506
+ }
+ Dot {
+  name Dot4
+  xpos -470
+  ypos -334
+ }
+push $N20244480
+ Invert {
+  name Invert1
+  xpos -604
+  ypos -434
+ }
+ Switch {
+  inputs 2
+  which {{parent.invertMask}}
+  name Switch1
+  xpos -604
+  ypos -339
+ }
+ Input {
+  inputs 0
+  name bg
+  xpos -813
+  ypos -823
+ }
+ Colorspace {
+  colorspace_out AlexaV3LogC
+  name Colorspace1
+  xpos -813
+  ypos -740
+  disable true
+ }
+ Dot {
+  name Dot1
+  xpos -779
+  ypos -660
+ }
+set N2157aac0 [stack 0]
+ Dot {
+  name Dot2
+  xpos -891
+  ypos -660
+ }
+set N2157e9e0 [stack 0]
+ Dot {
+  name Dot5
+  xpos -979
+  ypos -660
+ }
+ Dot {
+  name Dot6
+  xpos -979
+  ypos -334
+ }
+push $N2157e9e0
+ Dot {
+  name Dot3
+  xpos -891
+  ypos -418
+ }
+ Input {
+  inputs 0
+  name Sample
+  xpos -1250
+  ypos -825
+  number 2
+ }
+ Dot {
+  name Dot9
+  xpos -1216
+  ypos -617
+ }
+set N1ca7e410 [stack 0]
+push $N1ca7e410
+ Defocus {
+  scale {{width/100}}
+  name Defocus1
+  selected true
+  xpos -1143
+  ypos -629
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge1
+  xpos -1143
+  ypos -563
+ }
+ Grade {
+  multiply {{parent.intensity.r i} {parent.intensity.g i} {parent.intensity.b i} 1}
+  black_clamp false
+  name Grade1
+  xpos -1143
+  ypos -518
+ }
+push $N2157aac0
+ ColorLookup {
+  lut {master {}
+    red {curve x-0.0003759413958 -0.007665097713 x0.02406932414 0.1735894084 x0.06165412068 0.3140667081 x0.121999979 0.4830158353 C k x0.3319999576 0.822108984 x0.713999927 0.9706045389 x1 1}
+    green {curve L x-0.01165428013 0.002912759781 S x0.005208298564 0.1332606971 x0.01657920331 0.2125224471 s3.799999952 x0.03305184841 0.3246217966 x0.08870898187 0.414301157 s0.8000000119 x0.1279840618 0.4451284409 x0.1609022468 0.4759558439 x0.32218045 0.663592875 C k x0.4503759146 0.9432020187 x0.963157773 0.3787102103}
+    blue {curve C k 0.09502488375 x0.0864661485 0.3042928576 x0.1939849406 0.4616915584 x0.3961299658 0.4972636104 x1 1.134825826}
+    alpha {}}
+  name response
+  xpos -813
+  ypos -600
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge2
+  xpos -813
+  ypos -518
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge3
+  xpos -813
+  ypos -423
+ }
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos -813
+  ypos -346
+ }
+ Colorspace {
+  colorspace_in AlexaV3LogC
+  name Colorspace2
+  xpos -813
+  ypos -289
+  disable true
+ }
+ Output {
+  name Output1
+  xpos -813
+  ypos -246
+ }
+end_group
