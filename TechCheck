@@ -1,0 +1,421 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+BackdropNode {
+ inputs 0
+ name BackdropNode36
+ tile_color 0xff0000ff
+ label "<center> Tech Check"
+ note_font_size 75
+ selected true
+ xpos -3932
+ ypos 2819
+ appearance Border
+ bdwidth 1770
+ bdheight 1654
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode37
+ tile_color 0xb0e33ff
+ label "<center> Creative\nFinal"
+ note_font_size 42
+ selected true
+ xpos -3525
+ ypos 3011
+ appearance Border
+ bdwidth 268
+ bdheight 370
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode43
+ note_font_size 150
+ selected true
+ xpos -3135
+ ypos 3010
+ appearance Border
+ bdwidth 930
+ bdheight 727
+}
+Dot {
+ inputs 0
+ name Dot535
+ label TECHPLATE
+ note_font_size 50
+ note_font_color 0xffffffff
+ selected true
+ xpos -2502
+ ypos 3399
+}
+Dot {
+ name Dot536
+ note_font_size 50
+ note_font_color 0xffffffff
+ selected true
+ xpos -2502
+ ypos 3676
+}
+push $cut_paste_input
+Dot {
+ name ThisDot1
+ label DELIVERY
+ note_font_size 50
+ note_font_color 0xffffffff
+ selected true
+ xpos -2867
+ ypos 3393
+}
+set N14ed7f00 [stack 0]
+Dot {
+ name Dot537
+ note_font_size 50
+ note_font_color 0xffffffff
+ selected true
+ xpos -2867
+ ypos 3564
+}
+set N14ebf640 [stack 0]
+Dot {
+ name Dot538
+ note_font_size 50
+ note_font_color 0xffffffff
+ selected true
+ xpos -2709
+ ypos 3564
+}
+Group {
+ inputs 2
+ name common_key_FS1
+ selected true
+ xpos -2743
+ ypos 3672
+ addUserKnob {20 CommonKey}
+ addUserKnob {41 tolerance T MergeExpression1.tolerance}
+ addUserKnob {1 FS_PROPERTY +HIDDEN}
+}
+ Input {
+  inputs 0
+  name Input2
+  xpos -189
+  ypos -333
+  number 1
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 9
+  ypos -333
+ }
+ MergeExpression {
+  inputs 2
+  expr3 "abs(Br-Ar) > tolerance || abs(Bg-Ag) > tolerance || abs(Bb-Ab)\n > tolerance?1:0"
+  name MergeExpression1
+  xpos -98
+  ypos -270
+  addUserKnob {20 User}
+  addUserKnob {7 tolerance R 0 0.1}
+  tolerance 0.001
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle1
+  xpos -98
+  ypos -242
+ }
+ Clamp {
+  name Clamp1
+  xpos -98
+  ypos -210
+ }
+ Output {
+  name Output1
+  xpos -98
+  ypos -99
+ }
+end_group
+StickyNote {
+ inputs 0
+ name StickyNote21
+ tile_color 0x11110bff
+ label "Shot info"
+ note_font_size 30
+ note_font_color 0xf40900ff
+ selected true
+ xpos -2701
+ ypos 4195
+}
+StickyNote {
+ inputs 0
+ name StickyNote8
+ tile_color 0xff
+ label "- Edges"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 2974
+}
+StickyNote {
+ inputs 0
+ name StickyNote12
+ tile_color 0xff
+ label "- Grain"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 3094
+}
+StickyNote {
+ inputs 0
+ name StickyNote13
+ tile_color 0xff
+ label "- Pops"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 3334
+}
+StickyNote {
+ inputs 0
+ name StickyNote14
+ tile_color 0xff
+ label "- DI Mattes"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 3454
+}
+StickyNote {
+ inputs 0
+ name StickyNote16
+ tile_color 0xff
+ label "- Plate vs Comp frame by frame"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 3694
+}
+StickyNote {
+ inputs 0
+ name StickyNote20
+ tile_color 0xff
+ label "- Check all renders are updated"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 3814
+}
+StickyNote {
+ inputs 0
+ name StickyNote22
+ tile_color 0xff
+ label "- Check all render is clean of AssetDB issues"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 3934
+}
+StickyNote {
+ inputs 0
+ name StickyNote23
+ tile_color 0xff
+ label "- Match Lenses - Chromatic abberation, diffusion, vignette"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 4054
+}
+StickyNote {
+ inputs 0
+ name StickyNote24
+ tile_color 0xff
+ label "- Check delivery matches Creative Final"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 4174
+}
+StickyNote {
+ inputs 0
+ name StickyNote25
+ tile_color 0xff
+ label "- Make sure Frame range matches SG"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 4294
+}
+StickyNote {
+ inputs 0
+ name StickyNote26
+ tile_color 0xff
+ label "- Saturation"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 3213
+}
+StickyNote {
+ inputs 0
+ name StickyNote18
+ tile_color 0x11110bff
+ label "Rerack\n\[value SHOTGUN_SHOT_INFO1.info_rerack]"
+ note_font_size 30
+ note_font_color 0xf200ff
+ selected true
+ xpos -2885
+ ypos 4280
+}
+StickyNote {
+ inputs 0
+ name StickyNote19
+ tile_color 0x11110bff
+ label "Delivery Range\n\[value root.SHOTGUN_SHOT_INFO1.info_delivery_start_frame]-\[value root.SHOTGUN_SHOT_INFO1.info_delivery_end_frame]"
+ note_font_size 30
+ note_font_color 0xf200ff
+ selected true
+ xpos -2780
+ ypos 4281
+}
+push $N14ed7f00
+Reformat {
+ flop true
+ name Reformat9
+ selected true
+ xpos -2738
+ ypos 3389
+}
+StickyNote {
+ inputs 0
+ name StickyNote15
+ tile_color 0xff
+ label "- Check Blacks"
+ note_font_size 40
+ selected true
+ xpos -3866
+ ypos 3574
+}
+StickyNote {
+ inputs 0
+ name StickyNote17
+ tile_color 0x11110bff
+ label "Retime\n\[value SHOTGUN_SHOT_INFO1.info_retime]"
+ note_font_size 30
+ note_font_color 0xf200ff
+ selected true
+ xpos -2997
+ ypos 4281
+}
+push $N14ed7f00
+ViewMetaData {
+ name ViewMetaData100
+ selected true
+ xpos -3066
+ ypos 3389
+}
+push $N14ebf640
+Dot {
+ name Dot539
+ note_font_size 50
+ note_font_color 0xffffffff
+ selected true
+ xpos -3031
+ ypos 3564
+}
+Group {
+ name QCtech1
+ selected true
+ xpos -3065
+ ypos 3675
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 358
+  ypos 506
+ }
+ Colorspace {
+  colorspace_out sRGB
+  name Colorspace4
+  xpos 358
+  ypos 546
+ }
+ Dot {
+  name Dot18
+  xpos 392
+  ypos 706
+ }
+set N1552c530 [stack 0]
+ Dot {
+  name Dot12
+  xpos 392
+  ypos 732
+ }
+set N15531e60 [stack 0]
+ Crop {
+  box {0 0 {width} {height}}
+  reformat true
+  crop false
+  name Crop2
+  xpos 358
+  ypos 764
+ }
+ Blur {
+  size 1.4
+  filter box
+  quality 20
+  crop false
+  name Blur2
+  xpos 358
+  ypos 838
+ }
+push $N1552c530
+ Dot {
+  name Dot11
+  xpos 296
+  ypos 706
+ }
+ Dot {
+  name Dot8
+  xpos 296
+  ypos 922
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge2
+  xpos 358
+  ypos 918
+ }
+ Multiply {
+  value 50
+  name Multiply4
+  xpos 358
+  ypos 1038
+ }
+push $N15531e60
+ Dot {
+  name Dot13
+  xpos 558
+  ypos 732
+ }
+ Multiply {
+  value 0.5
+  name Multiply3
+  xpos 524
+  ypos 975
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Plus2
+  xpos 524
+  ypos 1044
+ }
+ Output {
+  name Output1
+  xpos 524
+  ypos 1144
+ }
+end_group
