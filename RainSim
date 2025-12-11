@@ -1,0 +1,662 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0xbd396aff
+ label "<center>floor holdout</center>"
+ note_font "Bitstream Vera Sans"
+ note_font_size 42
+ selected true
+ xpos -3552
+ ypos 3253
+ bdwidth 465
+ bdheight 470
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode2
+ tile_color 0xe96900ff
+ label <center>particle</center>
+ note_font "Bitstream Vera Sans"
+ note_font_size 42
+ selected true
+ xpos -3526
+ ypos 2011
+ bdwidth 413
+ bdheight 487
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode4
+ tile_color 0xe96900ff
+ label <center>emitter</center>
+ note_font "Bitstream Vera Sans"
+ note_font_size 42
+ selected true
+ xpos -3501
+ ypos 607
+ bdwidth 553
+ bdheight 1026
+}
+Camera3 {
+ inputs 0
+ name Camera3
+ selected true
+ xpos -3384
+ ypos 3729
+}
+Dot {
+ name Dot2
+ selected true
+ xpos -3360
+ ypos 3859
+}
+Camera3 {
+ inputs 0
+ name Camera2
+ selected true
+ xpos -3477
+ ypos 3427
+}
+Dot {
+ name Dot3
+ selected true
+ xpos -3453
+ ypos 3570
+}
+Card2 {
+ inputs 0
+ orientation ZX
+ image_aspect false
+ rows 1
+ columns 1
+ translate {0 -9.5 -0.3}
+ control_points {3 3 3 6 
+
+1 {-0.5 0 -0.5} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0 0.1666666865} 0 {0 0 0} 0 {0 0 0} 
+1 {0 0 -0.5} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0 0.1666666865} 0 {0 0 0} 0 {0.5 0 0} 
+1 {0.5 0 -0.5} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0 0.1666666865} 0 {0 0 0} 0 {1 0 0} 
+1 {-0.5 0 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0 0.1666666716} 0 {0 0 -0.1666666716} 0 {0 0.5 0} 
+1 {0 0 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0 0.1666666716} 0 {0 0 -0.1666666716} 0 {0.5 0.5 0} 
+1 {0.5 0 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0 0.1666666716} 0 {0 0 -0.1666666716} 0 {1 0.5 0} 
+1 {-0.5 0 0.5} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0 0} 0 {0 0 -0.1666666865} 0 {0 1 0} 
+1 {0 0 0.5} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0 0} 0 {0 0 -0.1666666865} 0 {0.5 1 0} 
+1 {0.5 0 0.5} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0 0} 0 {0 0 -0.1666666865} 0 {1 1 0} }
+ name Card1
+ selected true
+ xpos -3381
+ ypos 3394
+}
+TransformGeo {
+ uniform_scale 50000
+ name TransformGeo1
+ selected true
+ xpos -3381
+ ypos 3470
+}
+TransformGeo {
+ inputs 2
+ name TransformGeo2
+ selected true
+ xpos -3381
+ ypos 3566
+}
+Dot {
+ name Dot4
+ selected true
+ xpos -3350
+ ypos 3617
+}
+Reformat {
+ inputs 0
+ format "256 256 0 0 256 256 1 square_256"
+ name Reformat3
+ label "\[ expr \{\[string match \[value resize] \"width\"] ? \"\" : \[value resize] \}]"
+ selected true
+ xpos -3460
+ ypos 2107
+}
+Radial {
+ area {0 0 256 256}
+ softness 0.395
+ name Radial1
+ selected true
+ xpos -3460
+ ypos 2165
+}
+Group {
+ name FractalBlur2
+ tile_color 0xa57aaaff
+ selected true
+ xpos -3460
+ ypos 2216
+ addUserKnob {20 fractalBlurTab l FractalBlur}
+ addUserKnob {41 channels T IDistort.channels}
+ addUserKnob {41 uv_scale l "distortion size" T IDistort.uv_scale}
+ addUserKnob {41 size l "distortion scale" T U.size}
+ addUserKnob {41 zoffset l animation/seed T U.zoffset}
+ addUserKnob {26 ""}
+ addUserKnob {41 filter T IDistort.filter}
+ addUserKnob {41 octaves T U.octaves}
+ addUserKnob {41 dilate T NoOp.dilate}
+ addUserKnob {41 blur T NoOp.blur}
+ addUserKnob {26 ""}
+ addUserKnob {41 grade T NoOp.grade}
+ addUserKnob {41 multiply l contrast T NoOp.multiply}
+ addUserKnob {41 blackpoint T NoOp.blackpoint}
+ addUserKnob {41 whitepoint T NoOp.whitepoint}
+ addUserKnob {41 gamma T NoOp.gamma}
+ addUserKnob {41 blackClamp T NoOp.blackClamp}
+ addUserKnob {41 whiteClamp -STARTLINE T NoOp.whiteClamp}
+ addUserKnob {20 "" l Transform}
+ addUserKnob {41 transform T U.transform}
+ addUserKnob {41 translate T U.translate}
+ addUserKnob {41 rotate T U.rotate}
+ addUserKnob {41 scale T U.scale}
+ addUserKnob {41 skew +INVISIBLE T U.skew}
+ addUserKnob {41 center T U.center}
+ addUserKnob {41 xrotate T U.xrotate}
+ addUserKnob {41 yrotate T U.yrotate}
+}
+ NoOp {
+  inputs 0
+  name NoOp
+  xpos 865
+  ypos -976
+  addUserKnob {20 User}
+  addUserKnob {7 dilate R -100 100}
+  addUserKnob {7 blur R 0 100}
+  addUserKnob {6 grade +STARTLINE}
+  addUserKnob {7 multiply R 0 2}
+  addUserKnob {7 blackpoint}
+  addUserKnob {7 whitepoint R 0 2}
+  whitepoint 1
+  addUserKnob {7 gamma R 0 2}
+  gamma 1
+  addUserKnob {6 blackClamp +STARTLINE}
+  addUserKnob {6 whiteClamp +STARTLINE}
+ }
+ Input {
+  inputs 0
+  name Input
+  xpos -82
+  ypos -1248
+ }
+ Blur {
+  channels {{{IDistort.channels}}}
+  size {{"\[value NoOp.dilate]" x101 0}}
+  crop false
+  name Blur1
+  xpos -82
+  ypos -1120
+ }
+ FilterErode {
+  channels {{{IDistort.channels}}}
+  size {{"(-\[value NoOp.dilate])/2" x1 0}}
+  name FilterErode7
+  xpos -82
+  ypos -1025
+ }
+ Dot {
+  name Dot9
+  xpos -48
+  ypos -915
+ }
+set N1e1a8d10 [stack 0]
+ Dot {
+  name Dot8
+  xpos 386
+  ypos -915
+ }
+ Dot {
+  name Dot1
+  xpos 386
+  ypos -786
+ }
+set N1e1b35d0 [stack 0]
+ Dot {
+  name Dot7
+  xpos 284
+  ypos -786
+ }
+ AdjBBox {
+  numpixels {{max(0,IDistort.uv_scale) i} {max(0,parent.IDistort.uv_scale) i}}
+  name AdjBBox1
+  xpos 250
+  ypos -649
+ }
+ Dot {
+  name Dot2
+  xpos 284
+  ypos -536
+ }
+push $N1e1b35d0
+add_layer {tempDistortion tempDistortion.u tempDistortion.v}
+ Noise {
+  output {tempDistortion.u -tempDistortion.v}
+  cliptype none
+  replace true
+  size 190
+  zoffset {{t}}
+  octaves 4
+  gamma 1
+  center {960 540}
+  name U
+  xpos 352
+  ypos -742
+ }
+ Noise {
+  output {-tempDistortion.u tempDistortion.v}
+  cliptype none
+  replace true
+  size {{U.size} {U.size}}
+  zoffset {{U.zoffset+111}}
+  octaves {{U.octaves}}
+  gamma 1
+  translate {{U.translate} {U.translate}}
+  rotate {{U.rotate}}
+  scale {{U.scale} {U.scale}}
+  skewX {{U.skew}}
+  center {{U.center} {U.center}}
+  xrotate {{U.xrotate}}
+  yrotate {{U.yrotate}}
+  name V
+  xpos 352
+  ypos -710
+ }
+ Expression {
+  channel0 {tempDistortion.u -tempDistortion.v}
+  expr0 4*(1-r)*r
+  expr1 4*(1-g)*g
+  channel2 none
+  expr2 4*(1-b)*b
+  name X_Fringe2
+  xpos 352
+  ypos -662
+  disable true
+ }
+ Clamp {
+  name Clamp2
+  xpos 352
+  ypos -596
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos 352
+  ypos -539
+ }
+ Dot {
+  name Dot6
+  xpos 386
+  ypos -441
+ }
+set N1e3c6ee0 [stack 0]
+ Dot {
+  name Dot4
+  xpos 386
+  ypos 73
+ }
+push $N1e3c6ee0
+ Dot {
+  name Dot5
+  xpos 99
+  ypos -441
+ }
+ Invert {
+  channels tempDistortion
+  name Invert4
+  xpos 65
+  ypos -368
+ }
+ Saturation {
+  channels tempDistortion
+  saturation 0
+  name Saturation1
+  xpos 65
+  ypos -332
+ }
+ Shuffle {
+  in tempDistortion
+  green red
+  blue red
+  alpha red
+  name Shuffle1
+  xpos 65
+  ypos -296
+ }
+ Grade {
+  channels {{{IDistort.channels}}}
+  white {{NoOp.multiply}}
+  gamma {{NoOp.multiply}}
+  black_clamp false
+  name Grade1
+  xpos 65
+  ypos -251
+ }
+ Dot {
+  name Dot3
+  xpos 99
+  ypos -169
+ }
+push $N1e1a8d10
+ Merge2 {
+  inputs 2
+  operation multiply
+  Achannels tempDistortion
+  Bchannels {-rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  output {-rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  also_merge {{{IDistort.channels}}}
+  name Merge13
+  xpos -82
+  ypos -172
+  disable {{!NoOp.grade}}
+ }
+ Expression {
+  expr0 4*(1-r)*r
+  expr1 4*(1-g)*g
+  expr2 4*(1-b)*b
+  name X_Fringe1
+  xpos -82
+  ypos -51
+  disable true
+ }
+ Copy {
+  inputs 2
+  channels tempDistortion
+  name Copy1
+  xpos -82
+  ypos 61
+ }
+ Grade {
+  channels {{{IDistort.channels}}}
+  blackpoint {{NoOp.blackpoint}}
+  whitepoint {{NoOp.whitepoint}}
+  gamma {{NoOp.gamma x101 0.985}}
+  black_clamp {{NoOp.blackClamp}}
+  white_clamp {{NoOp.whiteClamp}}
+  name Grade5
+  xpos -82
+  ypos 175
+  disable {{!NoOp.grade}}
+ }
+ IDistort {
+  channels rgba
+  uv tempDistortion
+  uv_offset 0.5
+  uv_scale 100
+  name IDistort
+  xpos -82
+  ypos 293
+ }
+ Blur {
+  channels {{{IDistort.channels}}}
+  size {{NoOp.blur}}
+  crop false
+  name Blur2
+  xpos -82
+  ypos 340
+ }
+ Remove {
+  channels tempDistortion
+  name Remove1
+  xpos -82
+  ypos 421
+ }
+ Output {
+  name Output1
+  xpos -82
+  ypos 911
+ }
+end_group
+Crop {
+ box {0 0 256 256}
+ softness 40
+ name Crop1
+ label "\[if \{\[value softness] != 0\} \{return \[value softness]\}]"
+ selected true
+ xpos -3460
+ ypos 2242
+}
+Unpremult {
+ name Unpremult1
+ selected true
+ xpos -3460
+ ypos 2280
+}
+Grade {
+ white 0
+ add {{"int(random(t) * 800)"}}
+ name Grade3
+ selected true
+ xpos -3460
+ ypos 2318
+}
+Premult {
+ name Premult1
+ selected true
+ xpos -3460
+ ypos 2363
+}
+Dot {
+ name Dot5
+ selected true
+ xpos -3426
+ ypos 2415
+}
+Camera3 {
+ inputs 0
+ name Camera1
+ selected true
+ xpos -3350
+ ypos 1110
+}
+Dot {
+ name Dot6
+ selected true
+ xpos -3326
+ ypos 1234
+}
+CheckerBoard2 {
+ inputs 0
+ name CheckerBoard1
+ selected true
+ xpos -3250
+ ypos 762
+}
+Card2 {
+ orientation ZX
+ image_aspect false
+ rows 1
+ columns 1
+ control_points {3 3 3 6 
+
+1 {-0.5 -0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0 0 0} 
+1 {0 -0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0.5 0 0} 
+1 {0.5 -0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {1 0 0} 
+1 {-0.5 0 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0 0.5 0} 
+1 {0 0 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0.5 0.5 0} 
+1 {0.5 0 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {1 0.5 0} 
+1 {-0.5 0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0 1 0} 
+1 {0 0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0.5 1 0} 
+1 {0.5 0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {1 1 0} }
+ name Card2
+ selected true
+ xpos -3250
+ ypos 863
+}
+TransformGeo {
+ translate {0 0 -4.199999809}
+ scaling {1 1 1.2}
+ uniform_scale 100
+ name TransformGeo3
+ label scale
+ selected true
+ xpos -3250
+ ypos 923
+}
+TransformGeo {
+ rotate {7 0 0}
+ name TransformGeo4
+ label rotation
+ selected true
+ xpos -3250
+ ypos 996
+}
+TransformGeo {
+ translate {0 20 -50}
+ name TransformGeo5
+ label translation
+ selected true
+ xpos -3250
+ ypos 1054
+}
+TransformGeo {
+ inputs 2
+ name TransformGeo6
+ selected true
+ xpos -3250
+ ypos 1233
+}
+Dot {
+ name Dot7
+ selected true
+ xpos -3216
+ ypos 1331
+}
+set N24697a70 [stack 0]
+Dot {
+ name Dot8
+ selected true
+ xpos -3326
+ ypos 1331
+}
+Group {
+ name TimeOffset1
+ tile_color 0xb0a45d00
+ label "\[expr \[frame] - \[value time_offset]] (\[expr \{\[value time_offset] > 0 ? \"+\" : \"\"\}]\[value time_offset])"
+ selected true
+ xpos -3360
+ ypos 1402
+ addUserKnob {20 timeOffsetTab l TimeOffset}
+ addUserKnob {3 time_offset l "time offset (frames)"}
+ time_offset -10
+}
+ Input {
+  inputs 0
+  name Input
+  label "\[value number]"
+  xpos -132
+  ypos -70
+ }
+ FrameHold {
+  firstFrame {{"frame - parent.time_offset"}}
+  name FrameHold2
+  selected true
+  xpos -132
+  ypos 20
+  addUserKnob {20 User}
+  addUserKnob {22 setFrame l "Set to Current Frame" -STARTLINE T "\{nuke.thisNode()\['first_frame'].setValue(nuke.frame())\}"}
+ }
+ Output {
+  name Output1
+  xpos -132
+  ypos 120
+ }
+end_group
+Dot {
+ name Dot9
+ selected true
+ xpos -3326
+ ypos 1487
+}
+push $N24697a70
+Scene {
+ inputs 2
+ selectable false
+ name Scene1
+ selected true
+ xpos -3237
+ ypos 1466
+}
+push 0
+ParticleEmitter {
+ inputs 3
+ start_frame 800
+ emit_from bbox
+ rate 100
+ lifetime 50
+ velocity 0
+ size 0.07
+ size_variation 1
+ start_frame_animation random
+ frame_advance constant
+ max_clip_length 300
+ name ParticleEmitter1
+ selected true
+ xpos -3247
+ ypos 2414
+}
+ParticleGravity {
+ name ParticleGravity2
+ selected true
+ xpos -3250
+ ypos 2750
+}
+ParticleTurbulence {
+ strength {0.05 0 {strength.x}}
+ scale {12 {scale.x} 1}
+ name ParticleTurbulence1
+ label "small scale jitter"
+ selected true
+ xpos -3250
+ ypos 2839
+}
+ParticleTurbulence {
+ strength {0.01 0 {strength.x}}
+ scale {0.05 {scale.x} 1}
+ name ParticleTurbulence2
+ label "big gushes"
+ selected true
+ xpos -3250
+ ypos 2950
+}
+ParticleBounce {
+ out_bounce_mode kill
+ in_bounce_mode kill
+ bounceaxis_translate {0 -30 0}
+ bounceaxis_uniform_scale 10000
+ name ParticleBounce1
+ selected true
+ xpos -3250
+ ypos 3068
+}
+Scene {
+ inputs 2
+ selectable false
+ name Scene2
+ selected true
+ xpos -3240
+ ypos 3596
+}
+push 0
+ScanlineRender {
+ inputs 3
+ conservative_shader_sampling false
+ samples 60
+ shutteroffset centred
+ motion_vectors_type off
+ MB_channel none
+ name ScanlineRender1
+ label "\[value filter] (\[value samples])\n\[ expr \{\[string match \[value projection_mode] \"render camera\"] ? \"\" : \[value  projection_mode] \}]"
+ selected true
+ xpos -3250
+ ypos 3852
+}
+Dot {
+ name Dot10
+ selected true
+ xpos -3219
+ ypos 4045
+}
