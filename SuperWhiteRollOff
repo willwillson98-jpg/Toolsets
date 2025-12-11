@@ -1,0 +1,124 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+push $cut_paste_input
+Group {
+ name RolloffSuperWhites
+ help "Rolls off with a smooth upper shoulder."
+ tile_color 0xf7cc76ff
+ selected true
+ xpos -1040
+ ypos 2482
+ addUserKnob {20 RolloffSuperwhites}
+ addUserKnob {26 ""}
+ addUserKnob {41 input l channels T rgbDummy.input}
+ addUserKnob {26 ""}
+ addUserKnob {18 rolloff_above l "rolloff above" t "Start the smooth upper shoulder at this value. \n\n<b>Important note:</b> Not all data will be completely clamped above this value. The rolloff only begins here." R 0.1 60}
+ rolloff_above {2.899999857 2 1.099999905}
+ addUserKnob {6 rolloff_above_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 ""}
+ addUserKnob {41 maskChannelInput l mask t "Use this channel from the original input to mix the output with the original input." -STARTLINE T CopyChans.maskChannelInput}
+ addUserKnob {41 invert_mask l invert -STARTLINE T CopyChans.invert_mask}
+ addUserKnob {41 fringe -STARTLINE T CopyChans.fringe}
+ addUserKnob {7 mix t "Dissolve between the original image at 0 and the full effect at 1."}
+ mix 1
+ addUserKnob {20 fAsset}
+ addUserKnob {52 Summary l "" -STARTLINE T "__import__(\"nukeFNodeManager.ui.nodepropertyknob\",fromlist=\[\"NodePropertyKnob\"]).NodePropertyKnob()"}
+ addUserKnob {1 plapp_node_type +HIDDEN}
+ plapp_node_type FAssetGroup
+ addUserKnob {20 Developer}
+ addUserKnob {6 is_group -STARTLINE}
+ addUserKnob {1 v_uid}
+ addUserKnob {1 file_uid}
+ addUserKnob {1 location_name}
+ location_name vault
+ addUserKnob {1 asset_type}
+ asset_type nuke_script
+ addUserKnob {1 file_format}
+ file_format nk
+ addUserKnob {1 gv_uid}
+ addUserKnob {1 group_type}
+ addUserKnob {6 load -STARTLINE}
+ addUserKnob {6 is_loaded -STARTLINE}
+ is_loaded true
+ addUserKnob {1 set_loader}
+ addUserKnob {1 loader}
+ loader nuke_script_loader
+ addUserKnob {1 set_loader_attrs}
+ addUserKnob {1 current_loader_attrs}
+ addUserKnob {6 lock_version -STARTLINE}
+ lock_version true
+ addUserKnob {6 lock_sub_asset_version -STARTLINE}
+ addUserKnob {6 edit_mode -STARTLINE}
+ addUserKnob {1 file +HIDDEN}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 1705
+  ypos -1011
+ }
+ Dot {
+  name Dot1
+  xpos 1739
+  ypos -716
+ }
+set N226a8340 [stack 0]
+push $N226a8340
+ Merge2 {
+  inputs 2
+  operation copy
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name InChans
+  xpos 1705
+  ypos -671
+ }
+ Expression {
+  expr0 "r > rolloff_above.r ? ( log((r - rolloff_above.r) + 1) + rolloff_above.r ) : r"
+  expr1 "g > rolloff_above.g ? ( log((g - rolloff_above.g) + 1) + rolloff_above.g ) : g"
+  expr2 "b > rolloff_above.b ? ( log((b - rolloff_above.b) + 1) + rolloff_above.b ) : b"
+  name Expression
+  xpos 1705
+  ypos -337
+  addUserKnob {20 User}
+ }
+set N20f40c00 [stack 0]
+push $N20f40c00
+ Merge2 {
+  inputs 2
+  operation copy
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name OutChans
+  xpos 1705
+  ypos 530
+ }
+push $N226a8340
+ Dot {
+  name Dot13
+  xpos 2253
+  ypos -716
+ }
+ Dissolve {
+  inputs 2
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  which {{parent.mix}}
+  name CopyChans
+  selected true
+  xpos 2219
+  ypos 530
+ }
+ Output {
+  name Output1
+  xpos 2219
+  ypos 956
+ }
+ Keyer {
+  inputs 0
+  input rgba
+  operation "luminance key"
+  name rgbDummy
+  knobChanged "tn = nuke.thisNode()\ninChans = nuke.toNode(\"InChans\")\noutChans = nuke.toNode(\"OutChans\")\ncopyChans = nuke.toNode(\"CopyChans\")\nchans = tn\['input'].value()\ninChans\['Achannels'].setValue(chans)\noutChans\['Bchannels'].setValue(chans)\noutChans\['output'].setValue(chans)\n\ncopyChans\[\"channels\"].setValue(chans)\ncopyChans\[\"channels\"].enableChannel(3, False)\n"
+  xpos 1497
+  ypos -605
+ }
+end_group
