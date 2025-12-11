@@ -1,0 +1,99 @@
+set cut_paste_input [stack 0]
+version 15.0 v5
+push $cut_paste_input
+Group {
+ name QCtech
+ selected true
+ xpos 503
+ ypos 813
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 358
+  ypos 506
+ }
+ Colorspace {
+  colorspace_out sRGB
+  name Colorspace4
+  xpos 358
+  ypos 546
+ }
+ Dot {
+  name Dot18
+  xpos 392
+  ypos 706
+ }
+set N1e3aa740 [stack 0]
+ Dot {
+  name Dot12
+  xpos 392
+  ypos 732
+ }
+set N2164e570 [stack 0]
+ Crop {
+  box {0 0 {width} {height}}
+  reformat true
+  crop false
+  name Crop2
+  xpos 358
+  ypos 764
+ }
+ Blur {
+  size 1.4
+  filter box
+  quality 20
+  crop false
+  name Blur2
+  xpos 358
+  ypos 838
+ }
+push $N1e3aa740
+ Dot {
+  name Dot11
+  xpos 296
+  ypos 706
+ }
+ Dot {
+  name Dot8
+  xpos 296
+  ypos 922
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge2
+  xpos 358
+  ypos 918
+ }
+ Multiply {
+  value 50
+  name Multiply4
+  xpos 358
+  ypos 1038
+ }
+push $N2164e570
+ Dot {
+  name Dot13
+  xpos 558
+  ypos 732
+ }
+ Multiply {
+  value 0.5
+  name Multiply3
+  xpos 524
+  ypos 975
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Plus2
+  xpos 524
+  ypos 1044
+ }
+ Output {
+  name Output1
+  xpos 524
+  ypos 1144
+ }
+end_group
